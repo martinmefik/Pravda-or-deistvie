@@ -46,7 +46,6 @@
       overflow: hidden;
     }
 
-    /* Фоновое изображение */
     body::before {
       content: '';
       position: fixed;
@@ -56,7 +55,6 @@
       z-index: -3;
     }
 
-    /* Мягкий переливающийся градиент всеми цветами */
     .gradient-overlay {
       content: '';
       position: fixed;
@@ -81,7 +79,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Затемнение для читаемости */
     body::after {
       content: '';
       position: fixed;
@@ -89,25 +86,6 @@
       background: rgba(10, 5, 15, 0.65);
       z-index: -1;
       pointer-events: none;
-    }
-
-    /* Свечение по краям */
-    .app::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: 
-        radial-gradient(ellipse at 0% 30%, rgba(255, 107, 107, 0.1) 0%, transparent 40%),
-        radial-gradient(ellipse at 100% 70%, rgba(164, 120, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 100%, rgba(255, 209, 102, 0.05) 0%, transparent 40%);
-      z-index: 0;
-      pointer-events: none;
-      animation: glowPulse 6s ease-in-out infinite alternate;
-    }
-
-    @keyframes glowPulse {
-      0% { opacity: 0.5; }
-      100% { opacity: 1; }
     }
 
     .app {
@@ -139,21 +117,11 @@
       scrollbar-color: var(--primary) rgba(255, 255, 255, 0.05);
     }
 
-    .screen::-webkit-scrollbar {
-      width: 4px;
-    }
-    .screen::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 10px;
-    }
-    .screen::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
+    .screen::-webkit-scrollbar { width: 4px; }
+    .screen::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 10px; }
+    .screen::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-    .screen.active {
-      display: block;
-    }
+    .screen.active { display: block; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px) scale(0.95); }
@@ -220,10 +188,7 @@
       transition: all 0.5s;
       transform: translate(-50%, -50%);
     }
-    .btn:active::after {
-      width: 300px;
-      height: 300px;
-    }
+    .btn:active::after { width: 300px; height: 300px; }
 
     .btn-primary {
       background: linear-gradient(135deg, #ff6b6b, #ff9ff3);
@@ -239,7 +204,6 @@
       background: rgba(255, 255, 255, 0.05);
       border: 2px solid var(--border);
       color: var(--text-soft);
-      box-shadow: none;
     }
     .btn-secondary:hover {
       border-color: #ff9ff3;
@@ -247,10 +211,7 @@
       background: rgba(255, 159, 243, 0.08);
     }
 
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .btn-back {
       display: inline-block;
@@ -265,12 +226,8 @@
       margin-bottom: 14px;
       transition: all var(--transition);
     }
-    .btn-back:hover {
-      border-color: #ff9ff3;
-      color: var(--text);
-    }
+    .btn-back:hover { border-color: #ff9ff3; color: var(--text); }
 
-    /* Режимы */
     .mode-grid {
       display: flex;
       gap: 12px;
@@ -288,25 +245,15 @@
       cursor: pointer;
       transition: all var(--transition);
     }
-    .mode-card:hover {
-      border-color: #ff9ff3;
-      background: rgba(255, 159, 243, 0.06);
-    }
+    .mode-card:hover { border-color: #ff9ff3; background: rgba(255, 159, 243, 0.06); }
     .mode-card.selected {
       border-color: #ff9ff3;
       background: rgba(255, 159, 243, 0.1);
       box-shadow: 0 0 20px rgba(255, 159, 243, 0.15);
     }
-    .mode-icon {
-      font-size: 2rem;
-      margin-bottom: 6px;
-    }
-    .mode-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
+    .mode-icon { font-size: 2rem; margin-bottom: 6px; }
+    .mode-name { font-weight: 600; font-size: 0.95rem; }
 
-    /* Игроки */
     .player-input-row {
       display: flex;
       gap: 8px;
@@ -324,10 +271,7 @@
       outline: none;
       transition: all var(--transition);
     }
-    .player-input-row input:focus {
-      border-color: #ff9ff3;
-      box-shadow: 0 0 15px rgba(255, 159, 243, 0.2);
-    }
+    .player-input-row input:focus { border-color: #ff9ff3; box-shadow: 0 0 15px rgba(255, 159, 243, 0.2); }
     .player-input-row .remove-btn {
       width: 36px;
       height: 36px;
@@ -362,13 +306,9 @@
       margin-top: 5px;
       transition: all var(--transition);
     }
-    .add-player-btn:hover {
-      border-color: #ff9ff3;
-      color: var(--text);
-      background: rgba(255, 159, 243, 0.06);
-    }
+    .add-player-btn:hover { border-color: #ff9ff3; color: var(--text); background: rgba(255, 159, 243, 0.06); }
 
-    /* Барабан */
+    /* ====== БАРАБАН - ИСПРАВЛЕННЫЙ ====== */
     .wheel-container {
       position: relative;
       width: 220px;
@@ -387,29 +327,28 @@
     }
     .wheel-segment {
       position: absolute;
-      width: 50%;
-      height: 50%;
-      left: 50%;
-      top: 50%;
-      transform-origin: 0% 0%;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%);
+      transform-origin: 50% 50%;
     }
     .wheel-segment span {
       position: absolute;
-      font-size: 0.65rem;
+      top: 25%;
+      left: 10%;
+      font-size: 0.7rem;
       font-weight: 700;
       color: white;
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
       text-align: center;
       pointer-events: none;
       white-space: nowrap;
-      max-width: 60px;
+      max-width: 70px;
       overflow: hidden;
       text-overflow: ellipsis;
-      transform-origin: center;
     }
     .wheel-pointer {
       position: absolute;
@@ -428,7 +367,6 @@
       min-height: 28px;
     }
 
-    /* Игровой экран */
     .game-header {
       display: flex;
       align-items: center;
@@ -486,9 +424,7 @@
       word-wrap: break-word;
       transition: all var(--transition);
     }
-    .card.pop {
-      animation: cardPop 0.4s ease;
-    }
+    .card.pop { animation: cardPop 0.4s ease; }
     @keyframes cardPop {
       0% { transform: scale(0.9); opacity: 0; }
       60% { transform: scale(1.02); }
@@ -513,25 +449,11 @@
     }
 
     @media (max-width: 480px) {
-      .screen {
-        padding: 18px 14px;
-        max-height: 95vh;
-      }
-      .app-title {
-        font-size: 1.4rem;
-      }
-      .card {
-        font-size: 1rem;
-        padding: 14px 10px;
-      }
-      .wheel-container {
-        width: 170px;
-        height: 170px;
-      }
-      .btn {
-        padding: 12px 15px;
-        font-size: 0.85rem;
-      }
+      .screen { padding: 18px 14px; max-height: 95vh; }
+      .app-title { font-size: 1.4rem; }
+      .card { font-size: 1rem; padding: 14px 10px; }
+      .wheel-container { width: 170px; height: 170px; }
+      .btn { padding: 12px 15px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -598,7 +520,6 @@
   </div>
 
   <script>
-    // ====== ДАННЫЕ ======
     const generationData = {
       regular: {
         truth: [
@@ -654,7 +575,6 @@
       }
     };
 
-    // ====== СОСТОЯНИЕ ======
     let gameState = {
       mode: null,
       players: [],
@@ -663,57 +583,44 @@
       maxSkips: 3,
       usedCards: { truth: new Set(), dare: new Set() },
       currentCardType: null,
-      wheelPurpose: null // 'turn' или 'action'
+      wheelPurpose: null
     };
 
-    // ====== СОХРАНЕНИЕ ======
     function saveState() {
-      const state = {
+      localStorage.setItem('truthOrDareState', JSON.stringify({
         mode: gameState.mode,
         players: gameState.players,
         currentPlayerIndex: gameState.currentPlayerIndex,
         skipCount: gameState.skipCount,
         usedTruth: Array.from(gameState.usedCards.truth),
         usedDare: Array.from(gameState.usedCards.dare)
-      };
-      localStorage.setItem('truthOrDareState', JSON.stringify(state));
+      }));
     }
 
     function loadState() {
       const saved = localStorage.getItem('truthOrDareState');
       if (saved) {
-        const state = JSON.parse(saved);
-        gameState.mode = state.mode;
-        gameState.players = state.players || [];
-        gameState.currentPlayerIndex = state.currentPlayerIndex || 0;
-        gameState.skipCount = state.skipCount || 0;
-        gameState.usedCards.truth = new Set(state.usedTruth || []);
-        gameState.usedCards.dare = new Set(state.usedDare || []);
+        const s = JSON.parse(saved);
+        gameState.mode = s.mode;
+        gameState.players = s.players || [];
+        gameState.currentPlayerIndex = s.currentPlayerIndex || 0;
+        gameState.skipCount = s.skipCount || 0;
+        gameState.usedCards.truth = new Set(s.usedTruth || []);
+        gameState.usedCards.dare = new Set(s.usedDare || []);
         return true;
       }
       return false;
     }
 
-    function clearSavedState() {
-      localStorage.removeItem('truthOrDareState');
-    }
-
-    // ====== ИГРОКИ ======
     function addPlayer(name = '') {
-      if (gameState.players.length >= 10) {
-        alert('Максимум 10 игроков!');
-        return;
-      }
+      if (gameState.players.length >= 10) return;
       gameState.players.push(name);
       renderPlayers();
       updateNextButton();
     }
 
     function removePlayer(index) {
-      if (gameState.players.length <= 2) {
-        alert('Минимум 2 игрока!');
-        return;
-      }
+      if (gameState.players.length <= 2) return;
       gameState.players.splice(index, 1);
       renderPlayers();
       updateNextButton();
@@ -722,37 +629,32 @@
     function renderPlayers() {
       const container = document.getElementById('players-container');
       container.innerHTML = '';
-      gameState.players.forEach((player, index) => {
+      gameState.players.forEach((p, i) => {
         const row = document.createElement('div');
         row.className = 'player-input-row';
         row.innerHTML = `
-          <input type="text" placeholder="Игрок ${index + 1}" value="${player}" 
-                 maxlength="20" oninput="updatePlayerName(${index}, this.value)">
-          ${gameState.players.length > 2 ? 
-            `<button class="remove-btn" onclick="removePlayer(${index})">×</button>` : ''}
+          <input type="text" placeholder="Игрок ${i+1}" value="${p}" maxlength="20" oninput="updatePlayerName(${i}, this.value)">
+          ${gameState.players.length > 2 ? `<button class="remove-btn" onclick="removePlayer(${i})">×</button>` : ''}
         `;
         container.appendChild(row);
       });
     }
 
-    function updatePlayerName(index, value) {
-      gameState.players[index] = value.trim();
+    function updatePlayerName(i, val) {
+      gameState.players[i] = val.trim();
       updateNextButton();
     }
 
     function updateNextButton() {
-      const valid = gameState.players.length >= 2 && 
-                    gameState.players.every(p => p.trim() !== '');
+      const valid = gameState.players.length >= 2 && gameState.players.every(p => p.trim());
       document.getElementById('btn-players-next').disabled = !valid;
     }
 
     function goToMode() {
-      if (gameState.players.length < 2) return;
       saveState();
       showScreen('screen-mode');
     }
 
-    // ====== РЕЖИМ ======
     function selectMode(mode) {
       gameState.mode = mode;
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
@@ -761,17 +663,14 @@
     }
 
     function goToTurnWheel() {
-      if (!gameState.mode) return;
       gameState.wheelPurpose = 'turn';
       buildWheel(gameState.players, 'turn');
-      
       document.getElementById('wheel-title').textContent = 'Кто ходит?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
       document.getElementById('wheel-result').textContent = '';
       document.getElementById('btn-spin').style.display = 'block';
       document.getElementById('btn-wheel-continue').style.display = 'none';
       document.getElementById('wheel').style.transform = 'rotate(0deg)';
-      
       saveState();
       showScreen('screen-wheel');
     }
@@ -779,26 +678,20 @@
     function spinActionWheel() {
       gameState.wheelPurpose = 'action';
       buildWheel(['Правда', 'Наказание'], 'action');
-      
       document.getElementById('wheel-title').textContent = 'Что делать?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
       document.getElementById('wheel-result').textContent = '';
       document.getElementById('btn-spin').style.display = 'block';
       document.getElementById('btn-wheel-continue').style.display = 'none';
       document.getElementById('wheel').style.transform = 'rotate(0deg)';
-      
-      document.getElementById('card-text').textContent = 'Крутите барабан...';
-      document.getElementById('card-text').className = 'card';
+      document.getElementById('card-text').textContent = 'Крутите...';
       document.getElementById('action-buttons').style.display = 'none';
-      
       showScreen('screen-wheel');
     }
 
-    // ====== БАРАБАН ======
     function buildWheel(items, purpose) {
       const wheel = document.getElementById('wheel');
       wheel.innerHTML = '';
-      
       const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#01a3a4', '#f368e0', '#ff9f43', '#00d2d3'];
       const n = items.length;
       const angle = 360 / n;
@@ -811,49 +704,24 @@
         seg.style.cssText = `
           transform: rotate(${rotation}deg);
           background: ${colors[i % colors.length]};
-          clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
         `;
         
         const label = document.createElement('span');
         label.textContent = purpose === 'turn' ? item : (i === 0 ? '💖 Правда' : '🔥 Наказание');
         label.style.cssText = `
-          transform: rotate(${angle / 2}deg);
-          top: 20%;
-          left: 15%;
-          font-size: 0.7rem;
+          transform: rotate(${angle/2}deg);
         `;
         
         seg.appendChild(label);
         wheel.appendChild(seg);
       });
-      
-      // Центральный круг
-      const center = document.createElement('div');
-      center.style.cssText = `
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.3);
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 2px solid rgba(255,255,255,0.5);
-        z-index: 1;
-      `;
-      wheel.appendChild(center);
     }
 
-    let wheelSpinning = false;
-
     function spinWheel() {
-      if (wheelSpinning) return;
-      wheelSpinning = true;
-      
       const wheel = document.getElementById('wheel');
-      const resultEl = document.getElementById('wheel-result');
       const btnSpin = document.getElementById('btn-spin');
       const btnContinue = document.getElementById('btn-wheel-continue');
+      const resultEl = document.getElementById('wheel-result');
       
       btnSpin.disabled = true;
       resultEl.textContent = '...';
@@ -868,7 +736,7 @@
       wheel.style.transform = `rotate(${totalRotation}deg)`;
       
       setTimeout(() => {
-        const finalAngle = totalRotation % 360;
+        const finalAngle = (360 - (totalRotation % 360)) % 360;
         const winner = Math.floor(finalAngle / angle) % n;
         
         if (gameState.wheelPurpose === 'turn') {
@@ -881,15 +749,13 @@
         
         btnSpin.style.display = 'none';
         btnContinue.style.display = 'block';
-        wheelSpinning = false;
         saveState();
       }, 3000);
     }
 
     function continueAfterWheel() {
       if (gameState.wheelPurpose === 'turn') {
-        document.getElementById('current-turn-name').textContent = 
-          gameState.players[gameState.currentPlayerIndex];
+        document.getElementById('current-turn-name').textContent = gameState.players[gameState.currentPlayerIndex];
         updateSkipCounter();
         document.getElementById('card-text').textContent = 'Крутите барабан';
         document.getElementById('card-text').className = 'card';
@@ -906,11 +772,9 @@
       }
     }
 
-    // ====== ГЕНЕРАЦИЯ ======
     function generateCard(type) {
       const questions = generationData[gameState.mode][type];
-      const otherPlayer = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
-      
+      const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
       let available = [];
       for (let i = 0; i < questions.length; i++) {
         if (!gameState.usedCards[type].has(i)) available.push(i);
@@ -919,95 +783,68 @@
         gameState.usedCards[type].clear();
         available = questions.map((_, i) => i);
       }
-      
-      const randomIndex = available[Math.floor(Math.random() * available.length)];
-      gameState.usedCards[type].add(randomIndex);
-      
-      return questions[randomIndex].replace(/{name}/g, otherPlayer);
+      const idx = available[Math.floor(Math.random() * available.length)];
+      gameState.usedCards[type].add(idx);
+      return questions[idx].replace('{name}', other);
     }
 
-    // ====== ИГРА ======
     function skipCard() {
-      if (gameState.skipCount >= gameState.maxSkips - 1) {
-        if (gameState.mode === 'adult' && gameState.currentCardType === 'dare') {
-          const otherPlayer = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
-          const cardEl = document.getElementById('card-text');
-          cardEl.textContent = `🔥 СУПЕР-ЗАДАНИЕ! Сделай ${otherPlayer} минет или куни!`;
-          cardEl.className = 'card super-task';
-          gameState.skipCount++;
-          updateSkipCounter();
-          saveState();
-          return;
-        }
+      if (gameState.skipCount >= gameState.maxSkips - 1 && gameState.mode === 'adult' && gameState.currentCardType === 'dare') {
+        const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
+        document.getElementById('card-text').textContent = `🔥 СУПЕР-ЗАДАНИЕ! Сделай ${other} минет или куни!`;
+        document.getElementById('card-text').className = 'card super-task';
+        gameState.skipCount++;
+        updateSkipCounter();
+        return;
       }
-      
       if (gameState.skipCount >= gameState.maxSkips) return;
-      
       gameState.skipCount++;
       updateSkipCounter();
-      
-      const cardText = generateCard(gameState.currentCardType);
-      const cardEl = document.getElementById('card-text');
-      cardEl.textContent = cardText;
-      cardEl.className = 'card pop';
+      const text = generateCard(gameState.currentCardType);
+      document.getElementById('card-text').textContent = text;
+      document.getElementById('card-text').className = 'card pop';
     }
 
     function completeCard() {
       gameState.skipCount = 0;
       updateSkipCounter();
-      
       gameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
-      document.getElementById('current-turn-name').textContent = 
-        gameState.players[gameState.currentPlayerIndex];
-      
+      document.getElementById('current-turn-name').textContent = gameState.players[gameState.currentPlayerIndex];
       document.getElementById('card-text').textContent = 'Крутите барабан';
       document.getElementById('card-text').className = 'card';
       document.getElementById('action-buttons').style.display = 'none';
       document.getElementById('btn-spin-action').style.display = 'block';
-      
       saveState();
     }
 
     function updateSkipCounter() {
-      const remaining = gameState.maxSkips - gameState.skipCount;
-      document.getElementById('skip-counter').textContent = `Пропуски: ${remaining}/${gameState.maxSkips}`;
+      document.getElementById('skip-counter').textContent = `Пропуски: ${gameState.maxSkips - gameState.skipCount}/${gameState.maxSkips}`;
     }
 
-    // ====== ЭКРАНЫ ======
-    function showScreen(screenId) {
+    function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
+      document.getElementById(id).classList.add('active');
     }
 
     function resetAll() {
-      gameState.mode = null;
-      gameState.players = [];
-      gameState.currentPlayerIndex = 0;
-      gameState.skipCount = 0;
-      gameState.usedCards = { truth: new Set(), dare: new Set() };
-      gameState.currentCardType = null;
-      gameState.wheelPurpose = null;
-      
-      clearSavedState();
-      
+      localStorage.removeItem('truthOrDareState');
+      gameState = {
+        mode: null, players: [], currentPlayerIndex: 0, skipCount: 0, maxSkips: 3,
+        usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null, wheelPurpose: null
+      };
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
-      
-      gameState.players = [];
       addPlayer();
       addPlayer();
-      
       showScreen('screen-players');
     }
 
-    // Инициализация
     document.addEventListener('DOMContentLoaded', () => {
-      if (loadState() && gameState.players && gameState.players.length > 0) {
+      if (loadState() && gameState.players.length > 0) {
         renderPlayers();
         updateNextButton();
         showScreen('screen-players');
       } else {
-        gameState.players = [];
         addPlayer();
         addPlayer();
         showScreen('screen-players');
