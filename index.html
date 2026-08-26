@@ -308,7 +308,6 @@
     }
     .add-player-btn:hover { border-color: #ff9ff3; color: var(--text); background: rgba(255, 159, 243, 0.06); }
 
-    /* ====== БАРАБАН В ДИЗАЙНЕ САЙТА ====== */
     .wheel-container {
       position: relative;
       width: 220px;
@@ -324,7 +323,6 @@
       box-shadow: 0 0 40px rgba(255, 159, 243, 0.4), 0 0 80px rgba(255, 107, 107, 0.2);
       border: 3px solid rgba(255, 255, 255, 0.4);
       overflow: hidden;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ff9ff3 50%, #48dbfb 100%);
     }
     .wheel-half {
       position: absolute;
@@ -464,7 +462,7 @@
 <body>
   <div class="gradient-overlay"></div>
   <div class="app">
-    <!-- ЭКРАН 1: ИГРОКИ -->
+    <!-- ЭКРАНЫ ОСТАЮТСЯ ТЕ ЖЕ -->
     <div id="screen-players" class="screen active">
       <h1 class="app-title">✨ Правда или Наказание</h1>
       <p class="app-subtitle">Добавьте игроков (от 2 до 10)</p>
@@ -473,7 +471,6 @@
       <button class="btn btn-primary" style="margin-top: 16px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
     </div>
 
-    <!-- ЭКРАН 2: РЕЖИМ -->
     <div id="screen-mode" class="screen">
       <button class="btn-back" onclick="showScreen('screen-players')">← Назад</button>
       <h1 class="app-title">Выберите режим</h1>
@@ -491,7 +488,6 @@
       <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToTurnWheel()">Продолжить</button>
     </div>
 
-    <!-- ЭКРАН 3: БАРАБАН -->
     <div id="screen-wheel" class="screen">
       <h1 class="app-title">Кто ходит?</h1>
       <p class="app-subtitle">Крутите барабан</p>
@@ -507,7 +503,6 @@
       <button class="btn btn-primary" id="btn-wheel-continue" style="display: none;" onclick="continueAfterWheel()">Продолжить →</button>
     </div>
 
-    <!-- ЭКРАН 4: ИГРА -->
     <div id="screen-game" class="screen">
       <div class="game-header">
         <div class="turn-indicator">
@@ -530,61 +525,215 @@
   </div>
 
   <script>
-    const generationData = {
-      regular: {
-        truth: [
-          "Что ты чувствуешь, когда {name} смотрит на тебя?",
-          "Что для тебя значит {name}?",
-          "О чём ты думаешь, когда {name} рядом?",
-          "Что бы ты сделал(а) для {name}?",
-          "Как {name} меняет твою жизнь?",
-          "Что тебя привлекает в {name}?",
-          "Какой момент с {name} ты ценишь больше всего?",
-          "Что ты хочешь сказать {name}?",
-          "Какой комплимент ты мечтаешь услышать от {name}?",
-          "Что для тебя идеальный день с {name}?"
+    // ====== ГЕНЕРАЦИЯ ЧЕРЕЗ КОМБИНАТОРИКУ ======
+    const adultCombinatorics = {
+      truth: {
+        starts: [
+          "Что тебя больше всего возбуждает, когда",
+          "Какая твоя самая смелая фантазия, где",
+          "Что бы ты хотел(а) сделать, если",
+          "Как ты хочешь, чтобы",
+          "Что для тебя значит, когда",
+          "Какой интимный момент с",
+          "Что тебе нравится больше: когда",
+          "Где бы ты хотел(а), чтобы",
+          "Что бы ты сделал(а) с",
+          "Как ты представляешь идеальный секс с",
+          "Что тебя заводит в",
+          "Что бы ты хотел(а) попробовать с",
+          "Какой твой самый горячий сон про",
+          "Что ты хочешь, чтобы",
+          "Как бы ты соблазнил(а)",
+          "Что для тебя идеальная прелюдия с",
+          "Какой вид секса тебе нравится с",
+          "Что бы ты хотел(а), чтобы"
         ],
-        dare: [
-          "Обними {name}",
-          "Поцелуй {name} в лоб",
-          "Скажи {name} комплимент",
-          "Сделай {name} массаж",
-          "Прошепчи {name} что-то нежное",
-          "Потанцуй с {name}",
-          "Подари {name} улыбку",
-          "Обними {name} сзади",
-          "Погладь {name} по голове",
-          "Скажи {name}, что он(а) особенный(ая)"
+        subjects: [
+          "{name} раздевается перед тобой",
+          "{name} шепчет тебе на ухо",
+          "{name} прикасается к тебе",
+          "{name} стонет",
+          "{name} смотрит на тебя",
+          "{name} целует тебя в шею",
+          "{name} обнимает тебя сзади",
+          "{name} сидит у тебя на коленях",
+          "{name} снимает с тебя одежду",
+          "{name} гладит тебя по телу",
+          "{name} кусает тебя",
+          "{name} царапает тебя",
+          "{name} связывает тебя",
+          "{name} доминирует над тобой",
+          "{name} подчиняется тебе",
+          "{name} ласкает тебя",
+          "{name} целует тебя в губы",
+          "{name} трогает тебя за"
+        ],
+        objects: [
+          "грудь", "бёдра", "ягодицы", "шею", "уши",
+          "живот", "спину", "ключицу", "запястья", "губы",
+          "волосы", "плечи", "талию", "колени", "стопы"
+        ],
+        places: [
+          "на кровати", "в душе", "на кухне", "на столе",
+          "у стены", "на полу", "в машине", "на балконе",
+          "в примерочной", "в лифте", "на лестнице", "в парке",
+          "на пляже", "в отеле", "в ванной", "на диване"
+        ],
+        endings: [
+          "прямо сейчас?", "без остановки?", "всю ночь?",
+          "до утра?", "пока не попросишь?", "снова и снова?",
+          "медленно?", "быстро и страстно?", "с закрытыми глазами?",
+          "глядя в глаза?"
         ]
       },
-      adult: {
-        truth: [
-          "Что тебя возбуждает в {name}?",
-          "Какая твоя фантазия с {name}?",
-          "Где бы ты хотел(а) {name}?",
-          "Что бы ты сделал(а) с {name}?",
-          "Какой момент с {name} ты хочешь повторить?",
-          "Что тебе нравится в {name}?",
-          "Как {name} должен(на) соблазнять тебя?",
-          "Что ты хочешь от {name}?",
-          "Какая поза с {name} тебе нравится?",
-          "Что для тебя идеальная ночь с {name}?"
+      dare: {
+        actions: [
+          "Поцелуй", "Раздень", "Ласкай", "Свяжи",
+          "Подчинись", "Доминируй над", "Укуси", "Поцарапай",
+          "Соблазни", "Возьми", "Прижмись к", "Проведи рукой по",
+          "Сядь на", "Обними", "Прикоснись к", "Погладь",
+          "Лизни", "Покусай", "Разогрей", "Доведи до"
         ],
-        dare: [
-          "Поцелуй {name} в шею",
-          "Сними одежду с {name}",
-          "Прошепчи {name} грязную фразу",
-          "Сделай {name} эротический массаж",
-          "Сядь на колени к {name}",
-          "Прикоснись к {name}",
-          "Поцелуй {name} страстно",
-          "Соблазни {name}",
-          "Укуси {name}",
-          "Позволь {name} раздеть тебя"
+        targets: [
+          "{name} в губы", "{name} в шею", "{name} в ухо",
+          "{name} в грудь", "{name} в живот", "{name} в спину",
+          "{name} в бёдра", "{name} в плечо", "{name} в ключицу",
+          "{name} в запястье", "тело {name}", "волосы {name}",
+          "колени {name}", "стопы {name}", "талию {name}",
+          "плечи {name}", "руки {name}", "ноги {name}"
+        ],
+        styles: [
+          "страстно", "грубо", "нежно", "медленно",
+          "быстро", "игриво", "дерзко", "чувственно",
+          "агрессивно", "томно", "соблазнительно", "горячо",
+          "возбуждающе", "интенсивно", "ритмично", "плавно"
+        ],
+        additions: [
+          "и не останавливайся", "до стона", "глядя в глаза",
+          "с закрытыми глазами", "без предупреждения",
+          "на счёт три", "пока не попросит остановиться",
+          "и скажи грязную фразу", "используя только губы",
+          "используя только руки", "медленно и дразняще",
+          "пока не почувствуешь дрожь", "и смотри в глаза",
+          "не разрывая зрительный контакт", "шепча на ухо",
+          "и укуси легонько"
+        ],
+        places: [
+          "на кровати", "в душе", "на кухне", "на столе",
+          "у стены", "на полу", "в машине", "на балконе",
+          "в примерочной", "в лифте", "на диване", "в ванной",
+          "на стуле", "у окна", "на лестнице", "в прихожей"
+        ],
+        endings: [
+          "и не останавливайся", "до стона", "глядя в глаза",
+          "с закрытыми глазами", "без предупреждения",
+          "на счёт три", "пока не попросит остановиться",
+          "и скажи грязную фразу", "используя только губы",
+          "используя только руки", "медленно и дразняще",
+          "пока не почувствуешь дрожь", "и смотри в глаза",
+          "не разрывая зрительный контакт", "шепча на ухо",
+          "и укуси легонько"
         ]
       }
     };
 
+    const regularCombinatorics = {
+      truth: {
+        starts: [
+          "Что ты чувствуешь, когда",
+          "Что для тебя значит, когда",
+          "О чём ты думаешь, когда",
+          "Что бы ты сделал(а), если",
+          "Как ты понимаешь, что",
+          "Что тебя больше всего привлекает, когда",
+          "Какой момент для тебя самый ценный, когда",
+          "Что ты хочешь сказать, когда"
+        ],
+        subjects: [
+          "{name} смотрит тебе в глаза",
+          "{name} улыбается тебе",
+          "{name} обнимает тебя",
+          "{name} держит тебя за руку",
+          "{name} шепчет тебе на ухо",
+          "{name} гладит тебя по волосам",
+          "{name} целует тебя в лоб",
+          "{name} говорит тебе комплимент",
+          "{name} смеётся над твоей шуткой",
+          "{name} заботится о тебе",
+          "{name} приходит к тебе",
+          "{name} звонит тебе"
+        ],
+        endings: [
+          "прямо сейчас?", "когда вы вдвоём?", "без слов?",
+          "в глубине души?", "когда никто не видит?", "в этот момент?",
+          "если честно?", "на самом деле?"
+        ]
+      },
+      dare: {
+        actions: [
+          "Обними", "Поцелуй", "Погладь", "Прошепчи",
+          "Сделай массаж", "Подари", "Скажи", "Покажи",
+          "Напиши", "Устрой"
+        ],
+        targets: [
+          "{name} в лоб", "{name} в щёку", "{name} в руку",
+          "{name} на ухо", "{name} в плечо", "{name} в нос",
+          "{name} комплимент", "{name} свою улыбку",
+          "на спине {name} слово «люблю»", "{name} сюрприз"
+        ],
+        styles: [
+          "нежно", "крепко", "игриво", "застенчиво",
+          "романтично", "тепло", "медленно", "искренне"
+        ],
+        additions: [
+          "и не отпускай 10 секунд", "закрой глаза",
+          "глядя в глаза", "без слов", "на счёт три",
+          "как в первый раз", "улыбаясь", "с любовью"
+        ]
+      }
+    };
+
+    function generateCombination(data, type, otherName) {
+      const d = data[type];
+      let text = '';
+      
+      if (type === 'truth') {
+        const templates = [
+          () => `${d.starts[rand(d.starts.length)]} ${d.subjects[rand(d.subjects.length)]} ${d.endings[rand(d.endings.length)]}`,
+          () => `${d.starts[rand(d.starts.length)]} ${d.subjects[rand(d.subjects.length)]}`,
+          () => {
+            const subj = d.subjects[rand(d.subjects.length)];
+            const obj = d.objects ? d.objects[rand(d.objects.length)] : '';
+            return `${d.starts[rand(d.starts.length)]} ${subj}${obj ? ' ' + obj : ''} ${d.endings[rand(d.endings.length)]}`;
+          },
+          () => {
+            const place = d.places ? d.places[rand(d.places.length)] : '';
+            const subj = d.subjects[rand(d.subjects.length)];
+            return `${d.starts[rand(d.starts.length)]} ${subj}${place ? ' ' + place : ''}`;
+          }
+        ];
+        text = templates[rand(templates.length)]();
+      } else {
+        const templates = [
+          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.styles[rand(d.styles.length)]}`,
+          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.additions[rand(d.additions.length)]}`,
+          () => {
+            const place = d.places ? d.places[rand(d.places.length)] : '';
+            return `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.styles[rand(d.styles.length)]}${place ? ' ' + place : ''}`;
+          },
+          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.additions[rand(d.additions.length)]} ${d.styles[rand(d.styles.length)]}`
+        ];
+        text = templates[rand(templates.length)]();
+      }
+      
+      return text.replace(/{name}/g, otherName);
+    }
+
+    function rand(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    // ====== СОСТОЯНИЕ ======
     let gameState = {
       mode: null,
       players: [],
@@ -674,7 +823,6 @@
     }
 
     function goToTurnWheel() {
-      // Выбираем двух случайных игроков для барабана
       const idx1 = Math.floor(Math.random() * gameState.players.length);
       let idx2 = Math.floor(Math.random() * gameState.players.length);
       while (idx2 === idx1 && gameState.players.length > 1) {
@@ -713,11 +861,11 @@
       
       setTimeout(() => {
         const finalAngle = (360 - (totalRotation % 360)) % 360;
-        // 0-180 = левая половина, 180-360 = правая половина
         const isLeft = finalAngle < 180;
         
         gameState.currentPlayerIndex = isLeft ? gameState.wheelLeftIndex : gameState.wheelRightIndex;
-        resultEl.textContent = `🎉 ${gameState.players[gameState.currentPlayerIndex]}!`;
+        
+        resultEl.textContent = `🎉 Ходит: ${gameState.players[gameState.currentPlayerIndex]}!`;
         
         btnSpin.style.display = 'none';
         btnContinue.style.display = 'block';
@@ -736,28 +884,29 @@
     }
 
     function drawCard(type) {
-      const cardText = generateCard(type);
+      const cardText = generateUniqueCard(type);
       document.getElementById('card-text').textContent = cardText;
       document.getElementById('card-text').className = 'card pop';
       document.getElementById('choice-buttons').style.display = 'none';
       document.getElementById('action-buttons').style.display = 'flex';
     }
 
-    function generateCard(type) {
-      const questions = generationData[gameState.mode][type];
+    function generateUniqueCard(type) {
+      const data = gameState.mode === 'adult' ? adultCombinatorics : regularCombinatorics;
       const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
-      let available = [];
-      for (let i = 0; i < questions.length; i++) {
-        if (!gameState.usedCards[type].has(i)) available.push(i);
-      }
-      if (available.length === 0) {
-        gameState.usedCards[type].clear();
-        available = questions.map((_, i) => i);
-      }
-      const idx = available[Math.floor(Math.random() * available.length)];
-      gameState.usedCards[type].add(idx);
+      
+      let text = '';
+      let attempts = 0;
+      const maxAttempts = 100;
+      
+      do {
+        text = generateCombination(data, type, other);
+        attempts++;
+      } while (gameState.usedCards[type].has(text) && attempts < maxAttempts);
+      
+      gameState.usedCards[type].add(text);
       gameState.currentCardType = type;
-      return questions[idx].replace('{name}', other);
+      return text;
     }
 
     function skipCard() {
@@ -772,7 +921,7 @@
       if (gameState.skipCount >= gameState.maxSkips) return;
       gameState.skipCount++;
       updateSkipCounter();
-      const text = generateCard(gameState.currentCardType);
+      const text = generateUniqueCard(gameState.currentCardType);
       document.getElementById('card-text').textContent = text;
       document.getElementById('card-text').className = 'card pop';
     }
