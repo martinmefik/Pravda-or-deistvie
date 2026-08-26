@@ -592,8 +592,7 @@
       usedCards: { truth: new Set(), dare: new Set() },
       currentCardType: null,
       wheelPurpose: 'turn',
-      wheelSegments: [],
-      wheelRotation: 0
+      wheelSegments: []
     };
 
     // ====== СОХРАНЕНИЕ ======
@@ -617,8 +616,8 @@
         gameState.players = state.players;
         gameState.currentPlayerIndex = state.currentPlayerIndex;
         gameState.skipCount = state.skipCount;
-        gameState.usedCards.truth = new Set(state.usedTruth);
-        gameState.usedCards.dare = new Set(state.usedDare);
+        gameState.usedCards.truth = new Set(state.usedTruth || []);
+        gameState.usedCards.dare = new Set(state.usedDare || []);
         return true;
       }
       return false;
@@ -630,7 +629,10 @@
 
     // ====== ИГРОКИ ======
     function addPlayer(name = '') {
-      if (gameState.players.length >= 10) return;
+      if (gameState.players.length >= 10) {
+        alert('Максимум 10 игроков!');
+        return;
+      }
       
       gameState.players.push(name);
       renderPlayers();
@@ -638,7 +640,10 @@
     }
 
     function removePlayer(index) {
-      if (gameState.players.length <= 2) return;
+      if (gameState.players.length <= 2) {
+        alert('Минимум 2 игрока!');
+        return;
+      }
       gameState.players.splice(index, 1);
       renderPlayers();
       updateNextButton();
@@ -755,7 +760,6 @@
           gameState.currentPlayerIndex = winnerIndex;
           resultEl.textContent = `🎉 ${gameState.players[winnerIndex]}!`;
         } else {
-          // Выбор правда или наказание
           gameState.currentCardType = winnerIndex === 0 ? 'truth' : 'dare';
           resultEl.textContent = winnerIndex === 0 ? '💖 Правда!' : '🔥 Наказание!';
         }
@@ -833,7 +837,6 @@
           cardEl.className = 'card super-task';
           gameState.skipCount++;
           updateSkipCounter();
-          document.getElementById('btn-skip').disabled = true;
           saveState();
           return;
         }
@@ -869,8 +872,6 @@
     function updateSkipCounter() {
       const remaining = gameState.maxSkips - gameState.skipCount;
       document.getElementById('skip-counter').textContent = `Пропуски: ${remaining}/${gameState.maxSkips}`;
-      const skipBtn = document.getElementById('btn-skip');
-      if (skipBtn) skipBtn.disabled = remaining <= 0;
     }
 
     // ====== ЭКРАНЫ ======
@@ -892,10 +893,8 @@
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
       
-      const container = document.getElementById('players-container');
-      container.innerHTML = '';
-      
-      // Добавляем 2 игрока по умолчанию
+      // Очищаем и добавляем 2 игрока
+      gameState.players = [];
       addPlayer();
       addPlayer();
       
@@ -904,7 +903,7 @@
 
     // Инициализация
     document.addEventListener('DOMContentLoaded', () => {
-      if (loadState() && gameState.players.length > 0) {
+      if (loadState() && gameState.players && gameState.players.length > 0) {
         renderPlayers();
         updateNextButton();
         if (gameState.mode) {
@@ -914,6 +913,7 @@
         }
       } else {
         // Начальное состояние - 2 игрока
+        gameState.players = [];
         addPlayer();
         addPlayer();
         showScreen('screen-players');
