@@ -308,7 +308,7 @@
     }
     .add-player-btn:hover { border-color: #ff9ff3; color: var(--text); background: rgba(255, 159, 243, 0.06); }
 
-    /* ====== БАРАБАН 50/50 ====== */
+    /* ====== БАРАБАН В ДИЗАЙНЕ САЙТА ====== */
     .wheel-container {
       position: relative;
       width: 220px;
@@ -321,9 +321,10 @@
       border-radius: 50%;
       position: relative;
       transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-      box-shadow: 0 0 40px rgba(255, 159, 243, 0.3);
-      border: 3px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 40px rgba(255, 159, 243, 0.4), 0 0 80px rgba(255, 107, 107, 0.2);
+      border: 3px solid rgba(255, 255, 255, 0.4);
       overflow: hidden;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff9ff3 50%, #48dbfb 100%);
     }
     .wheel-half {
       position: absolute;
@@ -334,9 +335,9 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
       pointer-events: none;
       padding: 10px;
       text-align: center;
@@ -344,12 +345,12 @@
     }
     .wheel-half.left {
       left: 0;
-      background: #ff6b6b;
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 159, 243, 0.7));
       border-radius: 50% 0 0 50%;
     }
     .wheel-half.right {
       right: 0;
-      background: #48dbfb;
+      background: linear-gradient(135deg, rgba(72, 219, 251, 0.8), rgba(255, 159, 243, 0.7));
       border-radius: 0 50% 50% 0;
     }
     .wheel-pointer {
@@ -455,7 +456,7 @@
       .app-title { font-size: 1.4rem; }
       .card { font-size: 1rem; padding: 14px 10px; }
       .wheel-container { width: 170px; height: 170px; }
-      .wheel-half { font-size: 0.7rem; }
+      .wheel-half { font-size: 0.65rem; }
       .btn { padding: 12px 15px; font-size: 0.85rem; }
     }
   </style>
@@ -490,7 +491,7 @@
       <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToTurnWheel()">Продолжить</button>
     </div>
 
-    <!-- ЭКРАН 3: БАРАБАН (только выбор игрока) -->
+    <!-- ЭКРАН 3: БАРАБАН -->
     <div id="screen-wheel" class="screen">
       <h1 class="app-title">Кто ходит?</h1>
       <p class="app-subtitle">Крутите барабан</p>
@@ -516,7 +517,7 @@
         <span class="skip-counter" id="skip-counter">Пропуски: 3/3</span>
       </div>
       <div class="card" id="card-text">Выберите действие</div>
-      <div class="action-buttons" style="display: flex;">
+      <div class="action-buttons" id="choice-buttons" style="display: flex;">
         <button class="btn btn-primary" onclick="drawCard('truth')">💖 Правда</button>
         <button class="btn btn-primary" onclick="drawCard('dare')">🔥 Наказание</button>
       </div>
@@ -591,7 +592,9 @@
       skipCount: 0,
       maxSkips: 3,
       usedCards: { truth: new Set(), dare: new Set() },
-      currentCardType: null
+      currentCardType: null,
+      wheelLeftIndex: 0,
+      wheelRightIndex: 1
     };
 
     function saveState() {
@@ -671,12 +674,15 @@
     }
 
     function goToTurnWheel() {
-      // Барабан 50/50 с двумя случайными игроками
+      // Выбираем двух случайных игроков для барабана
       const idx1 = Math.floor(Math.random() * gameState.players.length);
       let idx2 = Math.floor(Math.random() * gameState.players.length);
-      while (idx2 === idx1) {
+      while (idx2 === idx1 && gameState.players.length > 1) {
         idx2 = Math.floor(Math.random() * gameState.players.length);
       }
+      
+      gameState.wheelLeftIndex = idx1;
+      gameState.wheelRightIndex = idx2;
       
       document.getElementById('wheel-left').textContent = gameState.players[idx1];
       document.getElementById('wheel-right').textContent = gameState.players[idx2];
@@ -685,10 +691,6 @@
       document.getElementById('btn-spin').style.display = 'block';
       document.getElementById('btn-wheel-continue').style.display = 'none';
       document.getElementById('wheel').style.transform = 'rotate(0deg)';
-      
-      // Сохраняем индексы для определения победителя
-      gameState.wheelLeftIndex = idx1;
-      gameState.wheelRightIndex = idx2;
       
       saveState();
       showScreen('screen-wheel');
@@ -710,7 +712,7 @@
       wheel.style.transform = `rotate(${totalRotation}deg)`;
       
       setTimeout(() => {
-        const finalAngle = totalRotation % 360;
+        const finalAngle = (360 - (totalRotation % 360)) % 360;
         // 0-180 = левая половина, 180-360 = правая половина
         const isLeft = finalAngle < 180;
         
@@ -728,6 +730,7 @@
       updateSkipCounter();
       document.getElementById('card-text').textContent = 'Выберите действие';
       document.getElementById('card-text').className = 'card';
+      document.getElementById('choice-buttons').style.display = 'flex';
       document.getElementById('action-buttons').style.display = 'none';
       showScreen('screen-game');
     }
@@ -736,9 +739,8 @@
       const cardText = generateCard(type);
       document.getElementById('card-text').textContent = cardText;
       document.getElementById('card-text').className = 'card pop';
+      document.getElementById('choice-buttons').style.display = 'none';
       document.getElementById('action-buttons').style.display = 'flex';
-      // Скрываем кнопки выбора действия
-      document.querySelectorAll('#screen-game .action-buttons:first-of-type').forEach(el => el.style.display = 'none');
     }
 
     function generateCard(type) {
@@ -782,9 +784,8 @@
       document.getElementById('current-turn-name').textContent = gameState.players[gameState.currentPlayerIndex];
       document.getElementById('card-text').textContent = 'Выберите действие';
       document.getElementById('card-text').className = 'card';
+      document.getElementById('choice-buttons').style.display = 'flex';
       document.getElementById('action-buttons').style.display = 'none';
-      // Показываем кнопки выбора действия
-      document.querySelectorAll('#screen-game .action-buttons:first-of-type').forEach(el => el.style.display = 'flex');
       saveState();
     }
 
@@ -801,7 +802,8 @@
       localStorage.removeItem('truthOrDareState');
       gameState = {
         mode: null, players: [], currentPlayerIndex: 0, skipCount: 0, maxSkips: 3,
-        usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null
+        usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null,
+        wheelLeftIndex: 0, wheelRightIndex: 1
       };
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
