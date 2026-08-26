@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Правда или Наказание · для компании</title>
   <style>
     :root {
       --bg: #0f0a14;
+      --bg-light: #1a1122;
+      --bg-card: rgba(20, 12, 28, 0.85);
       --primary: #ff4d7d;
       --primary-light: #ff8ba7;
       --primary-dark: #c4456e;
@@ -17,7 +20,9 @@
       --text-soft: #c9b0bd;
       --text-muted: #8a6a7a;
       --border: rgba(255, 77, 125, 0.25);
+      --border-strong: rgba(255, 77, 125, 0.6);
       --glow: rgba(255, 77, 125, 0.15);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       --radius: 24px;
       --radius-sm: 16px;
       --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -51,27 +56,39 @@
       z-index: -3;
     }
 
-    /* Мягкий переливающийся градиент поверх фото */
-    body::after {
+    /* Мягкий переливающийся градиент всеми цветами */
+    .gradient-overlay {
       content: '';
       position: fixed;
       inset: 0;
       background: linear-gradient(135deg, 
-        rgba(255, 77, 125, 0.15), 
-        rgba(180, 77, 255, 0.1), 
-        rgba(255, 209, 102, 0.05),
-        rgba(255, 77, 125, 0.15)
+        #ff6b6b, #ff9a9e, #fecfef, #a8edea, #fddb92, 
+        #d4fc79, #96e6a1, #84fab0, #8fd3f4, #a18cd1, 
+        #fbc2eb, #f6d365, #fda085, #f6d365, #ff6b6b
       );
-      background-size: 300% 300%;
-      animation: softGradientOverlay 10s ease infinite;
+      background-size: 600% 600%;
+      animation: rainbowGradient 20s ease infinite;
       z-index: -2;
       pointer-events: none;
+      opacity: 0.25;
     }
 
-    @keyframes softGradientOverlay {
+    @keyframes rainbowGradient {
       0% { background-position: 0% 50%; }
+      25% { background-position: 50% 100%; }
       50% { background-position: 100% 50%; }
+      75% { background-position: 50% 0%; }
       100% { background-position: 0% 50%; }
+    }
+
+    /* Затемнение для читаемости */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 15, 0.65);
+      z-index: -1;
+      pointer-events: none;
     }
 
     /* Свечение по краям */
@@ -80,10 +97,10 @@
       position: fixed;
       inset: 0;
       background: 
-        radial-gradient(ellipse at 0% 30%, rgba(255, 77, 125, 0.12) 0%, transparent 40%),
-        radial-gradient(ellipse at 100% 70%, rgba(180, 77, 255, 0.1) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 100%, rgba(255, 209, 102, 0.06) 0%, transparent 40%);
-      z-index: -1;
+        radial-gradient(ellipse at 0% 30%, rgba(255, 107, 107, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 100% 70%, rgba(164, 120, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 100%, rgba(255, 209, 102, 0.05) 0%, transparent 40%);
+      z-index: 0;
       pointer-events: none;
       animation: glowPulse 6s ease-in-out infinite alternate;
     }
@@ -109,11 +126,11 @@
       width: 100%;
       max-width: 600px;
       max-height: 92vh;
-      background: rgba(20, 12, 28, 0.75);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 25px 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow);
+      box-shadow: var(--shadow), 0 0 40px var(--glow);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       animation: fadeIn 0.5s ease;
@@ -149,17 +166,18 @@
       text-align: center;
       margin-bottom: 6px;
       letter-spacing: 0.5px;
-      background: linear-gradient(135deg, #ff8ba7, #ff4d7d, #b44dff, #ff8ba7);
+      background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: titleShine 6s ease infinite;
+      animation: titleGradient 8s ease infinite;
     }
 
-    @keyframes titleShine {
-      0%, 100% { background-position: 0% 50%; }
+    @keyframes titleGradient {
+      0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .app-subtitle {
@@ -208,13 +226,13 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, rgba(255, 77, 125, 0.9), rgba(180, 77, 255, 0.85));
+      background: linear-gradient(135deg, #ff6b6b, #ff9ff3);
       color: #fff;
-      box-shadow: 0 4px 15px rgba(255, 77, 125, 0.3);
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
     }
     .btn-primary:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 77, 125, 0.4);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
     }
 
     .btn-secondary {
@@ -224,9 +242,9 @@
       box-shadow: none;
     }
     .btn-secondary:hover {
-      border-color: var(--primary);
+      border-color: #ff9ff3;
       color: var(--text);
-      background: rgba(255, 77, 125, 0.08);
+      background: rgba(255, 159, 243, 0.08);
     }
 
     .btn:disabled {
@@ -248,7 +266,7 @@
       transition: all var(--transition);
     }
     .btn-back:hover {
-      border-color: var(--primary);
+      border-color: #ff9ff3;
       color: var(--text);
     }
 
@@ -259,7 +277,6 @@
       flex-wrap: wrap;
       margin-bottom: 16px;
     }
-
     .mode-card {
       flex: 1;
       min-width: 120px;
@@ -272,13 +289,13 @@
       transition: all var(--transition);
     }
     .mode-card:hover {
-      border-color: var(--primary);
-      background: rgba(255, 77, 125, 0.06);
+      border-color: #ff9ff3;
+      background: rgba(255, 159, 243, 0.06);
     }
     .mode-card.selected {
-      border-color: var(--primary);
-      background: rgba(255, 77, 125, 0.1);
-      box-shadow: 0 0 20px rgba(255, 77, 125, 0.15);
+      border-color: #ff9ff3;
+      background: rgba(255, 159, 243, 0.1);
+      box-shadow: 0 0 20px rgba(255, 159, 243, 0.15);
     }
     .mode-icon {
       font-size: 2rem;
@@ -308,8 +325,8 @@
       transition: all var(--transition);
     }
     .player-input-row input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(255, 77, 125, 0.2);
+      border-color: #ff9ff3;
+      box-shadow: 0 0 15px rgba(255, 159, 243, 0.2);
     }
     .player-input-row .remove-btn {
       width: 36px;
@@ -327,9 +344,9 @@
       flex-shrink: 0;
     }
     .player-input-row .remove-btn:hover {
-      border-color: #ff4d7d;
-      color: #ff4d7d;
-      background: rgba(255, 77, 125, 0.1);
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
     }
 
     .add-player-btn {
@@ -338,7 +355,7 @@
       padding: 10px 20px;
       font-size: 0.85rem;
       background: rgba(255, 255, 255, 0.04);
-      border: 2px dashed var(--border);
+      border: 2px dashed rgba(255, 255, 255, 0.2);
       color: var(--text-soft);
       cursor: pointer;
       border-radius: 30px;
@@ -346,9 +363,9 @@
       transition: all var(--transition);
     }
     .add-player-btn:hover {
-      border-color: var(--primary);
+      border-color: #ff9ff3;
       color: var(--text);
-      background: rgba(255, 77, 125, 0.06);
+      background: rgba(255, 159, 243, 0.06);
     }
 
     /* Барабан */
@@ -364,17 +381,44 @@
       border-radius: 50%;
       position: relative;
       transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-      box-shadow: 0 0 50px rgba(255, 77, 125, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.3);
-      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 40px rgba(255, 159, 243, 0.3);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+    }
+    .wheel-segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      left: 50%;
+      top: 50%;
+      transform-origin: 0% 0%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .wheel-segment span {
+      position: absolute;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transform-origin: center;
     }
     .wheel-pointer {
       position: absolute;
-      top: -10px;
+      top: -8px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      font-size: 1.8rem;
       z-index: 2;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     }
     .wheel-result {
       text-align: center;
@@ -399,7 +443,7 @@
       gap: 6px;
       font-weight: 600;
       font-size: 0.95rem;
-      background: rgba(255, 77, 125, 0.1);
+      background: rgba(255, 159, 243, 0.1);
       padding: 8px 14px;
       border-radius: 25px;
       border: 1px solid var(--border);
@@ -408,8 +452,8 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--primary);
-      box-shadow: 0 0 8px var(--primary);
+      background: #ff9ff3;
+      box-shadow: 0 0 8px #ff9ff3;
       animation: pulse-dot 1.5s ease-in-out infinite;
     }
     @keyframes pulse-dot {
@@ -452,7 +496,7 @@
     }
     .card.super-task {
       border-color: var(--accent);
-      background: rgba(255, 209, 102, 0.08);
+      background: rgba(255, 209, 102, 0.1);
     }
     .action-buttons {
       display: flex;
@@ -474,7 +518,7 @@
         max-height: 95vh;
       }
       .app-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
       .card {
         font-size: 1rem;
@@ -492,6 +536,7 @@
   </style>
 </head>
 <body>
+  <div class="gradient-overlay"></div>
   <div class="app">
     <!-- ЭКРАН 1: ИГРОКИ -->
     <div id="screen-players" class="screen active">
@@ -504,7 +549,7 @@
 
     <!-- ЭКРАН 2: РЕЖИМ -->
     <div id="screen-mode" class="screen">
-      <button class="btn-back" onclick="goBackToPlayers()">← Назад</button>
+      <button class="btn-back" onclick="showScreen('screen-players')">← Назад</button>
       <h1 class="app-title">Выберите режим</h1>
       <p class="app-subtitle">Как будете играть?</p>
       <div class="mode-grid">
@@ -517,7 +562,7 @@
           <div class="mode-name">18+</div>
         </div>
       </div>
-      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToWheel()">Продолжить</button>
+      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToTurnWheel()">Продолжить</button>
     </div>
 
     <!-- ЭКРАН 3: БАРАБАН -->
@@ -530,7 +575,7 @@
       </div>
       <button class="btn btn-primary" id="btn-spin" onclick="spinWheel()">Крутить</button>
       <p class="wheel-result" id="wheel-result"></p>
-      <button class="btn btn-primary" id="btn-wheel-continue" style="display: none;" onclick="goToGame()">Продолжить →</button>
+      <button class="btn btn-primary" id="btn-wheel-continue" style="display: none;" onclick="continueAfterWheel()">Продолжить →</button>
     </div>
 
     <!-- ЭКРАН 4: ИГРА -->
@@ -618,8 +663,7 @@
       maxSkips: 3,
       usedCards: { truth: new Set(), dare: new Set() },
       currentCardType: null,
-      wheelPurpose: 'turn',
-      wheelSegments: []
+      wheelPurpose: null // 'turn' или 'action'
     };
 
     // ====== СОХРАНЕНИЕ ======
@@ -640,9 +684,9 @@
       if (saved) {
         const state = JSON.parse(saved);
         gameState.mode = state.mode;
-        gameState.players = state.players;
-        gameState.currentPlayerIndex = state.currentPlayerIndex;
-        gameState.skipCount = state.skipCount;
+        gameState.players = state.players || [];
+        gameState.currentPlayerIndex = state.currentPlayerIndex || 0;
+        gameState.skipCount = state.skipCount || 0;
         gameState.usedCards.truth = new Set(state.usedTruth || []);
         gameState.usedCards.dare = new Set(state.usedDare || []);
         return true;
@@ -660,7 +704,6 @@
         alert('Максимум 10 игроков!');
         return;
       }
-      
       gameState.players.push(name);
       renderPlayers();
       updateNextButton();
@@ -679,7 +722,6 @@
     function renderPlayers() {
       const container = document.getElementById('players-container');
       container.innerHTML = '';
-      
       gameState.players.forEach((player, index) => {
         const row = document.createElement('div');
         row.className = 'player-input-row';
@@ -710,11 +752,6 @@
       showScreen('screen-mode');
     }
 
-    function goBackToPlayers() {
-      showScreen('screen-players');
-      renderPlayers();
-    }
-
     // ====== РЕЖИМ ======
     function selectMode(mode) {
       gameState.mode = mode;
@@ -723,141 +760,25 @@
       document.getElementById('btn-mode-next').disabled = false;
     }
 
-    function goToWheel() {
+    function goToTurnWheel() {
       if (!gameState.mode) return;
-      
       gameState.wheelPurpose = 'turn';
-      setupWheel(gameState.players, 'turn');
+      buildWheel(gameState.players, 'turn');
       
       document.getElementById('wheel-title').textContent = 'Кто ходит?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
       document.getElementById('wheel-result').textContent = '';
-      document.getElementById('btn-wheel-continue').style.display = 'none';
       document.getElementById('btn-spin').style.display = 'block';
+      document.getElementById('btn-wheel-continue').style.display = 'none';
       document.getElementById('wheel').style.transform = 'rotate(0deg)';
       
       saveState();
       showScreen('screen-wheel');
     }
 
-    // ====== БАРАБАН С ИМЕНАМИ ======
-    function setupWheel(segments, purpose) {
-      const wheel = document.getElementById('wheel');
-      const colors = ['#ff4d7d', '#b44dff', '#ff8ba7', '#c4456e', '#ffd166', '#8b5cf6', '#ec4899', '#f97316', '#06b6d4', '#84cc16'];
-      const segmentCount = segments.length;
-      const anglePerSegment = 360 / segmentCount;
-      
-      // Очищаем колесо
-      wheel.innerHTML = '';
-      
-      // Создаём сегменты с текстом
-      segments.forEach((segment, index) => {
-        const color = colors[index % colors.length];
-        const startAngle = index * anglePerSegment;
-        const endAngle = (index + 1) * anglePerSegment;
-        
-        // Создаём сегмент
-        const segmentDiv = document.createElement('div');
-        segmentDiv.style.cssText = `
-          position: absolute;
-          width: 50%;
-          height: 50%;
-          left: 50%;
-          top: 50%;
-          transform-origin: 0% 0%;
-          transform: rotate(${startAngle}deg);
-          background: ${color};
-          clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-        `;
-        
-        // Текст сегмента
-        const label = document.createElement('span');
-        label.style.cssText = `
-          position: absolute;
-          top: 25%;
-          left: 20%;
-          transform: rotate(${anglePerSegment / 2}deg);
-          font-size: 0.7rem;
-          font-weight: 700;
-          color: white;
-          text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-          text-align: center;
-          pointer-events: none;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 60px;
-        `;
-        label.textContent = purpose === 'turn' ? segment : (index === 0 ? '💖 Правда' : '🔥 Наказание');
-        
-        segmentDiv.appendChild(label);
-        wheel.appendChild(segmentDiv);
-      });
-      
-      // Добавляем центральный круг
-      const centerCircle = document.createElement('div');
-      centerCircle.style.cssText = `
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.2);
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 2px solid rgba(255,255,255,0.4);
-        z-index: 1;
-      `;
-      wheel.appendChild(centerCircle);
-      
-      gameState.wheelSegments = segments;
-    }
-
-    function spinWheel() {
-      const wheel = document.getElementById('wheel');
-      const resultEl = document.getElementById('wheel-result');
-      const btnSpin = document.getElementById('btn-spin');
-      const btnContinue = document.getElementById('btn-wheel-continue');
-      
-      if (!wheel || !gameState.wheelSegments.length) return;
-      
-      btnSpin.disabled = true;
-      resultEl.textContent = '...';
-      
-      const spins = 5 + Math.floor(Math.random() * 4);
-      const segmentCount = gameState.wheelSegments.length;
-      const segmentAngle = 360 / segmentCount;
-      const randomSegment = Math.floor(Math.random() * segmentCount);
-      const targetAngle = randomSegment * segmentAngle + segmentAngle / 2;
-      const totalRotation = spins * 360 + targetAngle;
-      
-      wheel.style.transform = `rotate(${totalRotation}deg)`;
-      
-      setTimeout(() => {
-        const finalAngle = totalRotation % 360;
-        const winnerIndex = Math.floor(finalAngle / segmentAngle) % segmentCount;
-        
-        if (gameState.wheelPurpose === 'turn') {
-          gameState.currentPlayerIndex = winnerIndex;
-          resultEl.textContent = `🎉 ${gameState.players[winnerIndex]}!`;
-        } else {
-          gameState.currentCardType = winnerIndex === 0 ? 'truth' : 'dare';
-          resultEl.textContent = winnerIndex === 0 ? '💖 Правда!' : '🔥 Наказание!';
-        }
-        
-        btnSpin.style.display = 'none';
-        btnContinue.style.display = 'block';
-        saveState();
-      }, 3000);
-    }
-
     function spinActionWheel() {
       gameState.wheelPurpose = 'action';
-      setupWheel(['Правда', 'Наказание'], 'action');
+      buildWheel(['Правда', 'Наказание'], 'action');
       
       document.getElementById('wheel-title').textContent = 'Что делать?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
@@ -867,12 +788,105 @@
       document.getElementById('wheel').style.transform = 'rotate(0deg)';
       
       document.getElementById('card-text').textContent = 'Крутите барабан...';
+      document.getElementById('card-text').className = 'card';
       document.getElementById('action-buttons').style.display = 'none';
       
       showScreen('screen-wheel');
     }
 
-    function goToGame() {
+    // ====== БАРАБАН ======
+    function buildWheel(items, purpose) {
+      const wheel = document.getElementById('wheel');
+      wheel.innerHTML = '';
+      
+      const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#01a3a4', '#f368e0', '#ff9f43', '#00d2d3'];
+      const n = items.length;
+      const angle = 360 / n;
+      
+      items.forEach((item, i) => {
+        const seg = document.createElement('div');
+        seg.className = 'wheel-segment';
+        const rotation = i * angle;
+        
+        seg.style.cssText = `
+          transform: rotate(${rotation}deg);
+          background: ${colors[i % colors.length]};
+          clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+        `;
+        
+        const label = document.createElement('span');
+        label.textContent = purpose === 'turn' ? item : (i === 0 ? '💖 Правда' : '🔥 Наказание');
+        label.style.cssText = `
+          transform: rotate(${angle / 2}deg);
+          top: 20%;
+          left: 15%;
+          font-size: 0.7rem;
+        `;
+        
+        seg.appendChild(label);
+        wheel.appendChild(seg);
+      });
+      
+      // Центральный круг
+      const center = document.createElement('div');
+      center.style.cssText = `
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 2px solid rgba(255,255,255,0.5);
+        z-index: 1;
+      `;
+      wheel.appendChild(center);
+    }
+
+    let wheelSpinning = false;
+
+    function spinWheel() {
+      if (wheelSpinning) return;
+      wheelSpinning = true;
+      
+      const wheel = document.getElementById('wheel');
+      const resultEl = document.getElementById('wheel-result');
+      const btnSpin = document.getElementById('btn-spin');
+      const btnContinue = document.getElementById('btn-wheel-continue');
+      
+      btnSpin.disabled = true;
+      resultEl.textContent = '...';
+      
+      const spins = 5 + Math.floor(Math.random() * 4);
+      const n = gameState.wheelPurpose === 'turn' ? gameState.players.length : 2;
+      const angle = 360 / n;
+      const randomIndex = Math.floor(Math.random() * n);
+      const target = randomIndex * angle + angle / 2;
+      const totalRotation = spins * 360 + target;
+      
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
+      
+      setTimeout(() => {
+        const finalAngle = totalRotation % 360;
+        const winner = Math.floor(finalAngle / angle) % n;
+        
+        if (gameState.wheelPurpose === 'turn') {
+          gameState.currentPlayerIndex = winner;
+          resultEl.textContent = `🎉 ${gameState.players[winner]}!`;
+        } else {
+          gameState.currentCardType = winner === 0 ? 'truth' : 'dare';
+          resultEl.textContent = winner === 0 ? '💖 Правда!' : '🔥 Наказание!';
+        }
+        
+        btnSpin.style.display = 'none';
+        btnContinue.style.display = 'block';
+        wheelSpinning = false;
+        saveState();
+      }, 3000);
+    }
+
+    function continueAfterWheel() {
       if (gameState.wheelPurpose === 'turn') {
         document.getElementById('current-turn-name').textContent = 
           gameState.players[gameState.currentPlayerIndex];
@@ -972,6 +986,7 @@
       gameState.skipCount = 0;
       gameState.usedCards = { truth: new Set(), dare: new Set() };
       gameState.currentCardType = null;
+      gameState.wheelPurpose = null;
       
       clearSavedState();
       
@@ -990,11 +1005,7 @@
       if (loadState() && gameState.players && gameState.players.length > 0) {
         renderPlayers();
         updateNextButton();
-        if (gameState.mode) {
-          goToGame();
-        } else {
-          showScreen('screen-players');
-        }
+        showScreen('screen-players');
       } else {
         gameState.players = [];
         addPlayer();
