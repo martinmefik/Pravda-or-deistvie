@@ -39,32 +39,57 @@
       color: var(--text);
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, #0f0a14, #1a0f20, #0f0a14);
-      background-size: 400% 400%;
-      animation: softGradient 15s ease infinite;
     }
 
-    @keyframes softGradient {
+    /* Фоновое изображение */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('photo.png') center/cover no-repeat;
+      filter: brightness(0.35) saturate(0.6);
+      z-index: -3;
+    }
+
+    /* Мягкий переливающийся градиент поверх фото */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, 
+        rgba(255, 77, 125, 0.15), 
+        rgba(180, 77, 255, 0.1), 
+        rgba(255, 209, 102, 0.05),
+        rgba(255, 77, 125, 0.15)
+      );
+      background-size: 300% 300%;
+      animation: softGradientOverlay 10s ease infinite;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    @keyframes softGradientOverlay {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    body::before {
+    /* Свечение по краям */
+    .app::before {
       content: '';
       position: fixed;
       inset: 0;
       background: 
-        radial-gradient(ellipse at 20% 30%, rgba(255, 77, 125, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(180, 77, 255, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(255, 209, 102, 0.03) 0%, transparent 50%);
+        radial-gradient(ellipse at 0% 30%, rgba(255, 77, 125, 0.12) 0%, transparent 40%),
+        radial-gradient(ellipse at 100% 70%, rgba(180, 77, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 100%, rgba(255, 209, 102, 0.06) 0%, transparent 40%);
+      z-index: -1;
       pointer-events: none;
-      z-index: 0;
-      animation: glowPulse 8s ease-in-out infinite alternate;
+      animation: glowPulse 6s ease-in-out infinite alternate;
     }
 
     @keyframes glowPulse {
-      0% { opacity: 0.6; }
+      0% { opacity: 0.5; }
       100% { opacity: 1; }
     }
 
@@ -84,13 +109,13 @@
       width: 100%;
       max-width: 600px;
       max-height: 92vh;
-      background: rgba(20, 12, 28, 0.85);
+      background: rgba(20, 12, 28, 0.75);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 25px 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       animation: fadeIn 0.5s ease;
       overflow-y: auto;
       scrollbar-width: thin;
@@ -124,8 +149,8 @@
       text-align: center;
       margin-bottom: 6px;
       letter-spacing: 0.5px;
-      background: linear-gradient(135deg, #ff8ba7, #ff4d7d, #b44dff);
-      background-size: 200% 200%;
+      background: linear-gradient(135deg, #ff8ba7, #ff4d7d, #b44dff, #ff8ba7);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -183,7 +208,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ff4d7d, #b44dff);
+      background: linear-gradient(135deg, rgba(255, 77, 125, 0.9), rgba(180, 77, 255, 0.85));
       color: #fff;
       box-shadow: 0 4px 15px rgba(255, 77, 125, 0.3);
     }
@@ -193,7 +218,7 @@
     }
 
     .btn-secondary {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       border: 2px solid var(--border);
       color: var(--text-soft);
       box-shadow: none;
@@ -201,7 +226,7 @@
     .btn-secondary:hover {
       border-color: var(--primary);
       color: var(--text);
-      background: rgba(255, 77, 125, 0.05);
+      background: rgba(255, 77, 125, 0.08);
     }
 
     .btn:disabled {
@@ -214,7 +239,7 @@
       width: auto;
       padding: 8px 16px;
       font-size: 0.8rem;
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       color: var(--text-soft);
       cursor: pointer;
@@ -239,8 +264,8 @@
       flex: 1;
       min-width: 120px;
       padding: 16px 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 2px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
       text-align: center;
       cursor: pointer;
@@ -248,10 +273,11 @@
     }
     .mode-card:hover {
       border-color: var(--primary);
+      background: rgba(255, 77, 125, 0.06);
     }
     .mode-card.selected {
       border-color: var(--primary);
-      background: rgba(255, 77, 125, 0.08);
+      background: rgba(255, 77, 125, 0.1);
       box-shadow: 0 0 20px rgba(255, 77, 125, 0.15);
     }
     .mode-icon {
@@ -273,7 +299,7 @@
     .player-input-row input {
       flex: 1;
       padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.05);
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 14px;
       color: var(--text);
@@ -290,7 +316,7 @@
       height: 36px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text-muted);
       cursor: pointer;
       font-size: 1.2rem;
@@ -311,7 +337,7 @@
       width: auto;
       padding: 10px 20px;
       font-size: 0.85rem;
-      background: transparent;
+      background: rgba(255, 255, 255, 0.04);
       border: 2px dashed var(--border);
       color: var(--text-soft);
       cursor: pointer;
@@ -322,6 +348,7 @@
     .add-player-btn:hover {
       border-color: var(--primary);
       color: var(--text);
+      background: rgba(255, 77, 125, 0.06);
     }
 
     /* Барабан */
@@ -700,7 +727,7 @@
       if (!gameState.mode) return;
       
       gameState.wheelPurpose = 'turn';
-      setupWheel(gameState.players);
+      setupWheel(gameState.players, 'turn');
       
       document.getElementById('wheel-title').textContent = 'Кто ходит?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
@@ -713,23 +740,79 @@
       showScreen('screen-wheel');
     }
 
-    // ====== БАРАБАН ======
-    function setupWheel(segments) {
+    // ====== БАРАБАН С ИМЕНАМИ ======
+    function setupWheel(segments, purpose) {
       const wheel = document.getElementById('wheel');
       const colors = ['#ff4d7d', '#b44dff', '#ff8ba7', '#c4456e', '#ffd166', '#8b5cf6', '#ec4899', '#f97316', '#06b6d4', '#84cc16'];
       const segmentCount = segments.length;
       const anglePerSegment = 360 / segmentCount;
       
-      let gradient = '';
+      // Очищаем колесо
+      wheel.innerHTML = '';
+      
+      // Создаём сегменты с текстом
       segments.forEach((segment, index) => {
         const color = colors[index % colors.length];
         const startAngle = index * anglePerSegment;
         const endAngle = (index + 1) * anglePerSegment;
-        gradient += `${color} ${startAngle}deg ${endAngle}deg, `;
+        
+        // Создаём сегмент
+        const segmentDiv = document.createElement('div');
+        segmentDiv.style.cssText = `
+          position: absolute;
+          width: 50%;
+          height: 50%;
+          left: 50%;
+          top: 50%;
+          transform-origin: 0% 0%;
+          transform: rotate(${startAngle}deg);
+          background: ${color};
+          clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        `;
+        
+        // Текст сегмента
+        const label = document.createElement('span');
+        label.style.cssText = `
+          position: absolute;
+          top: 25%;
+          left: 20%;
+          transform: rotate(${anglePerSegment / 2}deg);
+          font-size: 0.7rem;
+          font-weight: 700;
+          color: white;
+          text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+          text-align: center;
+          pointer-events: none;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 60px;
+        `;
+        label.textContent = purpose === 'turn' ? segment : (index === 0 ? '💖 Правда' : '🔥 Наказание');
+        
+        segmentDiv.appendChild(label);
+        wheel.appendChild(segmentDiv);
       });
       
-      gradient = gradient.slice(0, -2);
-      wheel.style.background = `conic-gradient(${gradient})`;
+      // Добавляем центральный круг
+      const centerCircle = document.createElement('div');
+      centerCircle.style.cssText = `
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 2px solid rgba(255,255,255,0.4);
+        z-index: 1;
+      `;
+      wheel.appendChild(centerCircle);
       
       gameState.wheelSegments = segments;
     }
@@ -739,6 +822,8 @@
       const resultEl = document.getElementById('wheel-result');
       const btnSpin = document.getElementById('btn-spin');
       const btnContinue = document.getElementById('btn-wheel-continue');
+      
+      if (!wheel || !gameState.wheelSegments.length) return;
       
       btnSpin.disabled = true;
       resultEl.textContent = '...';
@@ -772,7 +857,7 @@
 
     function spinActionWheel() {
       gameState.wheelPurpose = 'action';
-      setupWheel(['Правда', 'Наказание']);
+      setupWheel(['Правда', 'Наказание'], 'action');
       
       document.getElementById('wheel-title').textContent = 'Что делать?';
       document.getElementById('wheel-subtitle').textContent = 'Крутите барабан';
@@ -893,7 +978,6 @@
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
       
-      // Очищаем и добавляем 2 игрока
       gameState.players = [];
       addPlayer();
       addPlayer();
@@ -912,7 +996,6 @@
           showScreen('screen-players');
         }
       } else {
-        // Начальное состояние - 2 игрока
         gameState.players = [];
         addPlayer();
         addPlayer();
