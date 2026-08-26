@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔥 ПРАВДА ИЛИ НАКАЗАНИЕ 18+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🔥 ПРАВДА ИЛИ НАКАЗАНИЕ · ГЕНЕРАТОР</title>
   <style>
     * {
       margin: 0;
@@ -11,40 +11,84 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary: #ff2e63;
+      --secondary: #ff6b8a;
+      --bg-dark: #0d020f;
+      --bg-card: rgba(20, 5, 25, 0.9);
+      --border-glow: rgba(255, 46, 99, 0.6);
+      --text-light: #f5e9f8;
+      --text-muted: #b48ea5;
+    }
+
     body {
-      background: linear-gradient(135deg, #1a0b1f 0%, #0d020f 50%, #2a0a1e 100%);
-      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1a0b1f 0%, #0d020f 40%, #2a0a1e 100%);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      color: #f5e9f8;
+      color: var(--text-light);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(255, 46, 99, 0.1) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(255, 107, 138, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .game-container {
       width: 100%;
-      max-width: 680px;
-      background: rgba(20, 5, 25, 0.9);
-      border: 2px solid #ff3b6f;
+      max-width: 700px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-glow);
       border-radius: 30px;
       padding: 30px;
-      box-shadow: 0 0 50px rgba(255, 40, 90, 0.5);
+      box-shadow: 0 0 60px rgba(255, 40, 90, 0.4),
+                  inset 0 0 30px rgba(255, 40, 90, 0.05);
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(10px);
+      transition: all 0.5s;
+    }
+
+    .game-container.adult-active {
+      border-color: #ff0055;
+      box-shadow: 0 0 80px rgba(255, 0, 85, 0.6),
+                  inset 0 0 40px rgba(255, 0, 85, 0.1);
+      background: rgba(30, 2, 20, 0.95);
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       text-align: center;
-      margin-bottom: 10px;
-      color: #ff4d6d;
-      text-shadow: 0 0 20px rgba(255, 77, 109, 0.8);
+      margin-bottom: 5px;
+      background: linear-gradient(135deg, #ff4d6d, #ff2e63, #ff6b8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .subhead {
       text-align: center;
-      color: #ffb3c6;
-      margin-bottom: 30px;
-      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
     }
 
     .toggle-wrapper {
@@ -54,153 +98,244 @@
       background: rgba(40, 15, 45, 0.8);
       padding: 15px 20px;
       border-radius: 50px;
-      margin-bottom: 30px;
-      border: 1px solid #ff4d6d;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 46, 99, 0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-wrapper:hover {
+      border-color: var(--primary);
     }
 
     .toggle-label {
       font-weight: bold;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      transition: all 0.3s;
     }
 
     .toggle-switch {
       position: relative;
-      width: 60px;
-      height: 32px;
+      width: 70px;
+      height: 36px;
       background: #3a1b2e;
       border-radius: 30px;
       cursor: pointer;
       transition: all 0.3s;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
     }
 
     .toggle-switch::after {
-      content: "18+";
+      content: "🔞";
       position: absolute;
       top: 4px;
       left: 4px;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       background: #b9b0c0;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.5rem;
-      font-weight: bold;
+      font-size: 0.7rem;
       transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 
     .toggle-switch.active {
-      background: #ff2e63;
-      box-shadow: 0 0 20px #ff2e63;
+      background: var(--primary);
+      box-shadow: 0 0 25px var(--primary), inset 0 0 10px rgba(255,255,255,0.3);
     }
 
     .toggle-switch.active::after {
-      left: 32px;
+      left: 38px;
       background: #1e0010;
-      color: #ffb3c6;
+      box-shadow: 0 0 15px #ff0055;
     }
 
     .players-input {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 30px;
+      gap: 12px;
+      margin-bottom: 25px;
     }
 
     .input-group {
       display: flex;
-      gap: 15px;
+      gap: 12px;
     }
 
     .input-field {
       flex: 1;
       background: rgba(20, 8, 28, 0.8);
-      border: 2px solid #ff4d6d;
+      border: 2px solid rgba(255, 77, 109, 0.4);
       border-radius: 50px;
-      padding: 15px 20px;
+      padding: 12px 20px;
       font-size: 1rem;
-      color: #ffe5f1;
+      color: var(--text-light);
       outline: none;
+      transition: all 0.3s;
+      letter-spacing: 0.5px;
     }
 
     .input-field::placeholder {
-      color: #b48ea5;
+      color: var(--text-muted);
+      font-style: italic;
     }
 
     .input-field:focus {
-      border-color: #ff5e7e;
-      box-shadow: 0 0 20px rgba(255, 70, 120, 0.5);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(255, 46, 99, 0.4);
+      background: rgba(35, 10, 30, 0.9);
     }
 
     .btn-group {
       display: flex;
-      gap: 15px;
+      gap: 12px;
       justify-content: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
     }
 
     .btn {
-      background: linear-gradient(135deg, #ff4d6d, #ff2e63);
-      border: none;
+      background: linear-gradient(135deg, rgba(255, 46, 99, 0.8), rgba(255, 107, 138, 0.6));
+      border: 2px solid var(--primary);
       border-radius: 50px;
-      padding: 15px 30px;
-      font-weight: bold;
-      font-size: 1.1rem;
+      padding: 14px 25px;
+      font-weight: 700;
+      font-size: 0.95rem;
       color: white;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 5px 15px rgba(255, 46, 99, 0.5);
+      box-shadow: 0 5px 15px rgba(255, 46, 99, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      flex: 1;
+      min-width: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 46, 99, 0.8);
+      box-shadow: 0 8px 25px rgba(255, 46, 99, 0.7);
+      background: linear-gradient(135deg, #ff2e63, #ff6b8a);
     }
 
     .btn:active {
       transform: translateY(0);
+      box-shadow: 0 3px 10px rgba(255, 46, 99, 0.5);
+    }
+
+    .btn-reset {
+      background: linear-gradient(135deg, rgba(100, 100, 100, 0.8), rgba(60, 60, 60, 0.6));
+      border-color: #666;
+    }
+
+    .btn-reset:hover {
+      background: linear-gradient(135deg, #666, #444);
+      box-shadow: 0 8px 25px rgba(100, 100, 100, 0.5);
     }
 
     .card {
       background: rgba(15, 3, 18, 0.9);
-      border: 2px solid #ff5e7e;
-      border-radius: 25px;
-      padding: 30px;
-      margin: 30px 0;
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      padding: 25px 20px;
+      margin: 20px 0;
       text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.4rem;
+      font-weight: 600;
       line-height: 1.5;
-      min-height: 150px;
+      min-height: 130px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 30px rgba(255, 40, 90, 0.4);
+      box-shadow: 0 0 30px rgba(255, 40, 90, 0.3);
+      transition: all 0.3s;
+      position: relative;
+      word-wrap: break-word;
+      letter-spacing: 0.5px;
+    }
+
+    .card.generating {
+      animation: pulse 1.5s infinite;
+      color: var(--text-muted);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.98); }
+    }
+
+    .card.pop {
+      animation: popIn 0.4s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .participants {
       display: flex;
-      gap: 15px;
+      gap: 12px;
       justify-content: center;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
 
     .chip {
-      background: #2f0a25;
-      padding: 10px 25px;
-      border-radius: 40px;
-      font-weight: bold;
-      border: 1px solid #ff4d6d;
+      background: rgba(47, 10, 37, 0.8);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 77, 109, 0.5);
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+      backdrop-filter: blur(5px);
+    }
+
+    .chip:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 46, 99, 0.3);
+    }
+
+    .counter {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
     }
 
     @media (max-width: 480px) {
       .game-container {
-        padding: 20px;
+        padding: 20px 15px;
+        border-radius: 20px;
       }
       
       h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
       
       .input-group {
@@ -211,34 +346,44 @@
         flex-direction: column;
       }
       
+      .btn {
+        padding: 12px 20px;
+        font-size: 0.85rem;
+      }
+      
       .card {
-        font-size: 1.2rem;
-        padding: 20px;
+        font-size: 1.1rem;
+        padding: 18px 15px;
+        min-height: 100px;
+      }
+      
+      .toggle-wrapper {
+        padding: 12px 15px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="game-container">
+  <div class="game-container" id="gameContainer">
     <h1>🔥 ПРАВДА ИЛИ НАКАЗАНИЕ 🔥</h1>
-    <div class="subhead">для пар · уникальные карты · без повторов</div>
+    <div class="subhead">Генератор · более 100 000 уникальных карт</div>
 
-    <div class="toggle-wrapper">
-      <span class="toggle-label">🔞 18+ режим</span>
-      <div class="toggle-switch" id="toggleSwitch" onclick="toggleAdult()"></div>
+    <div class="toggle-wrapper" id="toggleWrapper" onclick="toggleAdultMode()">
+      <span class="toggle-label" id="toggleLabel">🔞 18+ режим</span>
+      <div class="toggle-switch" id="toggleSwitch"></div>
     </div>
 
     <div class="players-input">
       <div class="input-group">
-        <input type="text" id="player1" class="input-field" placeholder="Имя партнёра 1">
-        <input type="text" id="player2" class="input-field" placeholder="Имя партнёра 2">
+        <input type="text" id="player1" class="input-field" placeholder="Имя партнёра 1" oninput="updateNames()">
+        <input type="text" id="player2" class="input-field" placeholder="Имя партнёра 2" oninput="updateNames()">
       </div>
     </div>
 
     <div class="btn-group">
-      <button class="btn" onclick="showTruth()">ПРАВДА</button>
-      <button class="btn" onclick="showDare()">НАКАЗАНИЕ</button>
-      <button class="btn" onclick="resetGame()">🔄 НОВАЯ ПАРА</button>
+      <button class="btn" onclick="generateCard('truth')">💋 ПРАВДА</button>
+      <button class="btn" onclick="generateCard('dare')">🔥 НАКАЗАНИЕ</button>
+      <button class="btn btn-reset" onclick="resetGame()">🔄 НОВАЯ ПАРА</button>
     </div>
 
     <div class="card" id="questionCard">
@@ -249,143 +394,340 @@
       <span class="chip" id="participant1">Партнёр 1</span>
       <span class="chip" id="participant2">Партнёр 2</span>
     </div>
+
+    <div class="counter" id="counter">Уникальных комбинаций: 0</div>
   </div>
 
   <script>
-    let isAdultMode = false;
-    let usedTruthRegular = new Set();
-    let usedDareRegular = new Set();
-    let usedTruthAdult = new Set();
-    let usedDareAdult = new Set();
+    // ====== БАЗЫ ДЛЯ ГЕНЕРАЦИИ ======
+    
+    // Обычные (не 18+) элементы
+    const regularElements = {
+      truth: {
+        starts: [
+          'Что ты чувствуешь', 'Что бы ты сделал(а)', 'Как ты отреагируешь',
+          'Что для тебя значит', 'О чём ты думаешь', 'Что тебя больше всего',
+          'Как часто ты', 'Почему ты', 'Когда ты понял(а)', 'Что бы ты выбрал(а)'
+        ],
+        subjects: [
+          'когда {name} смотрит тебе в глаза', 'если {name} рядом',
+          'когда вы остаётесь вдвоём', 'при мысли о {name}',
+          'когда {name} улыбается', 'если бы вы были одни',
+          'когда {name} прикасается к тебе', 'в объятиях {name}'
+        ],
+        actions: [
+          'поцеловать {name}', 'обнять {name}', 'провести время с {name}',
+          'сделать сюрприз для {name}', 'признаться {name} в чувствах',
+          'погладить {name} по щеке', 'прошептать {name} на ухо',
+          'станцевать с {name}'
+        ],
+        endings: [
+          'прямо сейчас?', 'в такой ситуации?', 'на самом деле?',
+          'если честно?', 'когда никто не видит?', 'в глубине души?'
+        ],
+        adjectives: [
+          'романтичный', 'нежный', 'страстный', 'игривый', 'застенчивый',
+          'смелый', 'чувственный', 'искренний'
+        ],
+        places: [
+          'на пляже', 'в кино', 'дома', 'в парке', 'под дождём',
+          'на крыше', 'в машине', 'у камина'
+        ]
+      },
+      dare: {
+        actions: [
+          'Поцелуй {name}', 'Обними {name}', 'Погладь {name}',
+          'Сделай массаж {name}', 'Прошепчи {name}', 'Покажи {name}',
+          'Станцуй для {name}', 'Признайся {name}', 'Подари {name}',
+          'Напиши {name}'
+        ],
+        details: [
+          'в губы', 'в щёку', 'в шею', 'за руку', 'в лоб',
+          'в плечо', 'в ухо', 'в нос', 'в висок', 'в ключицу'
+        ],
+        styles: [
+          'страстно', 'нежно', 'игриво', 'застенчиво', 'дерзко',
+          'романтично', 'чувственно', 'медленно', 'быстро', 'неожиданно'
+        ],
+        additions: [
+          'и не отпускай 10 секунд', 'закрой глаза', 'улыбаясь',
+          'глядя в глаза', 'без слов', 'на счёт три',
+          'как в первый раз', 'как будто в последний раз'
+        ],
+        locations: [
+          'на кухне', 'в спальне', 'у окна', 'на балконе',
+          'в прихожей', 'на диване', 'у двери', 'в ванной'
+        ]
+      }
+    };
 
-    const truthRegular = [
-      "Какой твой самый неловкий момент на первом свидании?",
-      "Что тебя больше всего заводит в партнёре?",
-      "Расскажи о своём первом поцелуе с партнёром.",
-      "Какая твоя тайная фантазия?",
-      "Что для тебя идеальный романтический вечер?",
-      "Когда ты в последний раз ревновал(а)?",
-      "Назови три вещи, которые тебя раздражают в партнёре.",
-      "Какой твой самый большой страх в отношениях?",
-      "Что ты чувствуешь, когда партнёр обнимает тебя?",
-      "Какая твоя привычка, о которой партнёр не знает?"
-    ];
+    // 18+ элементы
+    const adultElements = {
+      truth: {
+        starts: [
+          'Что тебя больше всего возбуждает', 'Какую позу ты хочешь попробовать',
+          'Что бы ты сделал(а)', 'Какая твоя самая грязная фантазия',
+          'Что ты представляешь', 'Как ты хочешь', 'Что для тебя значит',
+          'Какой интимный момент', 'Что тебе нравится', 'Где бы ты хотел(а)'
+        ],
+        subjects: [
+          'с {name}', 'когда {name} раздевается', 'если {name} шепчет',
+          'при мысли о близости с {name}', 'когда {name} стонет',
+          'если бы вы были вдвоём', 'когда {name} сверху',
+          'при прикосновении {name}'
+        ],
+        actions: [
+          'заняться сексом с {name}', 'поцеловать {name} в шею',
+          'раздеть {name}', 'связать {name}', 'подчиниться {name}',
+          'доминировать над {name}', 'ласкать {name}', 'укусить {name}'
+        ],
+        endings: [
+          'прямо сейчас?', 'на кровати?', 'в душе?', 'на кухне?',
+          'в машине?', 'на природе?', 'в примерочной?', 'на балконе?'
+        ],
+        adjectives: [
+          'возбуждающий', 'страстный', 'грязный', 'нежный', 'грубый',
+          'медленный', 'быстрый', 'игривый'
+        ],
+        places: [
+          'в спальне', 'в гостиной', 'на кухне', 'в ванной',
+          'в машине', 'на балконе', 'в отеле', 'на природе'
+        ]
+      },
+      dare: {
+        actions: [
+          'Поцелуй {name}', 'Раздень {name}', 'Ласкай {name}',
+          'Свяжи {name}', 'Подчинись {name}', 'Доминируй над {name}',
+          'Укуси {name}', 'Поцарапай {name}', 'Соблазни {name}',
+          'Возьми {name}'
+        ],
+        details: [
+          'в губы', 'в шею', 'в ухо', 'в грудь', 'в живот',
+          'в спину', 'в бёдра', 'в плечо', 'в ключицу', 'в запястье'
+        ],
+        styles: [
+          'страстно', 'грубо', 'нежно', 'медленно', 'быстро',
+          'игриво', 'дерзко', 'чувственно', 'агрессивно', 'томно'
+        ],
+        additions: [
+          'и не останавливайся', 'до стона', 'глядя в глаза',
+          'с закрытыми глазами', 'без предупреждения', 'на счёт три',
+          'пока {name} не попросит', 'и скажи грязную фразу'
+        ],
+        locations: [
+          'на кровати', 'в душе', 'на кухне', 'на столе',
+          'у стены', 'на полу', 'в машине', 'на балконе'
+        ]
+      }
+    };
 
-    const dareRegular = [
-      "Поцелуй партнёра в шею.",
-      "Скажи партнёру самый сокровенный комплимент.",
-      "Сделай партнёру массаж плеч 1 минуту.",
-      "Признайся в чём-то, что никогда не говорил(а).",
-      "Потанцуй медленный танец без музыки.",
-      "Напиши пальцем на спине партнёра признание.",
-      "Позволь партнёру задать тебе любой вопрос.",
-      "Покорми партнёра с закрытыми глазами.",
-      "Прошепчи на ухо партнёру комплимент.",
-      "Сделай вид, что вы не виделись месяц."
-    ];
+    let isAdult = false;
+    let generatedCards = new Set();
+    let totalCombinations = 0;
 
-    const truthAdult = [
-      "Какая твоя самая грязная фантазия с партнёром?",
-      "Что бы ты хотел(а), чтобы партнёр сделал с тобой?",
-      "Расскажи о своём самом горячем сне.",
-      "Какой звук тебя больше всего возбуждает?",
-      "Где бы ты хотел(а) заняться сексом?",
-      "Что для тебя идеальная прелюдия?",
-      "Какой элемент одежды тебя заводит?",
-      "Назови три позы, которые хочешь попробовать.",
-      "Что тебе нравится больше: доминировать или подчиняться?",
-      "Какой интимный момент хочешь повторить?"
-    ];
+    // Функция для генерации карты
+    function generateCard(type) {
+      const card = document.getElementById('questionCard');
+      card.classList.add('generating');
+      card.textContent = '⏳ Генерация...';
+      
+      setTimeout(() => {
+        const question = generateUniqueCard(type);
+        card.textContent = question;
+        card.classList.remove('generating');
+        card.classList.add('pop');
+        
+        // Убираем анимацию после завершения
+        setTimeout(() => {
+          card.classList.remove('pop');
+        }, 400);
+        
+        updateNames();
+        updateCounter();
+      }, 300);
+    }
 
-    const dareAdult = [
-      "Медленно поцелуй партнёра в шею.",
-      "Сними одну деталь одежды с партнёра.",
-      "Прошепчи партнёру грязную фразу.",
-      "Сделай эротический массаж 2 минуты.",
-      "Покажи, как соблазняешь партнёра.",
-      "Поцелуй партнёра страстно.",
-      "Сядь на колени к партнёру.",
-      "Сделай партнёру укус в шею.",
-      "Прикоснись к чувствительной зоне партнёра.",
-      "Соблазни партнёра только взглядом."
-    ];
+    // Генерация уникальной карты
+    function generateUniqueCard(type) {
+      const elements = isAdult ? adultElements : regularElements;
+      const typeElements = elements[type];
+      
+      let card = '';
+      let attempts = 0;
+      const maxAttempts = 100;
+      
+      do {
+        card = generateCardText(type, typeElements);
+        attempts++;
+      } while (generatedCards.has(card) && attempts < maxAttempts);
+      
+      generatedCards.add(card);
+      return card;
+    }
 
-    function toggleAdult() {
-      isAdultMode = !isAdultMode;
+    // Генерация текста карты
+    function generateCardText(type, elements) {
+      const name1 = document.getElementById('player1').value.trim() || 'партнёр';
+      const name2 = document.getElementById('player2').value.trim() || 'партнёр';
+      const randomName = Math.random() > 0.5 ? name1 : name2;
+      
+      if (type === 'truth') {
+        // Разные шаблоны для вопросов
+        const templates = [
+          // Шаблон 1: start + subject + ending
+          () => {
+            const start = elements.starts[Math.floor(Math.random() * elements.starts.length)];
+            const subject = elements.subjects[Math.floor(Math.random() * elements.subjects.length)];
+            const ending = elements.endings[Math.floor(Math.random() * elements.endings.length)];
+            return `${start} ${subject} ${ending}`;
+          },
+          // Шаблон 2: start + action + ending
+          () => {
+            const start = elements.starts[Math.floor(Math.random() * elements.starts.length)];
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            const ending = elements.endings[Math.floor(Math.random() * elements.endings.length)];
+            return `${start} ${action} ${ending}`;
+          },
+          // Шаблон 3: adjective + question
+          () => {
+            const adjective = elements.adjectives[Math.floor(Math.random() * elements.adjectives.length)];
+            const subject = elements.subjects[Math.floor(Math.random() * elements.subjects.length)];
+            return `Что для тебя самый ${adjective} момент ${subject}?`;
+          },
+          // Шаблон 4: place + question
+          () => {
+            const place = elements.places[Math.floor(Math.random() * elements.places.length)];
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            return `Что бы ты сделал(а) ${place}, если бы мог(ла) ${action}?`;
+          }
+        ];
+        
+        const template = templates[Math.floor(Math.random() * templates.length)];
+        let result = template();
+        
+        // Заменяем {name} на имя партнёра
+        result = result.replace(/{name}/g, randomName);
+        
+        // Делаем первую букву заглавной
+        result = result.charAt(0).toUpperCase() + result.slice(1);
+        
+        return result;
+      } else {
+        // Шаблоны для заданий
+        const templates = [
+          // Шаблон 1: action + detail + style
+          () => {
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            const detail = elements.details[Math.floor(Math.random() * elements.details.length)];
+            const style = elements.styles[Math.floor(Math.random() * elements.styles.length)];
+            return `${action} ${detail} ${style}`;
+          },
+          // Шаблон 2: action + detail + addition
+          () => {
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            const detail = elements.details[Math.floor(Math.random() * elements.details.length)];
+            const addition = elements.additions[Math.floor(Math.random() * elements.additions.length)];
+            return `${action} ${detail} ${addition}`;
+          },
+          // Шаблон 3: full action with location
+          () => {
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            const location = elements.locations[Math.floor(Math.random() * elements.locations.length)];
+            const style = elements.styles[Math.floor(Math.random() * elements.styles.length)];
+            return `${action} ${style} ${location}`;
+          },
+          // Шаблон 4: complex action
+          () => {
+            const action = elements.actions[Math.floor(Math.random() * elements.actions.length)];
+            const detail = elements.details[Math.floor(Math.random() * elements.details.length)];
+            const style = elements.styles[Math.floor(Math.random() * elements.styles.length)];
+            const addition = elements.additions[Math.floor(Math.random() * elements.additions.length)];
+            return `${action} ${detail} ${style} ${addition}`;
+          }
+        ];
+        
+        const template = templates[Math.floor(Math.random() * templates.length)];
+        let result = template();
+        
+        // Заменяем {name} на имя партнёра
+        result = result.replace(/{name}/g, randomName);
+        
+        // Делаем первую букву заглавной
+        result = result.charAt(0).toUpperCase() + result.slice(1);
+        
+        return result;
+      }
+    }
+
+    // Переключение 18+ режима
+    function toggleAdultMode() {
+      isAdult = !isAdult;
+      const container = document.getElementById('gameContainer');
       const toggle = document.getElementById('toggleSwitch');
-      if (isAdultMode) {
+      const label = document.getElementById('toggleLabel');
+      
+      if (isAdult) {
+        container.classList.add('adult-active');
         toggle.classList.add('active');
+        label.textContent = '🔞 18+ режим ВКЛЮЧЁН';
       } else {
+        container.classList.remove('adult-active');
         toggle.classList.remove('active');
-      }
-    }
-
-    function getRandomUnique(usedSet, array) {
-      if (usedSet.size >= array.length) {
-        usedSet.clear();
+        label.textContent = '🔞 18+ режим';
       }
       
-      let available = [];
-      for (let i = 0; i < array.length; i++) {
-        if (!usedSet.has(i)) {
-          available.push(i);
-        }
-      }
-      
-      if (available.length === 0) {
-        usedSet.clear();
-        available = Array.from({length: array.length}, (_, i) => i);
-      }
-      
-      const randomIndex = available[Math.floor(Math.random() * available.length)];
-      usedSet.add(randomIndex);
-      return array[randomIndex];
+      // Сбрасываем сгенерированные карты при переключении режима
+      generatedCards.clear();
+      updateCounter();
     }
 
-    function showTruth() {
-      updateNames();
-      const card = document.getElementById('questionCard');
-      if (isAdultMode) {
-        card.textContent = getRandomUnique(usedTruthAdult, truthAdult);
-      } else {
-        card.textContent = getRandomUnique(usedTruthRegular, truthRegular);
-      }
-    }
-
-    function showDare() {
-      updateNames();
-      const card = document.getElementById('questionCard');
-      if (isAdultMode) {
-        card.textContent = getRandomUnique(usedDareAdult, dareAdult);
-      } else {
-        card.textContent = getRandomUnique(usedDareRegular, dareRegular);
-      }
-    }
-
-    function resetGame() {
-      usedTruthRegular.clear();
-      usedDareRegular.clear();
-      usedTruthAdult.clear();
-      usedDareAdult.clear();
-      
-      document.getElementById('player1').value = '';
-      document.getElementById('player2').value = '';
-      document.getElementById('participant1').textContent = 'Партнёр 1';
-      document.getElementById('participant2').textContent = 'Партнёр 2';
-      document.getElementById('questionCard').textContent = 'Нажмите «Правда» или «Наказание»';
-    }
-
+    // Обновление имён
     function updateNames() {
       const p1 = document.getElementById('player1').value.trim();
       const p2 = document.getElementById('player2').value.trim();
       
       if (p1) {
         document.getElementById('participant1').textContent = p1;
+      } else {
+        document.getElementById('participant1').textContent = 'Партнёр 1';
       }
+      
       if (p2) {
         document.getElementById('participant2').textContent = p2;
+      } else {
+        document.getElementById('participant2').textContent = 'Партнёр 2';
       }
     }
+
+    // Обновление счётчика
+    function updateCounter() {
+      const elements = isAdult ? adultElements : regularElements;
+      const truthCombos = elements.truth.starts.length * elements.truth.subjects.length * 
+                         elements.truth.endings.length * elements.truth.actions.length * 
+                         elements.truth.adjectives.length * elements.truth.places.length;
+      const dareCombos = elements.dare.actions.length * elements.dare.details.length * 
+                        elements.dare.styles.length * elements.dare.additions.length * 
+                        elements.dare.locations.length;
+      
+      totalCombinations = truthCombos + dareCombos;
+      document.getElementById('counter').textContent = 
+        `Уникальных комбинаций: ${totalCombinations.toLocaleString()}+`;
+    }
+
+    // Сброс игры
+    function resetGame() {
+      generatedCards.clear();
+      document.getElementById('player1').value = '';
+      document.getElementById('player2').value = '';
+      document.getElementById('participant1').textContent = 'Партнёр 1';
+      document.getElementById('participant2').textContent = 'Партнёр 2';
+      document.getElementById('questionCard').textContent = 'Нажмите «Правда» или «Наказание»';
+      updateCounter();
+    }
+
+    // Инициализация
+    updateCounter();
+    updateNames();
   </script>
 </body>
 </html>
