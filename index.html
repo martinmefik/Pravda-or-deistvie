@@ -308,66 +308,6 @@
     }
     .add-player-btn:hover { border-color: #ff9ff3; color: var(--text); background: rgba(255, 159, 243, 0.06); }
 
-    .wheel-container {
-      position: relative;
-      width: 220px;
-      height: 220px;
-      margin: 15px auto;
-    }
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      position: relative;
-      transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-      box-shadow: 0 0 40px rgba(255, 159, 243, 0.4), 0 0 80px rgba(255, 107, 107, 0.2);
-      border: 3px solid rgba(255, 255, 255, 0.4);
-      overflow: hidden;
-    }
-    .wheel-half {
-      position: absolute;
-      width: 50%;
-      height: 100%;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
-      color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-      pointer-events: none;
-      padding: 10px;
-      text-align: center;
-      word-break: break-word;
-    }
-    .wheel-half.left {
-      left: 0;
-      background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 159, 243, 0.7));
-      border-radius: 50% 0 0 50%;
-    }
-    .wheel-half.right {
-      right: 0;
-      background: linear-gradient(135deg, rgba(72, 219, 251, 0.8), rgba(255, 159, 243, 0.7));
-      border-radius: 0 50% 50% 0;
-    }
-    .wheel-pointer {
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.8rem;
-      z-index: 2;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    }
-    .wheel-result {
-      text-align: center;
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      min-height: 28px;
-    }
-
     .game-header {
       display: flex;
       align-items: center;
@@ -453,8 +393,6 @@
       .screen { padding: 18px 14px; max-height: 95vh; }
       .app-title { font-size: 1.4rem; }
       .card { font-size: 1rem; padding: 14px 10px; }
-      .wheel-container { width: 170px; height: 170px; }
-      .wheel-half { font-size: 0.65rem; }
       .btn { padding: 12px 15px; font-size: 0.85rem; }
     }
   </style>
@@ -484,22 +422,7 @@
           <div class="mode-name">18+</div>
         </div>
       </div>
-      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToTurnWheel()">Продолжить</button>
-    </div>
-
-    <div id="screen-wheel" class="screen">
-      <h1 class="app-title">Кто ходит?</h1>
-      <p class="app-subtitle">Крутите барабан</p>
-      <div class="wheel-container">
-        <div class="wheel-pointer">▼</div>
-        <div class="wheel" id="wheel">
-          <div class="wheel-half left" id="wheel-left">Игрок 1</div>
-          <div class="wheel-half right" id="wheel-right">Игрок 2</div>
-        </div>
-      </div>
-      <button class="btn btn-primary" id="btn-spin" onclick="spinWheel()">Крутить</button>
-      <p class="wheel-result" id="wheel-result"></p>
-      <button class="btn btn-primary" id="btn-wheel-continue" style="display: none;" onclick="continueAfterWheel()">Продолжить →</button>
+      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить</button>
     </div>
 
     <div id="screen-game" class="screen">
@@ -524,202 +447,140 @@
   </div>
 
   <script>
-    const adultCombinatorics = {
-      truth: {
-        starts: [
-          "Что тебя больше всего возбуждает, когда",
-          "Какая твоя самая смелая фантазия, где",
-          "Что бы ты хотел(а) сделать, если",
-          "Как ты хочешь, чтобы",
-          "Что для тебя значит, когда",
-          "Какой интимный момент с",
-          "Что тебе нравится больше: когда",
-          "Где бы ты хотел(а), чтобы",
-          "Что бы ты сделал(а) с",
-          "Как ты представляешь идеальный секс с",
-          "Что тебя заводит в",
-          "Что бы ты хотел(а) попробовать с",
-          "Какой твой самый горячий сон про",
-          "Что ты хочешь, чтобы",
-          "Как бы ты соблазнил(а)",
-          "Что для тебя идеальная прелюдия с",
-          "Какой вид секса тебе нравится с",
-          "Что бы ты хотел(а), чтобы"
-        ],
-        subjects: [
-          "{name} раздевается перед тобой",
-          "{name} шепчет тебе на ухо",
-          "{name} прикасается к тебе",
-          "{name} стонет",
-          "{name} смотрит на тебя",
-          "{name} целует тебя в шею",
-          "{name} обнимает тебя сзади",
-          "{name} сидит у тебя на коленях",
-          "{name} снимает с тебя одежду",
-          "{name} гладит тебя по телу",
-          "{name} кусает тебя",
-          "{name} царапает тебя",
-          "{name} связывает тебя",
-          "{name} доминирует над тобой",
-          "{name} подчиняется тебе",
-          "{name} ласкает тебя",
-          "{name} целует тебя в губы",
-          "{name} трогает тебя за"
-        ],
-        objects: [
-          "грудь", "бёдра", "ягодицы", "шею", "уши",
-          "живот", "спину", "ключицу", "запястья", "губы",
-          "волосы", "плечи", "талию", "колени", "стопы"
-        ],
-        places: [
-          "на кровати", "в душе", "на кухне", "на столе",
-          "у стены", "на полу", "в машине", "на балконе",
-          "в примерочной", "в лифте", "на лестнице", "в парке",
-          "на пляже", "в отеле", "в ванной", "на диване"
-        ],
-        endings: [
-          "прямо сейчас?", "без остановки?", "всю ночь?",
-          "до утра?", "пока не попросишь?", "снова и снова?",
-          "медленно?", "быстро и страстно?", "с закрытыми глазами?",
-          "глядя в глаза?"
-        ]
-      },
-      dare: {
-        actions: [
-          "Поцелуй", "Раздень", "Ласкай", "Свяжи",
-          "Подчинись", "Доминируй над", "Укуси", "Поцарапай",
-          "Соблазни", "Возьми", "Прижмись к", "Проведи рукой по",
-          "Сядь на", "Обними", "Прикоснись к", "Погладь",
-          "Лизни", "Покусай", "Разогрей", "Доведи до"
-        ],
-        targets: [
-          "{name} в губы", "{name} в шею", "{name} в ухо",
-          "{name} в грудь", "{name} в живот", "{name} в спину",
-          "{name} в бёдра", "{name} в плечо", "{name} в ключицу",
-          "{name} в запястье", "тело {name}", "волосы {name}",
-          "колени {name}", "стопы {name}", "талию {name}",
-          "плечи {name}", "руки {name}", "ноги {name}"
-        ],
-        styles: [
-          "страстно", "грубо", "нежно", "медленно",
-          "быстро", "игриво", "дерзко", "чувственно",
-          "агрессивно", "томно", "соблазнительно", "горячо",
-          "возбуждающе", "интенсивно", "ритмично", "плавно"
-        ],
-        additions: [
-          "и не останавливайся", "до стона", "глядя в глаза",
-          "с закрытыми глазами", "без предупреждения",
-          "на счёт три", "пока не попросит остановиться",
-          "и скажи грязную фразу", "используя только губы",
-          "используя только руки", "медленно и дразняще",
-          "пока не почувствуешь дрожь", "и смотри в глаза",
-          "не разрывая зрительный контакт", "шепча на ухо",
-          "и укуси легонько"
-        ],
-        places: [
-          "на кровати", "в душе", "на кухне", "на столе",
-          "у стены", "на полу", "в машине", "на балконе",
-          "в примерочной", "в лифте", "на диване", "в ванной",
-          "на стуле", "у окна", "на лестнице", "в прихожей"
-        ]
-      }
+    // ====== ГОТОВЫЕ ВОПРОСЫ С ШАБЛОНАМИ ======
+    const regularQuestions = {
+      truth: [
+        "Что ты чувствуешь, когда {name} смотрит тебе в глаза?",
+        "Что для тебя значит {name}?",
+        "О чём ты думаешь, когда {name} рядом?",
+        "Что бы ты хотел(а) сделать для {name} прямо сейчас?",
+        "Как {name} меняет твою жизнь к лучшему?",
+        "Что тебя больше всего привлекает в {name}?",
+        "Какой момент с {name} ты ценишь больше всего?",
+        "Что ты хочешь сказать {name}, но стесняешься?",
+        "Какой комплимент ты мечтаешь услышать от {name}?",
+        "Что для тебя идеальный день с {name}?",
+        "Когда ты понял(а), что {name} тебе дорог(а)?",
+        "Что бы ты выбрал(а): вечер с {name} или путешествие мечты?",
+        "Как {name} делает тебя счастливее?",
+        "Что ты ценишь в {name} больше всего?",
+        "О чём ты мечтаешь, когда думаешь о {name}?",
+        "Что бы ты сделал(а), если бы {name} было грустно?",
+        "Какой сюрприз ты хотел(а) бы получить от {name}?",
+        "Что для тебя значит объятие {name}?",
+        "Как ты понимаешь, что {name} тебя любит?",
+        "Что ты хочешь пожелать {name}?",
+        "Какой твой любимый момент, проведённый с {name}?",
+        "Что тебя вдохновляет в {name}?",
+        "Как {name} поддерживает тебя в трудные моменты?",
+        "Что бы ты хотел(а) изменить в ваших отношениях с {name}?",
+        "Какое качество {name} ты находишь самым привлекательным?",
+        "Что ты чувствуешь, когда {name} улыбается?",
+        "Как {name} влияет на твоё настроение?",
+        "Что ты хочешь сделать вместе с {name} в ближайшее время?",
+        "Как {name} показывает свою любовь к тебе?",
+        "Что для тебя самое ценное в отношениях с {name}?"
+      ],
+      dare: [
+        "Обними {name} крепко и не отпускай 10 секунд",
+        "Поцелуй {name} в лоб",
+        "Скажи {name} три комплимента",
+        "Погладь {name} по щеке",
+        "Сделай {name} массаж плеч",
+        "Прошепчи {name} на ухо что-то нежное",
+        "Потанцуй с {name} без музыки",
+        "Подари {name} самую тёплую улыбку",
+        "Напиши пальцем на спине {name} слово «люблю»",
+        "Обними {name} сзади",
+        "Скажи {name}, что он(а) особенный(ая)",
+        "Подержи {name} за руку 30 секунд",
+        "Сделай {name} комплимент о внешности",
+        "Расскажи {name}, за что ты благодарен(на)",
+        "Поцелуй {name} в щёку",
+        "Погладь {name} по голове",
+        "Скажи {name}, что скучал(а) бы без него/неё",
+        "Сделай {name} сюрприз",
+        "Покажи {name}, как сильно ты его/её любишь без слов",
+        "Прошепчи {name} на ухо «ты моё всё»",
+        "Обними {name} и скажи «спасибо, что ты есть»",
+        "Поцелуй {name} в руку",
+        "Сделай {name} массаж рук",
+        "Скажи {name} три вещи, которые тебе в нём/ней нравятся",
+        "Подари {name} воображаемый цветок",
+        "Станцуй для {name} медленный танец",
+        "Погладь {name} по спине",
+        "Скажи {name}, что он(а) красиво выглядит",
+        "Сделай {name} чай или кофе (воображаемо)",
+        "Обними {name} и не отпускай, пока он(а) не попросит"
+      ]
     };
 
-    const regularCombinatorics = {
-      truth: {
-        starts: [
-          "Что ты чувствуешь, когда",
-          "Что для тебя значит, когда",
-          "О чём ты думаешь, когда",
-          "Что бы ты сделал(а), если",
-          "Как ты понимаешь, что",
-          "Что тебя больше всего привлекает, когда",
-          "Какой момент для тебя самый ценный, когда",
-          "Что ты хочешь сказать, когда"
-        ],
-        subjects: [
-          "{name} смотрит тебе в глаза",
-          "{name} улыбается тебе",
-          "{name} обнимает тебя",
-          "{name} держит тебя за руку",
-          "{name} шепчет тебе на ухо",
-          "{name} гладит тебя по волосам",
-          "{name} целует тебя в лоб",
-          "{name} говорит тебе комплимент",
-          "{name} смеётся над твоей шуткой",
-          "{name} заботится о тебе",
-          "{name} приходит к тебе",
-          "{name} звонит тебе"
-        ],
-        endings: [
-          "прямо сейчас?", "когда вы вдвоём?", "без слов?",
-          "в глубине души?", "когда никто не видит?", "в этот момент?",
-          "если честно?", "на самом деле?"
-        ]
-      },
-      dare: {
-        actions: [
-          "Обними", "Поцелуй", "Погладь", "Прошепчи",
-          "Сделай массаж", "Подари", "Скажи", "Покажи",
-          "Напиши", "Устрой"
-        ],
-        targets: [
-          "{name} в лоб", "{name} в щёку", "{name} в руку",
-          "{name} на ухо", "{name} в плечо", "{name} в нос",
-          "{name} комплимент", "{name} свою улыбку",
-          "на спине {name} слово «люблю»", "{name} сюрприз"
-        ],
-        styles: [
-          "нежно", "крепко", "игриво", "застенчиво",
-          "романтично", "тепло", "медленно", "искренне"
-        ],
-        additions: [
-          "и не отпускай 10 секунд", "закрой глаза",
-          "глядя в глаза", "без слов", "на счёт три",
-          "как в первый раз", "улыбаясь", "с любовью"
-        ]
-      }
+    const adultQuestions = {
+      truth: [
+        "Что тебя больше всего возбуждает в {name}?",
+        "Какая твоя самая смелая сексуальная фантазия с {name}?",
+        "Где бы ты хотел(а) заняться сексом с {name}?",
+        "Что бы ты хотел(а), чтобы {name} сделал(а) с тобой в постели?",
+        "Какой твой любимый вид секса с {name}?",
+        "Что тебе нравится больше: доминировать или подчиняться {name}?",
+        "Какая часть тела {name} сводит тебя с ума?",
+        "Что бы ты хотел(а) попробовать с {name}, но стесняешься предложить?",
+        "Как {name} должен(на) соблазнять тебя?",
+        "Что для тебя идеальная ночь страсти с {name}?",
+        "Какой твой самый горячий сон с {name}?",
+        "Что бы ты сделал(а) с {name}, если бы вы были одни?",
+        "Какая поза с {name} тебе нравится больше всего?",
+        "Что ты хочешь, чтобы {name} шептал(а) тебе во время секса?",
+        "Какой интимный момент с {name} ты хочешь повторить?",
+        "Что тебя заводит в {name} больше всего?",
+        "Как {name} должен(на) прикасаться к тебе?",
+        "Что бы ты хотел(а) сделать с {name} в душе?",
+        "Какая твоя тайная фантазия о {name}?",
+        "Что для тебя идеальная прелюдия с {name}?",
+        "Как {name} может довести тебя до экстаза?",
+        "Что тебе нравится в теле {name}?",
+        "Какой твой любимый способ целоваться с {name}?",
+        "Что бы ты хотел(а), чтобы {name} делал(а) руками?",
+        "Что ты хочешь попробовать с {name} в следующий раз?",
+        "Как {name} может тебя возбудить за 5 секунд?",
+        "Что для тебя значит близость с {name}?",
+        "Какой комплимент от {name} тебя возбуждает?",
+        "Что бы ты хотел(а), чтобы {name} снял(а) с тебя?",
+        "Как {name} должен(на) тебя целовать, чтобы ты потерял(а) голову?"
+      ],
+      dare: [
+        "Поцелуй {name} в шею страстно",
+        "Сними одну деталь одежды с {name}",
+        "Прошепчи {name} грязную фразу на ухо",
+        "Сделай {name} эротический массаж",
+        "Сядь на колени к {name} и обними за шею",
+        "Прикоснись к чувствительной зоне {name}",
+        "Поцелуй {name} так, будто вы одни в комнате",
+        "Соблазни {name} только взглядом",
+        "Укуси {name} в плечо",
+        "Позволь {name} снять с тебя одну вещь",
+        "Покажи {name} свои самые горячие движения",
+        "Лизни губы {name}",
+        "Скажи {name}, что бы ты хотел(а) сделать с ним/ней прямо сейчас",
+        "Сделай {name} массаж бёдер",
+        "Попробуй снять ремень с {name} одной рукой",
+        "Поцелуй {name} в губы и не отрывайся 30 секунд",
+        "Прижмись к {name} всем телом",
+        "Проведи рукой по телу {name}",
+        "Сядь на {name} сверху",
+        "Раздень {name} наполовину",
+        "Поцелуй {name} в ключицу",
+        "Погладь {name} по внутренней стороне бедра",
+        "Сделай {name} массаж спины",
+        "Прошепчи {name}, что хочешь его/её",
+        "Поцелуй {name} в ухо",
+        "Проведи пальцами по губам {name}",
+        "Сделай {name} комплимент о его/её теле",
+        "Поцелуй {name} в живот",
+        "Позволь {name} поцеловать тебя куда захочет",
+        "Скажи {name}, что он(а) самый(ая) сексуальный(ая)"
+      ]
     };
-
-    function generateCombination(data, type, otherName) {
-      const d = data[type];
-      let text = '';
-      
-      if (type === 'truth') {
-        const templates = [
-          () => `${d.starts[rand(d.starts.length)]} ${d.subjects[rand(d.subjects.length)]} ${d.endings[rand(d.endings.length)]}`,
-          () => `${d.starts[rand(d.starts.length)]} ${d.subjects[rand(d.subjects.length)]}`,
-          () => {
-            const subj = d.subjects[rand(d.subjects.length)];
-            const obj = d.objects ? d.objects[rand(d.objects.length)] : '';
-            return `${d.starts[rand(d.starts.length)]} ${subj}${obj ? ' ' + obj : ''} ${d.endings[rand(d.endings.length)]}`;
-          },
-          () => {
-            const place = d.places ? d.places[rand(d.places.length)] : '';
-            const subj = d.subjects[rand(d.subjects.length)];
-            return `${d.starts[rand(d.starts.length)]} ${subj}${place ? ' ' + place : ''}`;
-          }
-        ];
-        text = templates[rand(templates.length)]();
-      } else {
-        const templates = [
-          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.styles[rand(d.styles.length)]}`,
-          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.additions[rand(d.additions.length)]}`,
-          () => {
-            const place = d.places ? d.places[rand(d.places.length)] : '';
-            return `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.styles[rand(d.styles.length)]}${place ? ' ' + place : ''}`;
-          },
-          () => `${d.actions[rand(d.actions.length)]} ${d.targets[rand(d.targets.length)]} ${d.additions[rand(d.additions.length)]} ${d.styles[rand(d.styles.length)]}`
-        ];
-        text = templates[rand(templates.length)]();
-      }
-      
-      return text.replace(/{name}/g, otherName);
-    }
-
-    function rand(max) {
-      return Math.floor(Math.random() * max);
-    }
 
     let gameState = {
       mode: null,
@@ -728,9 +589,7 @@
       skipCount: 0,
       maxSkips: 3,
       usedCards: { truth: new Set(), dare: new Set() },
-      currentCardType: null,
-      wheelLeftIndex: 0,
-      wheelRightIndex: 1
+      currentCardType: null
     };
 
     function saveState() {
@@ -809,96 +668,42 @@
       document.getElementById('btn-mode-next').disabled = false;
     }
 
-    function goToTurnWheel() {
-      const idx1 = Math.floor(Math.random() * gameState.players.length);
-      let idx2 = Math.floor(Math.random() * gameState.players.length);
-      while (idx2 === idx1 && gameState.players.length > 1) {
-        idx2 = Math.floor(Math.random() * gameState.players.length);
-      }
-      
-      gameState.wheelLeftIndex = idx1;
-      gameState.wheelRightIndex = idx2;
-      
-      document.getElementById('wheel-left').textContent = gameState.players[idx1];
-      document.getElementById('wheel-right').textContent = gameState.players[idx2];
-      
-      document.getElementById('wheel-result').textContent = '';
-      document.getElementById('btn-spin').style.display = 'block';
-      document.getElementById('btn-wheel-continue').style.display = 'none';
-      document.getElementById('wheel').style.transform = 'rotate(0deg)';
-      
-      saveState();
-      showScreen('screen-wheel');
-    }
-
-    // ИСПРАВЛЕННАЯ ФУНКЦИЯ БАРАБАНА
-    function spinWheel() {
-      const wheel = document.getElementById('wheel');
-      const btnSpin = document.getElementById('btn-spin');
-      const btnContinue = document.getElementById('btn-wheel-continue');
-      const resultEl = document.getElementById('wheel-result');
-      
-      btnSpin.disabled = true;
-      resultEl.textContent = '...';
-      
-      const spins = 5 + Math.floor(Math.random() * 4);
-      const randomAngle = Math.random() * 360;
-      const totalRotation = spins * 360 + randomAngle;
-      
-      wheel.style.transform = `rotate(${totalRotation}deg)`;
-      
-      setTimeout(() => {
-        // Стрелка сверху. Определяем что под стрелкой после поворота
-        const pointerAngle = (360 - (totalRotation % 360)) % 360;
-        
-        // Левая половина: от 270° до 90° (через 0°)
-        // Правая половина: от 90° до 270°
-        const isLeft = pointerAngle > 270 || pointerAngle < 90;
-        
-        gameState.currentPlayerIndex = isLeft ? gameState.wheelLeftIndex : gameState.wheelRightIndex;
-        
-        resultEl.textContent = `🎉 Ходит: ${gameState.players[gameState.currentPlayerIndex]}!`;
-        
-        btnSpin.style.display = 'none';
-        btnContinue.style.display = 'block';
-        saveState();
-      }, 3000);
-    }
-
-    function continueAfterWheel() {
+    function goToGame() {
+      gameState.currentPlayerIndex = Math.floor(Math.random() * gameState.players.length);
       document.getElementById('current-turn-name').textContent = gameState.players[gameState.currentPlayerIndex];
       updateSkipCounter();
       document.getElementById('card-text').textContent = 'Выберите действие';
       document.getElementById('card-text').className = 'card';
       document.getElementById('choice-buttons').style.display = 'flex';
       document.getElementById('action-buttons').style.display = 'none';
+      saveState();
       showScreen('screen-game');
     }
 
     function drawCard(type) {
-      const cardText = generateUniqueCard(type);
-      document.getElementById('card-text').textContent = cardText;
+      const questions = gameState.mode === 'adult' ? adultQuestions : regularQuestions;
+      const list = questions[type];
+      const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
+      
+      let available = [];
+      for (let i = 0; i < list.length; i++) {
+        if (!gameState.usedCards[type].has(i)) available.push(i);
+      }
+      if (available.length === 0) {
+        gameState.usedCards[type].clear();
+        available = list.map((_, i) => i);
+      }
+      
+      const idx = available[Math.floor(Math.random() * available.length)];
+      gameState.usedCards[type].add(idx);
+      gameState.currentCardType = type;
+      
+      const text = list[idx].replace(/{name}/g, other);
+      document.getElementById('card-text').textContent = text;
       document.getElementById('card-text').className = 'card pop';
       document.getElementById('choice-buttons').style.display = 'none';
       document.getElementById('action-buttons').style.display = 'flex';
-    }
-
-    function generateUniqueCard(type) {
-      const data = gameState.mode === 'adult' ? adultCombinatorics : regularCombinatorics;
-      const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
-      
-      let text = '';
-      let attempts = 0;
-      const maxAttempts = 100;
-      
-      do {
-        text = generateCombination(data, type, other);
-        attempts++;
-      } while (gameState.usedCards[type].has(text) && attempts < maxAttempts);
-      
-      gameState.usedCards[type].add(text);
-      gameState.currentCardType = type;
-      return text;
+      saveState();
     }
 
     function skipCard() {
@@ -908,14 +713,13 @@
         document.getElementById('card-text').className = 'card super-task';
         gameState.skipCount++;
         updateSkipCounter();
+        saveState();
         return;
       }
       if (gameState.skipCount >= gameState.maxSkips) return;
       gameState.skipCount++;
       updateSkipCounter();
-      const text = generateUniqueCard(gameState.currentCardType);
-      document.getElementById('card-text').textContent = text;
-      document.getElementById('card-text').className = 'card pop';
+      drawCard(gameState.currentCardType);
     }
 
     function completeCard() {
@@ -943,8 +747,7 @@
       localStorage.removeItem('truthOrDareState');
       gameState = {
         mode: null, players: [], currentPlayerIndex: 0, skipCount: 0, maxSkips: 3,
-        usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null,
-        wheelLeftIndex: 0, wheelRightIndex: 1
+        usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null
       };
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
