@@ -462,7 +462,6 @@
 <body>
   <div class="gradient-overlay"></div>
   <div class="app">
-    <!-- ЭКРАНЫ ОСТАЮТСЯ ТЕ ЖЕ -->
     <div id="screen-players" class="screen active">
       <h1 class="app-title">✨ Правда или Наказание</h1>
       <p class="app-subtitle">Добавьте игроков (от 2 до 10)</p>
@@ -525,7 +524,6 @@
   </div>
 
   <script>
-    // ====== ГЕНЕРАЦИЯ ЧЕРЕЗ КОМБИНАТОРИКУ ======
     const adultCombinatorics = {
       truth: {
         starts: [
@@ -623,16 +621,6 @@
           "у стены", "на полу", "в машине", "на балконе",
           "в примерочной", "в лифте", "на диване", "в ванной",
           "на стуле", "у окна", "на лестнице", "в прихожей"
-        ],
-        endings: [
-          "и не останавливайся", "до стона", "глядя в глаза",
-          "с закрытыми глазами", "без предупреждения",
-          "на счёт три", "пока не попросит остановиться",
-          "и скажи грязную фразу", "используя только губы",
-          "используя только руки", "медленно и дразняще",
-          "пока не почувствуешь дрожь", "и смотри в глаза",
-          "не разрывая зрительный контакт", "шепча на ухо",
-          "и укуси легонько"
         ]
       }
     };
@@ -733,7 +721,6 @@
       return Math.floor(Math.random() * max);
     }
 
-    // ====== СОСТОЯНИЕ ======
     let gameState = {
       mode: null,
       players: [],
@@ -844,6 +831,7 @@
       showScreen('screen-wheel');
     }
 
+    // ИСПРАВЛЕННАЯ ФУНКЦИЯ БАРАБАНА
     function spinWheel() {
       const wheel = document.getElementById('wheel');
       const btnSpin = document.getElementById('btn-spin');
@@ -860,8 +848,12 @@
       wheel.style.transform = `rotate(${totalRotation}deg)`;
       
       setTimeout(() => {
-        const finalAngle = (360 - (totalRotation % 360)) % 360;
-        const isLeft = finalAngle < 180;
+        // Стрелка сверху. Определяем что под стрелкой после поворота
+        const pointerAngle = (360 - (totalRotation % 360)) % 360;
+        
+        // Левая половина: от 270° до 90° (через 0°)
+        // Правая половина: от 90° до 270°
+        const isLeft = pointerAngle > 270 || pointerAngle < 90;
         
         gameState.currentPlayerIndex = isLeft ? gameState.wheelLeftIndex : gameState.wheelRightIndex;
         
