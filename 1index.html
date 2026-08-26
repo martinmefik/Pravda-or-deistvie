@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>ПРАВДА ИЛИ НАКАЗАНИЕ · 18+</title>
+  <style>
+    /* ===== СБРОС И БАЗА ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 30%, #1a0b1f 0%, #0d020f 90%);
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      color: #f5e9f8;
+      transition: background 0.3s ease;
+    }
+
+    /* контейнер всей игры */
+    .game-container {
+      width: 100%;
+      max-width: 680px;
+      background: rgba(20, 5, 25, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 90, 160, 0.3);
+      border-radius: 3rem;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(210, 30, 90, 0.25);
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    /* стили для 18+ режима (неон) */
+    .game-container.adult-mode {
+      border-color: #ff3b6f;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.9), 0 0 45px rgba(255, 40, 90, 0.7);
+      background: rgba(30, 5, 30, 0.75);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff9a9e, #ff4d6d, #b3005e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 12px rgba(255, 70, 110, 0.6);
+    }
+
+    .subhead {
+      text-align: center;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #cfa3c7;
+      margin-bottom: 1.8rem;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    /* переключатель 18+ */
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(40, 15, 45, 0.7);
+      padding: 0.9rem 1.4rem;
+      border-radius: 60px;
+      margin-bottom: 1.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+    }
+
+    .toggle-wrapper.adult-active {
+      background: rgba(110, 15, 45, 0.6);
+      border-color: #ff4d6d;
+    }
+
+    .toggle-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+      background: #3a1b2e;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+    }
+
+    .toggle-switch::after {
+      content: "18+";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      background: #b9b0c0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      font-weight: bold;
+      color: #2b0b1a;
+      transition: left 0.25s, background 0.25s;
+      letter-spacing: 0;
+    }
+
+    .toggle-switch.active {
+      background: #ff2e63;
+      box-shadow: 0 0 15px #ff2e63;
+    }
+
+    .toggle-switch.active::after {
+      left: 32px;
+      background: #1e0010;
+      color: #ffb3c6;
+      text-shadow: 0 0 5px #ff4d6d;
+    }
+
+    /* поля ввода */
+    .players-input {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .input-field {
+      flex: 1 1 150px;
+      background: rgba(20, 8, 28, 0.8);
+      border: 1.5px solid rgba(255, 130, 170, 0.4);
+      border-radius: 50px;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      color: #ffe5f1;
+      outline: none;
+      transition: 0.25s;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .input-field::placeholder {
+      color: #b48ea5;
+      font-style: italic;
+    }
+
+    .input-field:focus {
+      border-color: #ff5e7e;
+      background: rgba(35, 10, 30, 0.9);
+      box-shadow: 0 0 18px rgba(255, 70, 120, 0.4);
+    }
+
+    .input-field.adult-field {
+      border-color: #ff4d7a;
+      background: #2a0a1e;
+    }
+
+    /* кнопки */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.8rem 0 1rem;
+    }
+
+    .btn {
+      background: rgba(45, 12, 35, 0.9);
+      border: 1px solid #ff6b8a;
+      border-radius: 50px;
+      padding: 0.9rem 2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffeef5;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      flex: 1 1 auto;
+      min-width: 130px;
+    }
+
+    .btn:hover {
+      background: #ff3b6f;
+      color: #18010d;
+      border-color: #ffb3c6;
+      transform: scale(1.02);
+      box-shadow: 0 0 30px #ff3b6f;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    /* карточка с вопросом/наказанием */
+    .card {
+      background: rgba(15, 3, 18, 0.85);
+      border: 2px solid #ff5e7e;
+      border-radius: 2.5rem;
+      padding: 2rem 1.5rem;
+      margin: 1.8rem 0 1.2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 0.8px;
+      word-break: break-word;
+      box-shadow: 0 0 25px rgba(255, 40, 90, 0.35);
+      transition: all 0.4s;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffe3ed;
+    }
+
+    .card.adult-card {
+      border-color: #ff1e5a;
+      background: rgba(30, 2, 20, 0.9);
+      box-shadow: 0 0 40px #ff0055;
+      color: #ffc2d4;
+    }
+
+    .participants {
+      margin-top: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      justify-content: center;
+    }
+
+    .chip {
+      background: #2f0a25;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      border: 1px solid #c04e7a;
+      color: #fdd9e8;
+      letter-spacing: 0.5px;
+      transition: 0.2s;
+    }
+
+    .chip.adult-chip {
+      background: #4a0d2e;
+      border-color: #ff3b6f;
+      color: #ffe0eb;
+    }
+
+    .empty-message {
+      text-align: center;
+      font-style: italic;
+      color: #b694aa;
+      margin-top: 1rem;
+    }
+
+    /* адаптивность */
+    @media (max-width: 480px) {
+      .game-container {
+        padding: 1.5rem 1rem;
+        border-radius: 2rem;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      .card {
+        font-size: 1.2rem;
+        padding: 1.5rem 1rem;
+      }
+      .btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.85rem;
+        min-width: 100px;
+      }
+      .toggle-wrapper {
+        padding: 0.7rem 1rem;
+      }
+      .input-field {
+        padding: 0.7rem 1rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .input-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container" id="gameContainer">
+    <h1>🔥 ПРАВДА ИЛИ НАКАЗАНИЕ 🔥</h1>
+    <div class="subhead">для пар · уникальные карты · без повторов</div>
+
+    <!-- Переключатель 18+ -->
+    <div class="toggle-wrapper" id="toggleWrapper">
+      <span class="toggle-label" id="toggleLabel">🔞 18+ режим</span>
+      <div class="toggle-switch" id="toggleSwitch" role="button" tabindex="0" aria-label="Переключить 18+"></div>
+    </div>
+
+    <!-- Ввод имён -->
+    <div class="players-input">
+      <div class="input-group">
+        <input type="text" id="player1" class="input-field" placeholder="Имя партнёра 1" autocomplete="off">
+        <input type="text" id="player2" class="input-field" placeholder="Имя партнёра 2" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="btn-group">
+      <button class="btn" id="truthBtn">ПРАВДА</button>
+      <button class="btn" id="dareBtn">НАКАЗАНИЕ</button>
+      <button class="btn" id="newPairBtn">🔄 НОВАЯ ПАРА</button>
+    </div>
+
+    <!-- Карточка с вопросом/заданием -->
+    <div class="card" id="questionCard">
+      Нажмите «Правда» или «Наказание»
+    </div>
+
+    <!-- Участники -->
+    <div class="participants" id="participantsContainer">
+      <span class="chip" id="participant1Chip">Партнёр 1</span>
+      <span class="chip" id="participant2Chip">Партнёр 2</span>
+    </div>
+    <div id="participantsMessage" class="empty-message"></div>
+  </div>
+
+  <script>
+    (function() {
+      // ====== БАЗЫ ВОПРОСОВ И НАКАЗАНИЙ (ОБЫЧНЫЕ) ======
+      const truthRegular = [
+        "Какой твой самый неловкий момент на первом свидании?",
+        "Что тебя больше всего заводит в партнёре?",
+        "Расскажи о своём первом поцелуе с партнёром.",
+        "Какая твоя тайная фантазия, которой ты стесняешься?",
+        "Что для тебя идеальный романтический вечер?",
+        "Когда ты в последний раз ревновал(а) и почему?",
+        "Назови три вещи, которые тебя раздражают в партнёре, но ты терпишь.",
+        "Какой твой самый большой страх в отношениях?",
+        "Что ты чувствуешь, когда партнёр обнимает тебя сзади?",
+        "Какая твоя привычка, о которой партнёр не знает?",
+        "Если бы у тебя была машина времени, какой момент ты бы изменил(а)?",
+        "Что для тебя важнее: страсть или нежность?",
+        "Расскажи случай, когда ты соврал(а) партнёру ради его же блага.",
+        "Какая твоя самая смешная привычка перед сном?",
+        "Когда ты понял(а), что влюбился(лась)?",
+        "Что тебя больше всего злит в спорах с партнёром?",
+        "Опиши своё идеальное утро рядом с любимым человеком.",
+        "Какая твоя эротическая зона, о которой партнёр не догадывается?",
+        "Что бы ты выбрал(а): неделя без телефона или без партнёра?",
+        "Что тебе нравится больше: целоваться или обниматься?"
+      ];
+
+      const dareRegular = [
+        "Поцелуй партнёра в шею так, как он(а) любит.",
+        "Скажи партнёру самый сокровенный комплимент.",
+        "Покажи самый нежный жест, на который ты способен(на).",
+        "Расскажи стихотворение о любви (можно своё).",
+        "Сделай партнёру массаж плеч 1 минуту.",
+        "Признайся в чём-то, что ты никогда не говорил(а) вслух.",
+        "Изобрази самую романтичную сцену из фильма.",
+        "Потанцуй медленный танец без музыки.",
+        "Напиши пальцем на спине партнёра признание.",
+        "Позволь партнёру задать тебе любой вопрос, ответь честно.",
+        "Покорми партнёра с закрытыми глазами (воображаемо).",
+        "Покажи партнёру своё лучшее соблазнительное выражение лица.",
+        "Прошепчи на ухо партнёру фразу, которая его заведёт.",
+        "Сделай вид, что вы не виделись месяц – страстно обними.",
+        "Устрой партнёру минуту объятий без слов.",
+        "Назови три причины, почему ты с ним(ней) счастлив(а).",
+        "Имитируй признание в любви на разных языках.",
+        "Позволь партнёру накрасить тебя или сделать причёску.",
+        "Сымитируй первый поцелуй, как в кино.",
+        "Подари партнёру «купон» на одно желание (вслух)."
+      ];
+
+      // ====== 18+ БАЗЫ ======
+      const truthAdult = [
+        "Какая твоя самая грязная фантазия с партнёром?",
+        "Что бы ты хотел(а), чтобы партнёр сделал с тобой прямо сейчас?",
+        "Расскажи о своём самом горячем сне с участием партнёра.",
+        "Какой звук тебя больше всего возбуждает?",
+        "Где бы ты хотел(а) заняться сексом, кроме кровати?",
+        "Что для тебя идеальная прелюдия?",
+        "Какой элемент одежды на партнёре тебя заводит?",
+        "Назови три позы, которые ты мечтаешь попробовать.",
+        "Что тебе нравится больше: доминировать или подчиняться?",
+        "Какой интимный момент ты бы хотел(а) повторить?",
+        "Что бы ты сделал(а), если бы мы остались одни в лифте?",
+        "Назови самую эротичную часть тела партнёра.",
+        "Хочешь попробовать ролевую игру? Какую?",
+        "Что тебя заводит больше: шёпот или стоны?",
+        "Какая твоя запретная фантазия?",
+        "Что бы ты хотел(а), чтобы партнёр делал со мной руками?",
+        "Какой интимный разговор тебя бы возбудил?",
+        "Назови место, где ты мечтаешь заняться сексом.",
+        "Что для тебя слишком горячо, но ты бы попробовал(а)?",
+        "Какая деталь нижнего белья сводит тебя с ума?"
+      ];
+
+      const dareAdult = [
+        "Медленно поцелуй партнёра в шею и ниже.",
+        "Сними одну деталь одежды с партнёра (не до конца).",
+        "Прошепчи партнёру самую грязную фразу.",
+        "Сделай партнёру эротический массаж спины (2 минуты).",
+        "Покажи, как бы ты соблазнял(а) партнёра в клубе.",
+        "Поцелуй партнёра так, будто вы одни в комнате.",
+        "Позволь партнёру снять с тебя одну вещь (по желанию).",
+        "Изобрази стон, который партнёр хочет услышать.",
+        "Лизни губы партнёра, как самое соблазнительное действие.",
+        "Скажи партнёру, что именно ты хочешь, чтобы он(а) сделал(а) с тобой.",
+        "Сядь на колени к партнёру и обними за шею.",
+        "Покажи самые горячие движения бёдрами.",
+        "Сделай партнёру «вампирский» укус в шею (нежно).",
+        "Прикоснись к самой чувствительной зоне партнёра (по договорённости).",
+        "Разреши партнёру сделать тебе массаж в любом месте (кроме интимных).",
+        "Соблазни партнёра только взглядом в течение 30 секунд.",
+        "Напиши пальцем на животе партнёра пошлое слово.",
+        "Попробуй снять с партнёра ремень/пояс одной рукой.",
+        "Скажи, что бы ты сделал(а) с партнёром, если бы вы были одни в спальне.",
+        "Позволь партнёру дать тебе поцелуй в любое место (кроме губ)."
+      ];
+
+      // ====== СОСТОЯНИЕ ======
+      let isAdultMode = false;
+      let usedTruthRegular = new Set();
+      let usedDareRegular = new Set();
+      let usedTruthAdult = new Set();
+      let usedDareAdult = new Set();
+
+      // Имена по умолчанию (обновляются)
+      let currentPlayer1 = "Партнёр 1";
+      let currentPlayer2 = "Партнёр 2";
+
+      // DOM элементы
+      const gameContainer = document.getElementById('gameContainer');
+      const toggleWrapper = document.getElementById('toggleWrapper');
+      const toggleSwitch = document.getElementById('toggleSwitch');
+      const toggleLabel = document.getElementById('toggleLabel');
+      const player1Input = document.getElementById('player1');
+      const player2Input = document.getElementById('player2');
+      const truthBtn = document.getElementById('truthBtn');
+      const dareBtn = document.getElementById('dareBtn');
+      const newPairBtn = document.getElementById('newPairBtn');
+      const questionCard = document.getElementById('questionCard');
+      const participant1Chip = document.getElementById('participant1Chip');
+      const participant2Chip = document.getElementById('participant2Chip');
+      const participantsMessage = document.getElementById('participantsMessage');
+
+      // ====== ФУНКЦИИ ======
+      function updateParticipantChips() {
+        participant1Chip.textContent = currentPlayer1 || 'Партнёр 1';
+        participant2Chip.textContent = currentPlayer2 || 'Партнёр 2';
+        if (isAdultMode) {
+          participant1Chip.classList.add('adult-chip');
+          participant2Chip.classList.add('adult-chip');
+        } else {
+          participant1Chip.classList.remove('adult-chip');
+          participant2Chip.classList.remove('adult-chip');
+        }
+      }
+
+      function setAdultMode(active) {
+        isAdultMode = active;
+        if (active) {
+          gameContainer.classList.add('adult-mode');
+          toggleWrapper.classList.add('adult-active');
+          toggleSwitch.classList.add('active');
+          toggleLabel.textContent = '🔞 18+ режим ВКЛ';
+          player1Input.classList.add('adult-field');
+          player2Input.classList.add('adult-field');
+          questionCard.classList.add('adult-card');
+        } else {
+          gameContainer.classList.remove('adult-mode');
+          toggleWrapper.classList.remove('adult-active');
+          toggleSwitch.classList.remove('active');
+          toggleLabel.textContent = '🔞 18+ режим';
+          player1Input.classList.remove('adult-field');
+          player2Input.classList.remove('adult-field');
+          questionCard.classList.remove('adult-card');
+        }
+        updateParticipantChips();
+      }
+
+      function toggleAdult() {
+        setAdultMode(!isAdultMode);
+      }
+
+      // Генерация случайного индекса из массива с учетом использованных
+      function getRandomUniqueIndex(usedSet, arrayLength) {
+        if (usedSet.size >= arrayLength) {
+          // Если все использованы — сбрасываем
+          usedSet.clear();
+        }
+        let availableIndices = [];
+        for (let i = 0; i < arrayLength; i++) {
+          if (!usedSet.has(i)) availableIndices.push(i);
+        }
+        if (availableIndices.length === 0) {
+          usedSet.clear();
+          availableIndices = Array.from({length: arrayLength}, (_, i) => i);
+        }
+        const randomIdx = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+        usedSet.add(randomIdx);
+        return randomIdx;
+      }
+
+      function getRandomText(category) {
+        // category: 'truth' или 'dare'
+        if (category === 'truth') {
+          if (isAdultMode) {
+            const idx = getRandomUniqueIndex(usedTruthAdult, truthAdult.length);
+            return truthAdult[idx];
+          } else {
+            const idx = getRandomUniqueIndex(usedTruthRegular, truthRegular.length);
+            return truthRegular[idx];
+          }
+        } else {
+          if (isAdultMode) {
+            const idx = getRandomUniqueIndex(usedDareAdult, dareAdult.length);
+            return dareAdult[idx];
+          } else {
+            const idx = getRandomUniqueIndex(usedDareRegular, dareRegular.length);
+            return dareRegular[idx];
+          }
+        }
+      }
+
+      function displayCard(text) {
+        questionCard.textContent = text;
+        questionCard.classList.add('active-card'); // для анимации (не обязательно)
+        // лёгкий эффект
+        questionCard.style.transform = 'scale(0.98)';
+        setTimeout(() => { questionCard.style.transform = 'scale(1)'; }, 100);
+      }
+
+      function updateNamesFromInputs() {
+        const p1 = player1Input.value.trim();
+        const p2 = player2Input.value.trim();
+        if (p1 !== '') currentPlayer1 = p1;
+        else currentPlayer1 = 'Партнёр 1';
+        if (p2 !== '') currentPlayer2 = p2;
+        else currentPlayer2 = 'Партнёр 2';
+        updateParticipantChips();
+        if (p1 === '' && p2 === '') {
+          participantsMessage.textContent = 'Введите имена участников (необязательно)';
+        } else {
+          participantsMessage.textContent = '';
+        }
+      }
+
+      // Обработчики
+      toggleSwitch.addEventListener('click', toggleAdult);
+      toggleSwitch.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleAdult();
+        }
+      });
+
+      truthBtn.addEventListener('click', () => {
+        updateNamesFromInputs();
+        const text = getRandomText('truth');
+        displayCard(text);
+      });
+
+      dareBtn.addEventListener('click', () => {
+        updateNamesFromInputs();
+        const text = getRandomText('dare');
+        displayCard(text);
+      });
+
+      newPairBtn.addEventListener('click', () => {
+        // сброс использованных карт (всегда уникальные в рамках сессии, но по желанию можно сбросить)
+        usedTruthRegular.clear();
+        usedDareRegular.clear();
+        usedTruthAdult.clear();
+        usedDareAdult.clear();
+        player1Input.value = '';
+        player2Input.value = '';
+        currentPlayer1 = 'Партнёр 1';
+        currentPlayer2 = 'Партнёр 2';
+        updateParticipantChips();
+        participantsMessage.textContent = 'Имена сброшены, карты обновлены ✨';
+        questionCard.textContent = 'Нажмите «Правда» или «Наказание»';
+        questionCard.classList.remove('adult-card');
+        if (isAdultMode) {
+          questionCard.classList.add('adult-card');
+        }
+        // сброс переключателя? нет, оставим режим
+      });
+
+      // автообновление имён при вводе
+      player1Input.addEventListener('input', updateNamesFromInputs);
+      player2Input.addEventListener('input', updateNamesFromInputs);
+
+      // инициализация
+      updateParticipantChips();
+      participantsMessage.textContent = 'Введите имена (можно позже)';
+
+      // Дополнительно: при загрузке сбрасываем все sets
+      window.addEventListener('load', () => {
+        usedTruthRegular.clear();
+        usedDareRegular.clear();
+        usedTruthAdult.clear();
+        usedDareAdult.clear();
+        setAdultMode(false);
+      });
+    })();
+  </script>
+</body>
+</html>
