@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Правда или Наказание · для компании</title>
@@ -41,6 +41,9 @@
       color: var(--text);
       position: relative;
       overflow: hidden;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     body::before {
@@ -111,6 +114,8 @@
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--primary) rgba(255, 255, 255, 0.05);
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
 
     .screen::-webkit-scrollbar { width: 4px; }
@@ -173,6 +178,7 @@
       -webkit-tap-highlight-color: transparent;
       position: relative;
       overflow: hidden;
+      touch-action: manipulation;
     }
 
     .btn::after {
@@ -478,6 +484,64 @@
       padding: 12px 14px;
     }
 
+    .welcome-content {
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+    }
+    .welcome-text {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .welcome-text p {
+      margin-bottom: 12px;
+    }
+    .welcome-text ul {
+      text-align: left;
+      padding-left: 25px;
+      margin-bottom: 12px;
+    }
+    .welcome-text li {
+      margin-bottom: 8px;
+      color: var(--text-soft);
+    }
+
+    .agreement-box {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      line-height: 1.7;
+      font-size: 0.9rem;
+    }
+    .agreement-box h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--primary-light);
+      font-size: 1.1rem;
+    }
+    .agreement-box ol {
+      text-align: left;
+      padding-left: 25px;
+    }
+    .agreement-box li {
+      margin-bottom: 10px;
+      color: var(--text-soft);
+    }
+
     @media (max-width: 480px) {
       .screen { padding: 20px 15px; }
       .app-title { font-size: 1.5rem; }
@@ -485,6 +549,8 @@
       .btn { padding: 12px 15px; font-size: 0.85rem; max-width: 350px; }
       .mode-card { min-width: 100px; padding: 14px 10px; }
       .mode-icon { font-size: 1.8rem; }
+      .welcome-text { font-size: 0.85rem; padding: 15px; }
+      .agreement-box { font-size: 0.8rem; padding: 15px; }
     }
   </style>
 </head>
@@ -503,7 +569,51 @@
   </div>
 
   <div class="app">
-    <div id="screen-players" class="screen active">
+    <!-- ЭКРАН ПРИВЕТСТВИЯ -->
+    <div id="screen-welcome" class="screen active">
+      <div class="welcome-content">
+        <h1 class="app-title">✨ Добро пожаловать!</h1>
+        <p class="app-subtitle">Игра «Правда или Наказание»</p>
+        <div class="welcome-text">
+          <p>Привет! Этот сайт создан одним человеком. Если бы вы поделились им с другими, было бы здорово — разработчик понял бы, что ему стоит развиваться дальше!</p>
+          <p><strong>Что вас ждёт дальше?</strong></p>
+          <ul>
+            <li>💖 <strong>Обычный режим</strong> — для компаний и весёлых вечеринок</li>
+            <li>🔥 <strong>18+ режим</strong> — для пар, которые хотят добавить огонька</li>
+            <li>🔒 <strong>Секретный режим</strong> — для близких людей в отношениях</li>
+          </ul>
+          <p><strong>Плюсы игры:</strong></p>
+          <ul>
+            <li>✅ Более 2000 уникальных вопросов и заданий</li>
+            <li>✅ Умная генерация без повторов</li>
+            <li>✅ До 10 игроков одновременно</li>
+            <li>✅ Красивый дизайн с прозрачным фоном</li>
+            <li>✅ Сохранение прогресса</li>
+            <li>✅ Полностью бесплатно</li>
+          </ul>
+        </div>
+        <button class="btn btn-primary" onclick="showScreen('screen-agreement')">Попробовать игру</button>
+      </div>
+    </div>
+
+    <!-- ЭКРАН СОГЛАШЕНИЯ -->
+    <div id="screen-agreement" class="screen">
+      <div class="agreement-box">
+        <h3>📋 Соглашение</h3>
+        <p style="text-align: center; margin-bottom: 15px; color: var(--text-soft);">Нажимая кнопку ниже «Согласиться», вы соглашаетесь с правилами использования сайта, а именно:</p>
+        <ol>
+          <li>Вы сами отвечаете за действия, которые будут предложены сайтом.</li>
+          <li>Вы добровольно играете в эту игру, не под воздействием третьих лиц.</li>
+          <li>Я готов(а) весело провести время.</li>
+          <li>Я соглашаюсь с cookie-файлами сайта.</li>
+        </ol>
+      </div>
+      <button class="btn btn-primary" onclick="goToPlayers()">Согласиться</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">← Назад</button>
+    </div>
+
+    <!-- ЭКРАН ИГРОКОВ -->
+    <div id="screen-players" class="screen">
       <h1 class="app-title">✨ Правда или Наказание</h1>
       <p class="app-subtitle">Добавьте игроков (от 2 до 10)</p>
       <div id="players-container"></div>
@@ -511,6 +621,7 @@
       <button class="btn btn-primary" style="margin-top: 16px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
     </div>
 
+    <!-- ЭКРАН РЕЖИМОВ -->
     <div id="screen-mode" class="screen">
       <button class="btn-back" onclick="showScreen('screen-players')">← Назад</button>
       <h1 class="app-title">Выберите режим</h1>
@@ -532,6 +643,7 @@
       <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить</button>
     </div>
 
+    <!-- ЭКРАН ИГРЫ -->
     <div id="screen-game" class="screen">
       <div class="game-header">
         <div class="turn-indicator">
@@ -554,7 +666,7 @@
   </div>
 
   <script>
-    // ====== БАЗА ВОПРОСОВ (стабильная, все на русском) ======
+    // ====== БАЗА ВОПРОСОВ ======
     const questionBank = {
       regular: {
         truth: [
@@ -792,7 +904,7 @@
       }
     }
 
-    // ====== ГЕНЕРАЦИЯ (стабильная) ======
+    // ====== ГЕНЕРАЦИЯ ======
     function generateCard(type) {
       const questions = questionBank[gameState.mode][type];
       const otherName = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
@@ -880,6 +992,14 @@
       document.getElementById('btn-players-next').disabled = !valid;
     }
 
+    function goToPlayers() {
+      if (gameState.players.length === 0) {
+        addPlayer();
+        addPlayer();
+      }
+      showScreen('screen-players');
+    }
+
     function goToMode() {
       saveState();
       showScreen('screen-mode');
@@ -948,6 +1068,7 @@
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
+      document.getElementById(id).scrollTop = 0;
     }
 
     function resetAll() {
@@ -964,14 +1085,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (loadState() && gameState.players.length > 0) {
-        renderPlayers();
-        updateNextButton();
-        showScreen('screen-players');
-      } else {
+      showScreen('screen-welcome');
+      if (gameState.players.length === 0) {
         addPlayer();
         addPlayer();
-        showScreen('screen-players');
       }
     });
   </script>
