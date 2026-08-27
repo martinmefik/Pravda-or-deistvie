@@ -259,6 +259,70 @@
     .mode-icon { font-size: 2.2rem; margin-bottom: 6px; }
     .mode-name { font-weight: 600; font-size: 1rem; }
 
+    .secret-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 5px 10px;
+      font-size: 0.6rem;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+    .secret-btn:hover { color: rgba(255,255,255,0.4); }
+
+    .password-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .password-modal.active { display: flex; }
+    .password-box {
+      background: rgba(20, 12, 28, 0.9);
+      border: 2px solid rgba(255, 77, 125, 0.5);
+      border-radius: 20px;
+      padding: 30px 25px;
+      max-width: 350px;
+      width: 90%;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .password-box h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #ff4d7d;
+    }
+    .password-box input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 15px;
+      text-align: center;
+      letter-spacing: 3px;
+    }
+    .password-box input:focus {
+      border-color: #ff4d7d;
+      box-shadow: 0 0 15px rgba(255, 77, 125, 0.3);
+    }
+    .password-box .btn {
+      max-width: 100%;
+    }
+
     .player-input-row {
       display: flex;
       gap: 8px;
@@ -426,6 +490,18 @@
 </head>
 <body>
   <div class="gradient-overlay"></div>
+  
+  <!-- Модальное окно пароля -->
+  <div class="password-modal" id="passwordModal">
+    <div class="password-box">
+      <h3>🔒 Секретный режим</h3>
+      <input type="password" id="passwordInput" placeholder="Введите пароль" maxlength="20">
+      <button class="btn btn-primary" onclick="checkPassword()">Войти</button>
+      <button class="btn btn-secondary" onclick="closePasswordModal()">Отмена</button>
+      <p id="passwordError" style="color: #ff4d7d; font-size: 0.8rem; margin-top: 10px; display: none;">Неверный пароль!</p>
+    </div>
+  </div>
+
   <div class="app">
     <div id="screen-players" class="screen active">
       <h1 class="app-title">✨ Правда или Наказание</h1>
@@ -449,6 +525,7 @@
           <div class="mode-name">18+</div>
         </div>
       </div>
+      <button class="secret-btn" onclick="openPasswordModal()">•••</button>
       <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить</button>
     </div>
 
@@ -474,14 +551,13 @@
   </div>
 
   <script>
-    // ====== УМНАЯ АВТОГЕНЕРАЦИЯ ======
+    // ====== УМНАЯ АВТОГЕНЕРАЦИЯ (русские фразы) ======
     const smartGenerator = {
       regular: {
         truth: {
           templates: [
             {
-              pattern: "Что ты чувствуешь, когда {subject} {verb}?",
-              subjects: ["{name}", "ты"],
+              pattern: "Что ты чувствуешь, когда {name} {verb}?",
               verbs: [
                 "смотрит тебе в глаза", "улыбается тебе", "обнимает тебя",
                 "держит тебя за руку", "шепчет тебе на ухо", "гладит тебя по волосам",
@@ -490,8 +566,7 @@
               ]
             },
             {
-              pattern: "Что для тебя значит, когда {subject} {verb}?",
-              subjects: ["{name}", "ты"],
+              pattern: "Что для тебя значит, когда {name} {verb}?",
               verbs: [
                 "рядом", "поддерживает тебя", "верит в тебя", "понимает тебя",
                 "прощает тебя", "ждёт тебя", "скучает по тебе", "гордится тобой",
@@ -499,31 +574,31 @@
               ]
             },
             {
-              pattern: "Что бы ты сделал(а), если бы {situation}?",
+              pattern: "Что бы ты сделал(а), если бы {name} {situation}?",
               situations: [
-                "{name} было грустно", "{name} заболел(а)", "{name} уехал(а) надолго",
-                "{name} потерял(а) что-то важное", "{name} получил(а) повышение",
-                "{name} выиграл(а) в лотерею", "{name} испугался(лась)",
-                "{name} нуждался(лась) в помощи", "{name} забыл(а) про важную дату",
-                "{name} приготовил(а) тебе сюрприз", "{name} признался(лась) в любви"
+                "было грустно", "заболел(а)", "уехал(а) надолго",
+                "потерял(а) что-то важное", "получил(а) повышение",
+                "выиграл(а) в лотерею", "испугался(лась)",
+                "нуждался(лась) в помощи", "забыл(а) про важную дату",
+                "приготовил(а) тебе сюрприз", "признался(лась) в любви"
               ]
             },
             {
-              pattern: "Как ты понимаешь, что {statement}?",
+              pattern: "Как ты понимаешь, что {name} {statement}?",
               statements: [
-                "{name} тебя любит", "{name} тебе доверяет", "{name} тобой гордится",
-                "{name} по тебе скучает", "{name} тебя ценит", "{name} тебя уважает",
-                "{name} тебя ревнует", "{name} тебя простил(а)", "{name} тебе благодарен(на)",
-                "{name} тебя хочет видеть", "{name} тебе рад(а)", "{name} тебя ждёт"
+                "тебя любит", "тебе доверяет", "тобой гордится",
+                "по тебе скучает", "тебя ценит", "тебя уважает",
+                "тебя ревнует", "тебя простил(а)", "тебе благодарен(на)",
+                "тебя хочет видеть", "тебе рад(а)", "тебя ждёт"
               ]
             },
             {
-              pattern: "Что тебя больше всего привлекает в {aspect}?",
+              pattern: "Что тебя больше всего привлекает в {aspect} {name}?",
               aspects: [
-                "характере {name}", "внешности {name}", "улыбке {name}",
-                "голосе {name}", "походке {name}", "чувстве юмора {name}",
-                "интеллекте {name}", "доброте {name}", "заботе {name}",
-                "внимании {name}", "надёжности {name}", "честности {name}"
+                "характере", "внешности", "улыбке",
+                "голосе", "походке", "чувстве юмора",
+                "интеллекте", "доброте", "заботе",
+                "внимании", "надёжности", "честности"
               ]
             },
             {
@@ -540,14 +615,6 @@
                 "сделать", "попробовать", "узнать", "обсудить",
                 "спланировать", "построить", "создать", "пережить",
                 "разделить", "открыть", "исследовать", "достичь"
-              ]
-            },
-            {
-              pattern: "Как {name} {verb} на твою жизнь?",
-              verbs: [
-                "влияет", "воздействует", "меняет", "улучшает",
-                "вдохновляет", "обогащает", "наполняет", "украшает",
-                "преображает", "дополняет", "развивает", "поддерживает"
               ]
             }
           ]
@@ -582,8 +649,7 @@
               actions: [
                 "как сильно ты его/её любишь", "что ты о нём/ней думаешь",
                 "свою лучшую улыбку", "свой лучший танец", "что ты умеешь",
-                "что ты ценишь его/её", "что ты готов(а) на всё",
-                "что ты скучал(а)", "что ты рад(а) его/её видеть"
+                "что ты ценишь его/её", "что ты готов(а) на всё"
               ]
             },
             {
@@ -591,8 +657,7 @@
               phrases: [
                 "«ты моё всё»", "«я тебя люблю»", "«спасибо, что ты есть»",
                 "«ты моя радость»", "«я скучал(а) по тебе»", "«ты мой мир»",
-                "«ты моё счастье»", "«ты моя судьба»", "«ты мой ангел»",
-                "«ты моя жизнь»"
+                "«ты моё счастье»", "«ты моя судьба»", "«ты мой ангел»"
               ]
             }
           ]
@@ -602,11 +667,11 @@
         truth: {
           templates: [
             {
-              pattern: "Что тебя больше всего возбуждает в {aspect}?",
+              pattern: "Что тебя больше всего возбуждает в {name}?",
               aspects: [
-                "{name}", "теле {name}", "голосе {name}", "запахе {name}",
-                "прикосновениях {name}", "поцелуях {name}", "взгляде {name}",
-                "движениях {name}", "стонах {name}", "фантазиях о {name}"
+                "Что тебя больше всего возбуждает в {name}?",
+                "Что тебе нравится в теле {name}?",
+                "Что тебя заводит в {name} больше всего?"
               ]
             },
             {
@@ -614,8 +679,7 @@
               variants: [
                 "Какая твоя самая смелая фантазия с {name}?",
                 "Какая твоя тайная фантазия о {name}?",
-                "Какая твоя грязная фантазия про {name}?",
-                "Какая твоя эротическая мечта с {name}?"
+                "Какая твоя грязная фантазия про {name}?"
               ]
             },
             {
@@ -633,8 +697,7 @@
                 "сделал(а) языком", "сделал(а) руками", "сделал(а) губами",
                 "сделал(а) с твоей шеей", "сделал(а) с твоей грудью",
                 "сделал(а) с твоими бёдрами", "сделал(а) с твоей попой",
-                "сделал(а) с твоими гениталиями", "прошептал(а) тебе",
-                "снял(а) с тебя"
+                "прошептал(а) тебе", "снял(а) с тебя"
               ]
             },
             {
@@ -646,8 +709,7 @@
                 ["нежный", "грубый"],
                 ["сверху", "снизу"],
                 ["целует", "кусает"],
-                ["гладит", "царапает"],
-                ["смотрит в глаза", "закрывает глаза"]
+                ["гладит", "царапает"]
               ]
             },
             {
@@ -655,15 +717,7 @@
               actions: [
                 "тебя соблазнять", "тебя целовать", "тебя ласкать",
                 "тебя трогать", "тебя раздевать", "тебя возбуждать",
-                "тебя удовлетворять", "тебя удивлять в постели",
-                "делать тебе минет/куни", "доводить тебя до оргазма"
-              ]
-            },
-            {
-              pattern: "Что для тебя идеальная {thing} с {name}?",
-              things: [
-                "ночь страсти", "прелюдия", "близость", "интимная игра",
-                "романтическая встреча", "сексуальная фантазия", "эротическая сцена"
+                "тебя удовлетворять", "делать тебе минет/куни"
               ]
             }
           ]
@@ -676,8 +730,7 @@
               targets: [
                 "{name} в губы", "{name} в шею", "{name} в ухо", "{name} в грудь",
                 "{name} в живот", "{name} в спину", "{name} в бёдра",
-                "{name} в ключицу", "{name} в запястье", "{name} в плечо",
-                "тело {name}", "волосы {name}", "колени {name}", "ступни {name}"
+                "{name} в ключицу", "тело {name}", "волосы {name}"
               ],
               manners: ["страстно", "нежно", "медленно", "игриво", "дерзко", "чувственно"]
             },
@@ -685,8 +738,7 @@
               pattern: "Сними с {name} {item}",
               items: [
                 "одну деталь одежды", "рубашку", "штаны", "юбку", "платье",
-                "нижнее бельё", "бюстгальтер", "трусы", "носки", "ремень",
-                "обувь", "украшения"
+                "нижнее бельё", "бюстгальтер", "трусы", "ремень"
               ]
             },
             {
@@ -694,29 +746,143 @@
               actions: [
                 "эротический массаж", "массаж бёдер", "массаж спины",
                 "массаж груди", "массаж ягодиц", "массаж внутренней части бедра",
-                "массаж ступней", "массаж шеи", "массаж рук"
+                "массаж ступней", "массаж шеи"
               ]
             },
             {
               pattern: "Прошепчи {name} на ухо: {phrase}",
               phrases: [
                 "что ты его/её хочешь", "грязную фразу", "что ты хочешь с ним/ней сделать",
-                "что он(а) сексуальный(ая)", "что тебе нравится в его/её теле",
-                "что ты мечтаешь о нём/ней", "что ты хочешь его/её прямо сейчас"
+                "что он(а) сексуальный(ая)", "что тебе нравится в его/её теле"
               ]
             },
             {
               pattern: "Соблазни {name} {manner}",
               manners: [
                 "взглядом", "улыбкой", "движениями", "танцем", "походкой",
-                "прикосновением", "шёпотом", "жестом", "позой", "намёком"
+                "прикосновением", "шёпотом", "жестом"
               ]
             },
             {
               pattern: "Сядь {position} к {name}",
               positions: [
                 "на колени", "сверху", "на бёдра", "рядом", "на живот",
-                "на грудь", "на лицо", "на попу", "на ноги", "на руки"
+                "на грудь", "на лицо", "на попу"
+              ]
+            }
+          ]
+        }
+      },
+      secret: {
+        truth: {
+          templates: [
+            {
+              pattern: "Как ты хочешь, чтобы {name} сделал(а) тебе минет?",
+              variants: [
+                "Как ты хочешь, чтобы {name} сделал(а) тебе минет?",
+                "Что тебе нравится, когда {name} делает тебе минет?",
+                "Как {name} должен(на) сосать твой член?"
+              ]
+            },
+            {
+              pattern: "Что ты хочешь, чтобы {name} делал(а) языком с твоим клитором/членом?",
+              variants: [
+                "Что ты хочешь, чтобы {name} делал(а) языком с твоим клитором?",
+                "Как {name} должен(на) лизать твой член?",
+                "Что тебе нравится, когда {name} лижет тебя?"
+              ]
+            },
+            {
+              pattern: "Как {name} должен(на) делать тебе куни?",
+              variants: [
+                "Как {name} должен(на) делать тебе куни?",
+                "Что тебе нравится, когда {name} делает тебе куни?",
+                "Как {name} должен(на) лизать твой клитор?"
+              ]
+            },
+            {
+              pattern: "Что тебя возбуждает в оральном сексе с {name}?",
+              variants: [
+                "Что тебя возбуждает в оральном сексе с {name}?",
+                "Что тебе нравится в минете от {name}?",
+                "Что тебе нравится в куни от {name}?"
+              ]
+            },
+            {
+              pattern: "Как {name} должен(на) сосать твой член/клитор?",
+              variants: [
+                "Как {name} должен(на) сосать твой член?",
+                "Как {name} должен(на) сосать твой клитор?",
+                "Что тебе нравится, когда {name} сосёт?"
+              ]
+            },
+            {
+              pattern: "Что ты хочешь, чтобы {name} делал(а) с твоей спермой/соками?",
+              variants: [
+                "Что ты хочешь, чтобы {name} делал(а) с твоей спермой?",
+                "Что ты хочешь, чтобы {name} делал(а) с твоими соками?",
+                "Что тебе нравится, когда {name} глотает?"
+              ]
+            },
+            {
+              pattern: "Как {name} должен(на) делать тебе глубокий минет?",
+              variants: [
+                "Как {name} должен(на) делать тебе глубокий минет?",
+                "Что тебе нравится в глубоком минете от {name}?",
+                "Как {name} должен(на) брать глубоко?"
+              ]
+            },
+            {
+              pattern: "Что ты хочешь, чтобы {name} делал(а) с твоими яйцами/половыми губами?",
+              variants: [
+                "Что ты хочешь, чтобы {name} делал(а) с твоими яйцами?",
+                "Что ты хочешь, чтобы {name} делал(а) с твоими половыми губами?",
+                "Как {name} должен(на) ласкать твои гениталии?"
+              ]
+            }
+          ]
+        },
+        dare: {
+          templates: [
+            {
+              pattern: "Сделай {name} {action}",
+              actions: [
+                "минет", "куни", "глубокий минет", "минет с рукой",
+                "куни с пальцами", "минет до конца", "куни до оргазма",
+                "минет с глотанием", "куни с вылизыванием"
+              ]
+            },
+            {
+              pattern: "{action} {target} {manner}",
+              actions: ["Лизни", "Пососи", "Покусай", "Оближи", "Поцелуй"],
+              targets: [
+                "член {name}", "клитор {name}", "яйца {name}",
+                "половые губы {name}", "головку члена {name}",
+                "промежность {name}", "анус {name}"
+              ],
+              manners: ["страстно", "медленно", "глубоко", "нежно", "интенсивно"]
+            },
+            {
+              pattern: "Доведи {name} до оргазма {manner}",
+              manners: [
+                "ртом", "языком", "руками", "пальцами",
+                "губами", "с помощью минета", "с помощью куни"
+              ]
+            },
+            {
+              pattern: "Сядь {position} и сделай {name} {action}",
+              positions: [
+                "на лицо", "сверху", "на колени", "рядом"
+              ],
+              actions: [
+                "минет", "куни", "глубокий минет", "куни с пальцами"
+              ]
+            },
+            {
+              pattern: "Прошепчи {name} во время минета/куни: {phrase}",
+              phrases: [
+                "что хочешь его/её", "что тебе нравится", "что он(а) лучше всех",
+                "чтобы не останавливался(лась)", "что ты сейчас кончишь"
               ]
             }
           ]
@@ -734,6 +900,30 @@
       usedCards: { truth: new Set(), dare: new Set() },
       currentCardType: null
     };
+
+    // ====== ПАРОЛЬ ======
+    function openPasswordModal() {
+      document.getElementById('passwordModal').classList.add('active');
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('passwordError').style.display = 'none';
+      document.getElementById('passwordInput').focus();
+    }
+
+    function closePasswordModal() {
+      document.getElementById('passwordModal').classList.remove('active');
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === 'secret18') {
+        gameState.mode = 'secret';
+        document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+        closePasswordModal();
+        goToGame();
+      } else {
+        document.getElementById('passwordError').style.display = 'block';
+      }
+    }
 
     // ====== ФУНКЦИЯ ГЕНЕРАЦИИ ======
     function generateSmartCard(type) {
@@ -755,6 +945,8 @@
           text = template.pattern
             .replace('{action1}', pair[0])
             .replace('{action2}', pair[1]);
+        } else if (template.aspects) {
+          text = template.aspects[Math.floor(Math.random() * template.aspects.length)];
         } else {
           text = template.pattern;
           const keys = Object.keys(template).filter(k => k !== 'pattern' && Array.isArray(template[k]));
@@ -873,7 +1065,7 @@
     }
 
     function skipCard() {
-      if (gameState.skipCount >= gameState.maxSkips - 1 && gameState.mode === 'adult' && gameState.currentCardType === 'dare') {
+      if (gameState.skipCount >= gameState.maxSkips - 1 && gameState.mode !== 'regular' && gameState.currentCardType === 'dare') {
         const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
         document.getElementById('card-text').textContent = `🔥 СУПЕР-ЗАДАНИЕ! Сделай ${other} минет или куни!`;
         document.getElementById('card-text').className = 'card super-task';
