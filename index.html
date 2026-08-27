@@ -129,7 +129,7 @@
       background: transparent;
       border: none;
       border-radius: 0;
-      padding: 20px 15px;
+      padding: 15px 12px;
       box-shadow: none;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
@@ -145,7 +145,7 @@
     .screen::-webkit-scrollbar-track { background: transparent; }
     .screen::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 15px; }
+    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px) scale(0.95); }
@@ -153,7 +153,7 @@
     }
 
     .app-title {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       text-align: center;
       margin-bottom: 4px;
@@ -176,8 +176,8 @@
     .app-subtitle {
       text-align: center;
       color: var(--text-soft);
-      margin-bottom: 12px;
-      font-size: 0.85rem;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
       letter-spacing: 0.5px;
       flex-shrink: 0;
     }
@@ -185,17 +185,17 @@
     .btn {
       display: block;
       width: 100%;
-      max-width: 380px;
-      padding: 12px 18px;
+      max-width: 360px;
+      padding: 11px 16px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.5px;
       border: none;
       cursor: pointer;
       transition: all var(--transition);
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
@@ -245,14 +245,14 @@
     .btn-back {
       display: inline-block;
       width: auto;
-      padding: 6px 12px;
-      font-size: 0.75rem;
+      padding: 6px 10px;
+      font-size: 0.7rem;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: var(--text-soft);
       cursor: pointer;
       border-radius: 30px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       transition: all var(--transition);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -263,21 +263,21 @@
 
     .mode-grid {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       justify-content: center;
       flex-shrink: 0;
-      max-width: 550px;
+      max-width: 500px;
     }
     .mode-card {
       flex: 1;
-      min-width: 90px;
-      max-width: 130px;
-      padding: 10px 8px;
+      min-width: 80px;
+      max-width: 110px;
+      padding: 8px 6px;
       background: rgba(255, 255, 255, 0.05);
       border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
+      border-radius: 12px;
       text-align: center;
       cursor: pointer;
       transition: all var(--transition);
@@ -303,8 +303,8 @@
       background: rgba(255, 77, 125, 0.15);
       box-shadow: 0 0 20px rgba(255, 77, 125, 0.25);
     }
-    .mode-icon { font-size: 1.5rem; margin-bottom: 3px; }
-    .mode-name { font-weight: 600; font-size: 0.7rem; }
+    .mode-icon { font-size: 1.3rem; margin-bottom: 2px; }
+    .mode-name { font-weight: 600; font-size: 0.65rem; }
 
     .password-modal {
       display: none;
@@ -323,28 +323,28 @@
       background: rgba(20, 12, 28, 0.9);
       border: 2px solid rgba(255, 77, 125, 0.5);
       border-radius: 20px;
-      padding: 25px 20px;
-      max-width: 320px;
+      padding: 20px 15px;
+      max-width: 300px;
       width: 90%;
       text-align: center;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
     .password-box h3 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
       color: #ff4d7d;
     }
     .password-box input {
       width: 100%;
-      padding: 10px 14px;
+      padding: 10px 12px;
       background: rgba(255,255,255,0.05);
       border: 2px solid rgba(255,255,255,0.15);
       border-radius: 12px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       outline: none;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       text-align: center;
       letter-spacing: 3px;
     }
@@ -355,10 +355,10 @@
 
     .player-input-row {
       display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 6px;
       align-items: center;
-      max-width: 350px;
+      max-width: 320px;
       width: 100%;
       margin-left: auto;
       margin-right: auto;
@@ -366,12 +366,12 @@
     }
     .player-input-row input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 9px 12px;
       background: rgba(255, 255, 255, 0.05);
       border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
+      border-radius: 12px;
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       outline: none;
       transition: all var(--transition);
       backdrop-filter: blur(10px);
@@ -380,14 +380,14 @@
     }
     .player-input-row input:focus { border-color: #ff9ff3; box-shadow: 0 0 15px rgba(255, 159, 243, 0.2); }
     .player-input-row .remove-btn {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.05);
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -403,14 +403,14 @@
     .add-player-btn {
       display: inline-block;
       width: auto;
-      padding: 8px 16px;
-      font-size: 0.8rem;
+      padding: 6px 12px;
+      font-size: 0.75rem;
       background: rgba(255, 255, 255, 0.04);
       border: 2px dashed rgba(255, 255, 255, 0.2);
       color: var(--text-soft);
       cursor: pointer;
       border-radius: 30px;
-      margin-top: 4px;
+      margin-top: 3px;
       transition: all var(--transition);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -422,29 +422,29 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
       gap: 6px;
-      max-width: 480px;
+      max-width: 450px;
       width: 100%;
       flex-shrink: 0;
     }
     .turn-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       background: rgba(255, 159, 243, 0.1);
-      padding: 6px 10px;
-      border-radius: 18px;
+      padding: 5px 8px;
+      border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
     .turn-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: #ff9ff3;
       box-shadow: 0 0 6px #ff9ff3;
@@ -455,27 +455,27 @@
       50% { transform: scale(1.3); }
     }
     .skip-counter {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--text-soft);
       background: rgba(255, 255, 255, 0.05);
-      padding: 4px 8px;
-      border-radius: 12px;
+      padding: 3px 6px;
+      border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
 
     .timer-display {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 800;
       text-align: center;
-      padding: 4px 12px;
-      border-radius: 16px;
+      padding: 3px 10px;
+      border-radius: 14px;
       background: rgba(255, 209, 102, 0.15);
       border: 2px solid rgba(255, 209, 102, 0.4);
       color: var(--accent);
-      margin-bottom: 8px;
-      min-width: 60px;
+      margin-bottom: 6px;
+      min-width: 50px;
       flex-shrink: 0;
     }
     .timer-display.urgent {
@@ -493,20 +493,20 @@
       background: rgba(255, 255, 255, 0.05);
       border: 2px solid rgba(255, 255, 255, 0.15);
       border-radius: var(--radius-sm);
-      padding: 14px 12px;
-      margin: 8px 0;
+      padding: 12px 10px;
+      margin: 6px 0;
       text-align: center;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 500;
-      line-height: 1.5;
-      min-height: 70px;
+      line-height: 1.4;
+      min-height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
       letter-spacing: 0.3px;
       word-wrap: break-word;
       transition: all var(--transition);
-      max-width: 480px;
+      max-width: 450px;
       width: 100%;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -524,133 +524,129 @@
     }
     .action-buttons {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       flex-wrap: wrap;
-      margin-top: 6px;
-      max-width: 480px;
+      margin-top: 5px;
+      max-width: 450px;
       width: 100%;
       justify-content: center;
       flex-shrink: 0;
     }
     .action-buttons .btn {
       flex: 1;
-      min-width: 90px;
-      max-width: 160px;
+      min-width: 80px;
+      max-width: 140px;
       margin-bottom: 0;
-      font-size: 0.7rem;
-      padding: 9px 10px;
+      font-size: 0.65rem;
+      padding: 8px 8px;
     }
 
     .welcome-content {
-      max-width: 480px;
+      max-width: 450px;
       width: 100%;
       text-align: center;
-      padding: 10px;
+      padding: 5px;
     }
     .welcome-text {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 8px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      line-height: 1.5;
-      font-size: 0.8rem;
-      max-height: 35vh;
-      overflow-y: auto;
+      line-height: 1.4;
+      font-size: 0.7rem;
     }
     .welcome-text p {
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
     .welcome-text ul {
       text-align: left;
-      padding-left: 18px;
-      margin-bottom: 8px;
+      padding-left: 15px;
+      margin-bottom: 5px;
     }
     .welcome-text li {
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       color: var(--text-soft);
-      font-size: 0.75rem;
+      font-size: 0.65rem;
     }
 
     .ios-instruction {
       background: rgba(255, 209, 102, 0.1);
       border: 1px solid rgba(255, 209, 102, 0.3);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 8px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       text-align: left;
       flex-shrink: 0;
     }
     .ios-instruction h4 {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       text-align: center;
     }
     .ios-instruction ol {
-      padding-left: 18px;
-      font-size: 0.75rem;
+      padding-left: 15px;
+      font-size: 0.65rem;
       color: var(--text-soft);
-      line-height: 1.6;
+      line-height: 1.4;
     }
     .ios-instruction li {
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .agreement-box {
-      max-width: 480px;
+      max-width: 450px;
       width: 100%;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 8px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      line-height: 1.5;
-      font-size: 0.8rem;
-      max-height: 40vh;
-      overflow-y: auto;
+      line-height: 1.4;
+      font-size: 0.7rem;
     }
     .agreement-box h3 {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       color: var(--primary-light);
-      font-size: 0.95rem;
+      font-size: 0.85rem;
     }
     .agreement-box ol {
       text-align: left;
-      padding-left: 18px;
+      padding-left: 15px;
     }
     .agreement-box li {
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       color: var(--text-soft);
-      font-size: 0.75rem;
+      font-size: 0.65rem;
     }
 
     .settings-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-      max-width: 380px;
+      gap: 8px;
+      margin-bottom: 6px;
+      max-width: 320px;
       width: 100%;
       flex-shrink: 0;
     }
     .settings-label {
       flex: 1;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-soft);
     }
     .toggle-switch {
-      width: 45px;
-      height: 25px;
+      width: 40px;
+      height: 22px;
       background: rgba(255,255,255,0.15);
-      border-radius: 13px;
+      border-radius: 11px;
       cursor: pointer;
       position: relative;
       transition: all 0.3s;
@@ -662,68 +658,67 @@
     .toggle-switch::after {
       content: '';
       position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 19px;
-      height: 19px;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
       background: #fff;
       border-radius: 50%;
       transition: all 0.3s;
     }
     .toggle-switch.active::after {
-      left: 23px;
+      left: 20px;
     }
 
     .stats-box {
-      max-width: 380px;
+      max-width: 400px;
       width: 100%;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 8px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       text-align: center;
       flex-shrink: 0;
     }
     .stats-box h4 {
-      margin-bottom: 8px;
-      font-size: 0.85rem;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
       color: var(--text-soft);
     }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-    .stat-item {
-      background: rgba(255, 255, 255, 0.05);
+    .player-stats {
+      background: rgba(255, 255, 255, 0.03);
       border-radius: 8px;
       padding: 6px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
     }
-    .stat-value {
-      font-size: 1rem;
-      font-weight: 700;
+    .player-stats-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .player-stats-value {
       color: var(--primary-light);
-    }
-    .stat-label {
-      font-size: 0.6rem;
-      color: var(--text-muted);
+      font-weight: 700;
     }
 
     @media (min-width: 768px) {
-      .screen.active { padding-top: 30px; }
-      .app-title { font-size: 2rem; }
-      .welcome-text { font-size: 0.9rem; max-height: 50vh; }
-      .welcome-text li { font-size: 0.85rem; }
-      .ios-instruction { font-size: 0.85rem; }
-      .ios-instruction ol { font-size: 0.85rem; }
-      .mode-card { min-width: 110px; max-width: 150px; padding: 14px 10px; }
-      .mode-icon { font-size: 1.8rem; }
-      .mode-name { font-size: 0.8rem; }
-      .btn { max-width: 400px; font-size: 0.9rem; }
-      .card { font-size: 1.05rem; }
+      .screen.active { padding: 20px; }
+      .app-title { font-size: 1.8rem; }
+      .welcome-text { font-size: 0.8rem; }
+      .welcome-text li { font-size: 0.75rem; }
+      .ios-instruction { font-size: 0.8rem; }
+      .ios-instruction ol { font-size: 0.75rem; }
+      .mode-card { min-width: 100px; max-width: 130px; padding: 10px 8px; }
+      .mode-icon { font-size: 1.5rem; }
+      .mode-name { font-size: 0.7rem; }
+      .btn { max-width: 380px; font-size: 0.85rem; }
+      .card { font-size: 1rem; }
     }
   </style>
 </head>
@@ -741,6 +736,15 @@
     </div>
   </div>
 
+  <!-- Модальное окно статистики -->
+  <div class="password-modal" id="statsModal">
+    <div class="password-box" style="max-width: 400px; max-height: 80vh; overflow-y: auto;">
+      <h3>📊 Статистика игры</h3>
+      <div id="statsModalContent"></div>
+      <button class="btn btn-primary" onclick="closeStatsModal()">Понятно</button>
+    </div>
+  </div>
+
   <div class="app">
     <!-- ЭКРАН ПРИВЕТСТВИЯ -->
     <div id="screen-welcome" class="screen active">
@@ -750,36 +754,37 @@
         
         <div class="ios-instruction">
           <h4>📱 Добавить на рабочий стол (iOS)</h4>
-          <p style="font-size: 0.75rem; margin-bottom: 6px; color: var(--text-soft);">Чтобы не потерять эту игру, добавьте её к себе на рабочий стол:</p>
           <ol>
-            <li>Нажмите <strong>3 точки</strong> (в браузере Safari)</li>
+            <li>Нажмите <strong>3 точки</strong> (Safari)</li>
             <li>Выберите <strong>«Поделиться»</strong></li>
-            <li>Чуть ниже найдите <strong>«Добавить на экран "Домой"»</strong></li>
+            <li>Найдите <strong>«Добавить на экран "Домой"»</strong></li>
             <li>Готово! Игра всегда под рукой!</li>
           </ol>
-          <p style="font-size: 0.7rem; margin-top: 6px; color: var(--text-muted);">🤖 Версия для Android выйдет чуть позже!</p>
+          <p style="font-size: 0.6rem; text-align: center; margin-top: 4px;">🤖 Android версия скоро!</p>
         </div>
         
         <div class="welcome-text">
-          <p>Привет! Этот сайт создан одним человеком. Если бы вы поделились им с другими, было бы здорово — разработчик понял бы, что ему стоит развиваться дальше!</p>
-          <p><strong>Что вас ждёт:</strong></p>
+          <p>Привет! Этот сайт создан одним человеком. Поделитесь им с друзьями — это лучшая поддержка!</p>
+          <p><strong>Режимы:</strong></p>
           <ul>
-            <li>💖 Обычный — для компаний и вечеринок</li>
-            <li>🔥 18+ — для пар, которые хотят огонька</li>
-            <li>🔒 Секретный — для близких людей (пароль: secret18)</li>
-            <li>⏱️ Таймер 60 секунд — для быстрой игры</li>
-            <li>🍺 Вечеринка — смешные задания</li>
-            <li>💑 Для пар — романтические вопросы</li>
+            <li>💖 Обычный — для компаний</li>
+            <li>🔥 18+ — для пар</li>
+            <li>🔒 Секретный — для близких</li>
+            <li>🍺 Вечеринка — смешные</li>
+            <li>💑 Для пар — романтика</li>
           </ul>
-          <p><strong>Плюсы игры:</strong></p>
+          <p><strong>Преимущества:</strong></p>
           <ul>
-            <li>✅ Более 2000 уникальных вопросов</li>
-            <li>✅ До 10 игроков одновременно</li>
+            <li>✅ 2000+ уникальных вопросов</li>
+            <li>✅ До 10 игроков</li>
+            <li>✅ Таймер 60 секунд</li>
             <li>✅ Сохранение прогресса</li>
-            <li>✅ Тёмная и светлая тема</li>
-            <li>✅ Статистика игры</li>
-            <li>✅ Полностью бесплатно</li>
-            <li>✅ Работает на всех устройствах</li>
+            <li>✅ Тёмная/светлая тема</li>
+            <li>✅ Статистика для всех</li>
+            <li>✅ Без регистрации</li>
+            <li>✅ Бесплатно навсегда</li>
+            <li>✅ Работает офлайн</li>
+            <li>✅ Адаптация под все экраны</li>
           </ul>
         </div>
         <button class="btn btn-primary" onclick="showScreen('screen-agreement')">Попробовать игру</button>
@@ -790,7 +795,7 @@
     <div id="screen-agreement" class="screen">
       <div class="agreement-box">
         <h3>📋 Соглашение</h3>
-        <p style="text-align: center; margin-bottom: 8px; color: var(--text-soft); font-size: 0.75rem;">Нажимая «Согласиться», вы соглашаетесь с правилами:</p>
+        <p style="text-align: center; margin-bottom: 5px; color: var(--text-soft); font-size: 0.65rem;">Нажимая «Согласиться», вы соглашаетесь:</p>
         <ol>
           <li>Вы сами отвечаете за действия, предложенные сайтом.</li>
           <li>Вы добровольно играете, не под воздействием третьих лиц.</li>
@@ -809,14 +814,14 @@
       <div id="players-container"></div>
       <button class="add-player-btn" id="add-player-btn" onclick="addPlayer()">+ Добавить игрока</button>
       
-      <div style="max-width: 380px; width: 100%; margin-top: 12px; flex-shrink: 0;">
+      <div style="max-width: 320px; width: 100%; margin-top: 8px; flex-shrink: 0;">
         <div class="settings-row">
           <span class="settings-label">🌓 Светлая тема</span>
           <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
         </div>
       </div>
       
-      <button class="btn btn-primary" style="margin-top: 12px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
+      <button class="btn btn-primary" style="margin-top: 8px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
     </div>
 
     <!-- ЭКРАН РЕЖИМОВ -->
@@ -868,30 +873,17 @@
         <button class="btn btn-secondary" onclick="skipCard()">Пропустить</button>
         <button class="btn btn-primary" onclick="completeCard()">Выполнил(а) ✓</button>
       </div>
-      <button class="btn btn-secondary" style="margin-top: 6px; font-size: 0.7rem;" onclick="showStats()">📊 Статистика</button>
-      <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetAll()">🔄 Начать заново</button>
+      <button class="btn btn-secondary" style="margin-top: 5px; font-size: 0.65rem;" onclick="showStats()">📊 Статистика</button>
+      <button class="btn btn-secondary" style="margin-top: 5px;" onclick="resetAll()">🔄 Начать заново</button>
     </div>
 
     <!-- ЭКРАН СТАТИСТИКИ -->
     <div id="screen-stats" class="screen">
       <button class="btn-back" onclick="showScreen('screen-game')">← Назад</button>
       <h1 class="app-title">📊 Статистика</h1>
-      <div class="stats-box">
-        <h4>Ваша статистика</h4>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-value" id="stat-truth">0</div>
-            <div class="stat-label">Правда</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-dare">0</div>
-            <div class="stat-label">Наказание</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-skips">0</div>
-            <div class="stat-label">Пропуски</div>
-          </div>
-        </div>
+      <div class="stats-box" id="statsBox">
+        <h4>Статистика всех игроков</h4>
+        <div id="statsContent"></div>
       </div>
       <button class="btn btn-primary" onclick="showScreen('screen-game')">Вернуться к игре</button>
     </div>
@@ -1083,7 +1075,7 @@
       currentCardType: null,
       timerInterval: null,
       timerSeconds: 60,
-      stats: { truth: 0, dare: 0, skips: 0 }
+      playerStats: {} // Статистика по каждому игроку
     };
 
     // ====== ПАРОЛЬ ======
@@ -1117,7 +1109,7 @@
       document.getElementById('themeToggle').classList.toggle('active');
     }
 
-    // ====== ТАЙМЕР (автоматически для всех режимов) ======
+    // ====== ТАЙМЕР ======
     function startTimer() {
       clearInterval(gameState.timerInterval);
       gameState.timerSeconds = 60;
@@ -1165,8 +1157,13 @@
       gameState.usedCards[type].add(randomIndex);
       gameState.currentCardType = type;
       
-      if (type === 'truth') gameState.stats.truth++;
-      if (type === 'dare') gameState.stats.dare++;
+      // Статистика по игроку
+      const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+      if (!gameState.playerStats[currentPlayer]) {
+        gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
+      }
+      if (type === 'truth') gameState.playerStats[currentPlayer].truth++;
+      if (type === 'dare') gameState.playerStats[currentPlayer].dare++;
       
       return questions[randomIndex].replace(/{name}/g, otherName);
     }
@@ -1180,7 +1177,7 @@
         skipCount: gameState.skipCount,
         usedTruth: Array.from(gameState.usedCards.truth),
         usedDare: Array.from(gameState.usedCards.dare),
-        stats: gameState.stats
+        playerStats: gameState.playerStats
       }));
     }
 
@@ -1194,7 +1191,7 @@
         gameState.skipCount = s.skipCount || 0;
         gameState.usedCards.truth = new Set(s.usedTruth || []);
         gameState.usedCards.dare = new Set(s.usedDare || []);
-        gameState.stats = s.stats || { truth: 0, dare: 0, skips: 0 };
+        gameState.playerStats = s.playerStats || {};
         return true;
       }
       return false;
@@ -1204,13 +1201,18 @@
     function addPlayer(name = '') {
       if (gameState.players.length >= 10) return;
       gameState.players.push(name);
+      if (name && !gameState.playerStats[name]) {
+        gameState.playerStats[name] = { truth: 0, dare: 0, skips: 0 };
+      }
       renderPlayers();
       updateNextButton();
     }
 
     function removePlayer(index) {
       if (gameState.players.length <= 2) return;
+      const removedName = gameState.players[index];
       gameState.players.splice(index, 1);
+      delete gameState.playerStats[removedName];
       renderPlayers();
       updateNextButton();
     }
@@ -1218,7 +1220,7 @@
     function renderPlayers() {
       const container = document.getElementById('players-container');
       container.innerHTML = '';
-      container.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 350px; margin: 0 auto;';
+      container.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; margin: 0 auto;';
       gameState.players.forEach((p, i) => {
         const row = document.createElement('div');
         row.className = 'player-input-row';
@@ -1231,7 +1233,12 @@
     }
 
     function updatePlayerName(i, val) {
+      const oldName = gameState.players[i];
       gameState.players[i] = val.trim();
+      if (oldName && gameState.playerStats[oldName]) {
+        gameState.playerStats[val.trim()] = gameState.playerStats[oldName];
+        delete gameState.playerStats[oldName];
+      }
       updateNextButton();
     }
 
@@ -1280,36 +1287,41 @@
       document.getElementById('card-text').className = 'card pop';
       document.getElementById('choice-buttons').style.display = 'none';
       document.getElementById('action-buttons').style.display = 'flex';
-      
-      // Таймер запускается для всех режимов
       startTimer();
-      
       saveState();
     }
 
     function skipCard() {
-      if (gameState.skipCount >= gameState.maxSkips - 1 && gameState.mode !== 'regular' && gameState.currentCardType === 'dare') {
+      // Супер-задание только для 18+ и секретного режима
+      if (gameState.skipCount >= gameState.maxSkips - 1 && 
+          (gameState.mode === 'adult' || gameState.mode === 'secret') && 
+          gameState.currentCardType === 'dare') {
         const other = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
         document.getElementById('card-text').textContent = `🔥 СУПЕР-ЗАДАНИЕ! Сделай ${other} минет или куни!`;
         document.getElementById('card-text').className = 'card super-task';
         gameState.skipCount++;
-        gameState.stats.skips++;
+        const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+        if (!gameState.playerStats[currentPlayer]) {
+          gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
+        }
+        gameState.playerStats[currentPlayer].skips++;
         updateSkipCounter();
         saveState();
         return;
       }
       if (gameState.skipCount >= gameState.maxSkips) return;
       gameState.skipCount++;
-      gameState.stats.skips++;
+      const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+      if (!gameState.playerStats[currentPlayer]) {
+        gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
+      }
+      gameState.playerStats[currentPlayer].skips++;
       updateSkipCounter();
-      
       stopTimer();
       const cardText = generateCard(gameState.currentCardType);
       document.getElementById('card-text').textContent = cardText;
       document.getElementById('card-text').className = 'card pop';
-      
       startTimer();
-      
       saveState();
     }
 
@@ -1332,14 +1344,46 @@
     }
 
     function updateStats() {
-      document.getElementById('stat-truth').textContent = gameState.stats.truth;
-      document.getElementById('stat-dare').textContent = gameState.stats.dare;
-      document.getElementById('stat-skips').textContent = gameState.stats.skips;
+      const statsContent = document.getElementById('statsContent');
+      statsContent.innerHTML = '';
+      
+      gameState.players.forEach(player => {
+        const stats = gameState.playerStats[player] || { truth: 0, dare: 0, skips: 0 };
+        const row = document.createElement('div');
+        row.className = 'player-stats';
+        row.innerHTML = `
+          <span class="player-stats-name">${player}</span>
+          <span class="player-stats-value">💖 ${stats.truth} | 🔥 ${stats.dare} | ⏭️ ${stats.skips}</span>
+        `;
+        statsContent.appendChild(row);
+      });
     }
 
     function showStats() {
       updateStats();
       showScreen('screen-stats');
+    }
+
+    function closeStatsModal() {
+      document.getElementById('statsModal').classList.remove('active');
+    }
+
+    function showGameStatsModal() {
+      const content = document.getElementById('statsModalContent');
+      content.innerHTML = '';
+      
+      gameState.players.forEach(player => {
+        const stats = gameState.playerStats[player] || { truth: 0, dare: 0, skips: 0 };
+        const row = document.createElement('div');
+        row.className = 'player-stats';
+        row.innerHTML = `
+          <span class="player-stats-name">${player}</span>
+          <span class="player-stats-value">💖 ${stats.truth} | 🔥 ${stats.dare} | ⏭️ ${stats.skips}</span>
+        `;
+        content.appendChild(row);
+      });
+      
+      document.getElementById('statsModal').classList.add('active');
     }
 
     function showScreen(id) {
@@ -1350,12 +1394,13 @@
 
     function resetAll() {
       stopTimer();
+      showGameStatsModal();
       localStorage.removeItem('truthOrDareState');
       gameState = {
         mode: null, players: [], currentPlayerIndex: 0, skipCount: 0, maxSkips: 3,
         usedCards: { truth: new Set(), dare: new Set() }, currentCardType: null,
         timerInterval: null, timerSeconds: 60,
-        stats: { truth: 0, dare: 0, skips: 0 }
+        playerStats: {}
       };
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
