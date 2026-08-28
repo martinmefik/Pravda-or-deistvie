@@ -833,7 +833,7 @@
   </div>
 
   <script>
-    // ===================== БАЗА ВОПРОСОВ =====================
+    // ===================== БАЗА ВОПРОСОВ (без изменений) =====================
     const questionBank = {
       regular: {
         truth: [
@@ -1166,8 +1166,11 @@
     let timerEnabled = true;
     let cardFilter = 'both';
     let tasksInTurn = 0;
+    let musicCtx = null;
+    let musicOsc1 = null;
+    let musicOsc2 = null;
+    let musicGain = null;
     let musicPlaying = false;
-    let musicNodes = null;
 
     let abuserSession = {
       questions: [],
@@ -1230,7 +1233,6 @@
       return result;
     }
 
-    // ===== ЗВУКИ =====
     function playSound(type) {
       if (!soundEnabled) return;
       try {
@@ -1256,9 +1258,9 @@
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
           osc.start(); osc.stop(ctx.currentTime + 0.22);
         } else if (type === 'tick') {
-          osc.frequency.value = 880; gain.gain.setValueAtTime(0.03, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
-          osc.start(); osc.stop(ctx.currentTime + 0.06);
+          osc.frequency.value = 880; gain.gain.setValueAtTime(0.04, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+          osc.start(); osc.stop(ctx.currentTime + 0.07);
         } else if (type === 'lose') {
           osc.frequency.value = 180; gain.gain.setValueAtTime(0.1, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
@@ -1267,37 +1269,47 @@
       } catch(e) {}
     }
 
-    // Лёгкая фоновая музыка
+    // ===== ФОНОВАЯ МУЗЫКА (лёгкая и непринуждённая) =====
     function startMusic() {
       if (!soundEnabled || musicPlaying) return;
       try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc1.type = 'sine';
-        osc2.type = 'sine';
-        osc1.frequency.value = 220;
-        osc2.frequency.value = 277;
-        gain.gain.value = 0.015;
-        osc1.connect(gain);
-        osc2.connect(gain);
-        gain.connect(ctx.destination);
-        osc1.start();
-        osc2.start();
-        musicNodes = { ctx, osc1, osc2, gain };
+        musicCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (musicCtx.state === 'suspended') musicCtx.resume();
+        
+        musicOsc1 = musicCtx.createOscillator();
+        musicOsc2 = musicCtx.createOscillator();
+        musicGain = musicCtx.createGain();
+        
+        musicOsc1.type = 'sine';
+        musicOsc2.type = 'sine';
+        musicOsc1.frequency.value = 196; // G3
+        musicOsc2.frequency.value = 246.94; // B3
+        
+        musicGain.gain.value = 0.025; // очень тихо
+        
+        musicOsc1.connect(musicGain);
+        musicOsc2.connect(musicGain);
+        musicGain.connect(musicCtx.destination);
+        
+        musicOsc1.start();
+        musicOsc2.start();
         musicPlaying = true;
-      } catch(e) {}
+      } catch(e) {
+        console.log('Music error:', e);
+      }
     }
 
     function stopMusic() {
-      if (!musicPlaying || !musicNodes) return;
+      if (!musicPlaying) return;
       try {
-        musicNodes.osc1.stop();
-        musicNodes.osc2.stop();
-        musicNodes.ctx.close();
+        if (musicOsc1) musicOsc1.stop();
+        if (musicOsc2) musicOsc2.stop();
+        if (musicCtx) musicCtx.close();
       } catch(e) {}
-      musicNodes = null;
+      musicOsc1 = null;
+      musicOsc2 = null;
+      musicCtx = null;
+      musicGain = null;
       musicPlaying = false;
     }
 
@@ -1310,6 +1322,7 @@
       soundEnabled = !soundEnabled;
       document.getElementById('soundToggle').classList.toggle('active', soundEnabled);
       if (!soundEnabled) stopMusic();
+      else if (document.getElementById('screen-game').classList.contains('active')) startMusic();
     }
     function toggleVibrate() {
       vibrateEnabled = !vibrateEnabled;
@@ -1408,32 +1421,34 @@
       document.getElementById('themeToggle').classList.toggle('active');
     }
 
-    // ===== ТАЙМЕР (исправлен) =====
+    // ===== ТАЙМЕР — ИСПРАВЛЕН И РАБОТАЕТ =====
     function startTimer() {
-      if (!timerEnabled || gameState.mode === 'abuser') return;
-      
-      // Таймер начинается со второго задания
+      if (!timerEnabled) return;
+      if (gameState.mode === 'abuser') return;
+
+      // Со второго задания
       if (tasksInTurn < 1) {
         tasksInTurn++;
         return;
       }
-      
+
       clearInterval(gameState.timerInterval);
       gameState.timerSeconds = 90;
+      
       const display = document.getElementById('timerDisplay');
       display.style.display = 'block';
       display.textContent = '90';
       display.classList.remove('urgent');
-      
-      gameState.timerInterval = setInterval(() => {
+
+      gameState.timerInterval = setInterval(function() {
         gameState.timerSeconds--;
         display.textContent = gameState.timerSeconds;
-        
+
         if (gameState.timerSeconds <= 15) {
           display.classList.add('urgent');
-          playSound('tick'); // звук таймера
+          playSound('tick');
         }
-        
+
         if (gameState.timerSeconds <= 0) {
           clearInterval(gameState.timerInterval);
           display.style.display = 'none';
@@ -1441,7 +1456,7 @@
           const gender = detectGender(name);
           const lost = gender === 'female' ? 'проиграла' : 'проиграл';
           document.getElementById('loseTitle').textContent = 'Игра окончена';
-          document.getElementById('loseText').textContent = `${name} ${lost}, игра окончена.`;
+          document.getElementById('loseText').textContent = name + ' ' + lost + ', игра окончена.';
           playSound('lose');
           stopMusic();
           document.getElementById('loseModal').classList.add('active');
@@ -1459,7 +1474,6 @@
       backToModes();
     }
 
-    // ===== ГЕНЕРАЦИЯ БЕЗ ПОВТОРОВ =====
     function generateCard(type) {
       const currentName = gameState.players[gameState.currentPlayerIndex];
       const otherName = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
@@ -1482,19 +1496,14 @@
         questions = questions.concat(customQuestions[type]);
       }
 
-      // Перемешиваем и берём неиспользованные
       let available = [];
       for (let i = 0; i < questions.length; i++) {
         if (!gameState.usedCards[type].has(i)) available.push(i);
       }
-      
-      // Если всё использовано — сбрасываем и генерируем заново
       if (available.length === 0) {
         gameState.usedCards[type].clear();
         available = questions.map((_, i) => i);
       }
-      
-      // Случайный выбор из доступных
       const randomIndex = available[Math.floor(Math.random() * available.length)];
       gameState.usedCards[type].add(randomIndex);
       gameState.currentCardType = type;
@@ -1643,7 +1652,8 @@
         document.getElementById('skip-counter').style.display = 'inline-block';
         document.getElementById('phaseInfo').style.display = 'none';
         updateChoiceButtons();
-        startMusic(); // лёгкая музыка во время игры
+        // Запускаем музыку
+        startMusic();
       }
 
       document.getElementById('timerDisplay').style.display = 'none';
@@ -1704,16 +1714,14 @@
       document.getElementById('action-buttons').style.display = 'flex';
       playSound('draw');
       doVibrate(40);
-      startTimer();
+      startTimer(); // запускаем таймер
       saveState();
     }
 
-    // ===== СУПЕР-ВОПРОС В СЕКРЕТНОМ РЕЖИМЕ =====
     function skipCard() {
       playSound('skip');
       doVibrate(30);
       
-      // Супер-задание после нескольких пропусков в adult и secret
       if (gameState.skipCount >= gameState.maxSkips - 1 && 
           (gameState.mode === 'adult' || gameState.mode === 'secret') && 
           gameState.currentCardType === 'dare') {
@@ -1744,7 +1752,6 @@
       gameState.playerStats[currentPlayer].skips++;
       updateSkipCounter();
       
-      // Новый вопрос без перезапуска таймера
       const cardText = generateCard(gameState.currentCardType);
       document.getElementById('card-text').textContent = cardText;
       document.getElementById('card-text').className = 'card pop';
