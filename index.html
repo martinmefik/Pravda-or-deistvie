@@ -918,7 +918,9 @@
           "Скажи {name} самое возбуждающее, что приходит в голову"
         ]
       },
-      // Секретный режим: отдельные пулы по полу ЦЕЛИ
+      // Секретный режим: разделены строго по полу
+      // truth — по полу ТЕКУЩЕГО игрока (получателя)
+      // dare  — по полу ЦЕЛИ ({name})
       secret: {
         truth: {
           male: [
@@ -1251,21 +1253,34 @@
       document.getElementById('timerDisplay').style.display = 'none';
     }
 
-    // ====== ГЕНЕРАЦИЯ (с учётом пола в секретном режиме) ======
+    // ====== ГЕНЕРАЦИЯ (исправлено: правда — по полу текущего, наказание — по полу цели) ======
     function generateCard(type) {
+      const currentName = gameState.players[gameState.currentPlayerIndex];
       const otherName = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
       let questions;
 
       if (gameState.mode === 'secret') {
-        const targetGender = detectGender(otherName);
         const pool = questionBank.secret[type];
-        if (targetGender === 'male' && pool.male) {
-          questions = pool.male;
-        } else if (targetGender === 'female' && pool.female) {
-          questions = pool.female;
+        if (type === 'truth') {
+          // Правда — по полу ТЕКУЩЕГО игрока (получателя)
+          const currentGender = detectGender(currentName);
+          if (currentGender === 'male' && pool.male) {
+            questions = pool.male;
+          } else if (currentGender === 'female' && pool.female) {
+            questions = pool.female;
+          } else {
+            questions = [...(pool.male || []), ...(pool.female || [])];
+          }
         } else {
-          // Если пол неизвестен — берём оба пула
-          questions = [...(pool.male || []), ...(pool.female || [])];
+          // Наказание — по полу ЦЕЛИ
+          const targetGender = detectGender(otherName);
+          if (targetGender === 'male' && pool.male) {
+            questions = pool.male;
+          } else if (targetGender === 'female' && pool.female) {
+            questions = pool.female;
+          } else {
+            questions = [...(pool.male || []), ...(pool.female || [])];
+          }
         }
       } else {
         questions = questionBank[gameState.mode] ? questionBank[gameState.mode][type] : questionBank.regular[type];
