@@ -707,6 +707,31 @@
       font-weight: 700;
     }
 
+    /* Индикатор пола */
+    .gender-badge {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .gender-badge.male {
+      background: rgba(72, 219, 251, 0.3);
+      color: #48dbfb;
+    }
+    .gender-badge.female {
+      background: rgba(255, 107, 183, 0.3);
+      color: #ff6bb7;
+    }
+    .gender-badge.unknown {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--text-soft);
+    }
+
     @media (min-width: 768px) {
       .screen.active { padding: 20px; }
       .app-title { font-size: 1.8rem; }
@@ -1064,6 +1089,128 @@
       }
     };
 
+    // ====== СИСТЕМА ОПРЕДЕЛЕНИЯ ПОЛА ======
+    const maleNames = [
+      'александр', 'алексей', 'андрей', 'артём', 'артем', 'борис', 'вадим', 'валентин', 'валерий', 'василий',
+      'виктор', 'виталий', 'владимир', 'владислав', 'вячеслав', 'геннадий', 'георгий', 'григорий', 'даниил',
+      'данил', 'денис', 'дмитрий', 'евгений', 'егор', 'иван', 'игорь', 'илья', 'кирилл', 'константин', 'лев',
+      'леонид', 'максим', 'марк', 'матвей', 'михаил', 'никита', 'николай', 'олег', 'павел', 'пётр', 'петр',
+      'роман', 'руслан', 'сергей', 'станислав', 'степан', 'тимофей', 'фёдор', 'федор', 'юрий', 'ярослав',
+      'арсений', 'антон', 'анатолий', 'аркадий', 'богдан', 'вениамин', 'всеволод', 'гавриил', 'глеб',
+      'демид', 'добрыня', 'захар', 'игнат', 'климент', 'лука', 'мирон', 'назар', 'платон', 'прохор',
+      'роберт', 'родион', 'савва', 'семён', 'семен', 'тарас', 'трофим', 'эдуард', 'юлиан', 'ян'
+    ];
+
+    const femaleNames = [
+      'александра', 'алина', 'алиса', 'алла', 'анастасия', 'ангелина', 'анна', 'валентина', 'валерия',
+      'варвара', 'вера', 'вероника', 'виктория', 'галина', 'дарья', 'диана', 'ева', 'евгения', 'екатерина',
+      'елена', 'елизавета', 'жанна', 'зинаида', 'зоя', 'инга', 'инесса', 'инна', 'ирина', 'карина',
+      'каролина', 'кира', 'клавдия', 'кристина', 'ксения', 'лариса', 'лидия', 'лилия', 'любовь', 'людмила',
+      'маргарита', 'марина', 'мария', 'милана', 'надежда', 'наталья', 'нателла', 'нина', 'оксана', 'ольга',
+      'полина', 'раиса', 'регина', 'светлана', 'софья', 'софия', 'таисия', 'тамара', 'татьяна', 'ульяна',
+      'элина', 'эльвира', 'юлия', 'яна', 'ярослава', 'аврора', 'аглая', 'адель', 'азалия', 'аида',
+      'аксинья', 'алевтина', 'амелия', 'анфиса', 'арина', 'василиса', 'влада', 'владислава', 'галина',
+      'дана', 'дарина', 'дина', 'доминика', 'ефросинья', 'иванна', 'илария', 'иоанна', 'капитолина', 'лада'
+    ];
+
+    function detectGender(name) {
+      const cleanName = name.toLowerCase().trim();
+      
+      // Проверяем женские окончания
+      if (cleanName.endsWith('а') || cleanName.endsWith('я') || 
+          cleanName.endsWith('ия') || cleanName.endsWith('ья') ||
+          cleanName.endsWith('ика') || cleanName.endsWith('ида')) {
+        return 'female';
+      }
+      
+      // Проверяем мужские окончания
+      if (cleanName.endsWith('й') || cleanName.endsWith('р') || 
+          cleanName.endsWith('н') || cleanName.endsWith('м') ||
+          cleanName.endsWith('л') || cleanName.endsWith('с') ||
+          cleanName.endsWith('т') || cleanName.endsWith('в') ||
+          cleanName.endsWith('д') || cleanName.endsWith('б') ||
+          cleanName.endsWith('г') || cleanName.endsWith('з') ||
+          cleanName.endsWith('к') || cleanName.endsWith('п') ||
+          cleanName.endsWith('ф') || cleanName.endsWith('х') ||
+          cleanName.endsWith('ц') || cleanName.endsWith('ч') ||
+          cleanName.endsWith('ш') || cleanName.endsWith('щ')) {
+        return 'male';
+      }
+      
+      // Проверяем по словарю
+      if (maleNames.includes(cleanName)) return 'male';
+      if (femaleNames.includes(cleanName)) return 'female';
+      
+      return 'unknown';
+    }
+
+    function getGenderForm(name, maleForm, femaleForm, unknownForm) {
+      const gender = detectGender(name);
+      if (gender === 'male') return maleForm;
+      if (gender === 'female') return femaleForm;
+      return unknownForm || maleForm + '/' + femaleForm;
+    }
+
+    function adaptQuestion(template, targetName) {
+      const gender = detectGender(targetName);
+      
+      // Заменяем {name} на имя
+      let result = template.replace(/{name}/g, targetName);
+      
+      // Адаптируем окончания для женского рода
+      if (gender === 'female') {
+        result = result.replace(/сделал\(а\)/g, 'сделала');
+        result = result.replace(/хотел\(а\)/g, 'хотела');
+        result = result.replace(/должен\(на\)/g, 'должна');
+        result = result.replace(/готов\(а\)/g, 'готова');
+        result = result.replace(/благодарен\(на\)/g, 'благодарна');
+        result = result.replace(/влюблён\(а\)/g, 'влюблена');
+        result = result.replace(/рад\(а\)/g, 'рада');
+        result = result.replace(/счастлив\(а\)/g, 'счастлива');
+        result = result.replace(/уверен\(а\)/g, 'уверена');
+        result = result.replace(/один\(одна\)/g, 'одна');
+        result = result.replace(/сам\(а\)/g, 'сама');
+        result = result.replace(/заболел\(а\)/g, 'заболела');
+        result = result.replace(/получил\(а\)/g, 'получила');
+        result = result.replace(/выиграл\(а\)/g, 'выиграла');
+        result = result.replace(/испугался\(лась\)/g, 'испугалась');
+        result = result.replace(/нуждался\(лась\)/g, 'нуждалась');
+        result = result.replace(/забыл\(а\)/g, 'забыла');
+        result = result.replace(/приготовил\(а\)/g, 'приготовила');
+        result = result.replace(/признался\(лась\)/g, 'призналась');
+        result = result.replace(/уехал\(а\)/g, 'уехала');
+        result = result.replace(/потерял\(а\)/g, 'потеряла');
+        result = result.replace(/скучал\(а\)/g, 'скучала');
+        result = result.replace(/сказал\(а\)/g, 'сказала');
+      } else if (gender === 'male') {
+        result = result.replace(/сделал\(а\)/g, 'сделал');
+        result = result.replace(/хотел\(а\)/g, 'хотел');
+        result = result.replace(/должен\(на\)/g, 'должен');
+        result = result.replace(/готов\(а\)/g, 'готов');
+        result = result.replace(/благодарен\(на\)/g, 'благодарен');
+        result = result.replace(/влюблён\(а\)/g, 'влюблён');
+        result = result.replace(/рад\(а\)/g, 'рад');
+        result = result.replace(/счастлив\(а\)/g, 'счастлив');
+        result = result.replace(/уверен\(а\)/g, 'уверен');
+        result = result.replace(/один\(одна\)/g, 'один');
+        result = result.replace(/сам\(а\)/g, 'сам');
+        result = result.replace(/заболел\(а\)/g, 'заболел');
+        result = result.replace(/получил\(а\)/g, 'получил');
+        result = result.replace(/выиграл\(а\)/g, 'выиграл');
+        result = result.replace(/испугался\(лась\)/g, 'испугался');
+        result = result.replace(/нуждался\(лась\)/g, 'нуждался');
+        result = result.replace(/забыл\(а\)/g, 'забыл');
+        result = result.replace(/приготовил\(а\)/g, 'приготовил');
+        result = result.replace(/признался\(лась\)/g, 'признался');
+        result = result.replace(/уехал\(а\)/g, 'уехал');
+        result = result.replace(/потерял\(а\)/g, 'потерял');
+        result = result.replace(/скучал\(а\)/g, 'скучал');
+        result = result.replace(/сказал\(а\)/g, 'сказал');
+      }
+      
+      return result;
+    }
+
     // ====== СОСТОЯНИЕ ======
     let gameState = {
       mode: null,
@@ -1075,7 +1222,7 @@
       currentCardType: null,
       timerInterval: null,
       timerSeconds: 60,
-      playerStats: {} // Статистика по каждому игроку
+      playerStats: {}
     };
 
     // ====== ПАРОЛЬ ======
@@ -1157,7 +1304,6 @@
       gameState.usedCards[type].add(randomIndex);
       gameState.currentCardType = type;
       
-      // Статистика по игроку
       const currentPlayer = gameState.players[gameState.currentPlayerIndex];
       if (!gameState.playerStats[currentPlayer]) {
         gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
@@ -1165,7 +1311,8 @@
       if (type === 'truth') gameState.playerStats[currentPlayer].truth++;
       if (type === 'dare') gameState.playerStats[currentPlayer].dare++;
       
-      return questions[randomIndex].replace(/{name}/g, otherName);
+      // Адаптируем вопрос под пол имени
+      return adaptQuestion(questions[randomIndex], otherName);
     }
 
     // ====== СОХРАНЕНИЕ ======
@@ -1222,9 +1369,14 @@
       container.innerHTML = '';
       container.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; margin: 0 auto;';
       gameState.players.forEach((p, i) => {
+        const gender = detectGender(p);
+        const genderIcon = gender === 'male' ? '👨' : gender === 'female' ? '👩' : '👤';
+        const genderClass = gender === 'male' ? 'male' : gender === 'female' ? 'female' : 'unknown';
+        
         const row = document.createElement('div');
         row.className = 'player-input-row';
         row.innerHTML = `
+          <span class="gender-badge ${genderClass}">${genderIcon}</span>
           <input type="text" placeholder="Игрок ${i+1}" value="${p}" maxlength="20" oninput="updatePlayerName(${i}, this.value)">
           ${gameState.players.length > 2 ? `<button class="remove-btn" onclick="removePlayer(${i})">×</button>` : ''}
         `;
@@ -1239,6 +1391,7 @@
         gameState.playerStats[val.trim()] = gameState.playerStats[oldName];
         delete gameState.playerStats[oldName];
       }
+      renderPlayers();
       updateNextButton();
     }
 
@@ -1292,7 +1445,6 @@
     }
 
     function skipCard() {
-      // Супер-задание только для 18+ и секретного режима
       if (gameState.skipCount >= gameState.maxSkips - 1 && 
           (gameState.mode === 'adult' || gameState.mode === 'secret') && 
           gameState.currentCardType === 'dare') {
