@@ -62,17 +62,34 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at 20% 20%, rgba(232, 62, 109, 0.08) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 80%, rgba(155, 93, 229, 0.06) 0%, transparent 50%);
-      z-index: -2;
+      background: url('photo.png') center/cover no-repeat;
+      filter: brightness(0.5) saturate(0.8);
+      z-index: -3;
+    }
+
+    body.light-theme::before {
+      filter: brightness(0.9) saturate(0.5);
     }
 
     .gradient-overlay {
       position: fixed;
       inset: 0;
-      background: linear-gradient(160deg, rgba(232, 62, 109, 0.03), transparent 40%, rgba(155, 93, 229, 0.03));
+      background: linear-gradient(160deg, rgba(232, 62, 109, 0.04), transparent 40%, rgba(155, 93, 229, 0.04));
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 15, 0.35);
       z-index: -1;
       pointer-events: none;
+    }
+
+    body.light-theme::after {
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .app {
@@ -645,7 +662,7 @@
   
   <div class="password-modal" id="passwordModal">
     <div class="password-box">
-      <h3>Секретный режим</h3>
+      <h3>🔒 Секретный режим</h3>
       <input type="password" id="passwordInput" placeholder="Введите пароль" maxlength="20">
       <button class="btn btn-primary" onclick="checkPassword()">Войти</button>
       <button class="btn btn-secondary" onclick="closePasswordModal()">Отмена</button>
@@ -655,7 +672,7 @@
 
   <div class="password-modal" id="statsModal">
     <div class="password-box" style="max-width: 400px; max-height: 80vh; overflow-y: auto;">
-      <h3>Статистика игры</h3>
+      <h3>📊 Статистика игры</h3>
       <div id="statsModalContent"></div>
       <button class="btn btn-primary" onclick="closeStatsModal()">Понятно</button>
     </div>
@@ -664,48 +681,48 @@
   <div class="app">
     <div id="screen-welcome" class="screen active">
       <div class="welcome-content">
-        <h1 class="app-title">Добро пожаловать</h1>
+        <h1 class="app-title">✨ Добро пожаловать</h1>
         <p class="app-subtitle">Игра «Правда или Наказание»</p>
         
         <div class="ios-instruction">
-          <h4>Добавить на рабочий стол (iOS)</h4>
+          <h4>📱 Добавить на рабочий стол (iOS)</h4>
           <ol>
             <li>Нажмите <strong>кнопку «Поделиться»</strong></li>
             <li>Выберите <strong>«На экран „Домой“»</strong></li>
             <li>Подтвердите</li>
             <li>Готово — игра всегда под рукой</li>
           </ol>
-          <p style="font-size: 0.65rem; text-align: center; margin-top: 6px; color: var(--text-muted);">Android — через меню браузера</p>
+          <p style="font-size: 0.65rem; text-align: center; margin-top: 6px; color: var(--text-muted);">🤖 Android — через меню браузера</p>
         </div>
         
         <div class="welcome-text">
           <p>Этот сайт создан одним человеком. Поделитесь им с друзьями — лучшая поддержка.</p>
           <p><strong>Режимы:</strong></p>
           <ul>
-            <li>Обычный — для компаний</li>
-            <li>18+ — для взрослых</li>
-            <li>Секретный — для близких</li>
-            <li>Вечеринка — смешные задания</li>
-            <li>Для пар — романтика</li>
+            <li>💖 Обычный — для компаний</li>
+            <li>🔥 18+ — для взрослых</li>
+            <li>🔒 Секретный — для близких</li>
+            <li>🍺 Вечеринка — смешные задания</li>
+            <li>💑 Для пар — романтика</li>
           </ul>
           <p><strong>Возможности:</strong></p>
           <ul>
-            <li>Уникальные вопросы в каждом режиме</li>
-            <li>До 10 игроков</li>
-            <li>Таймер 60 секунд</li>
-            <li>Сохранение прогресса</li>
-            <li>Тёмная / светлая тема</li>
-            <li>Статистика</li>
-            <li>Без регистрации · бесплатно · офлайн</li>
+            <li>✅ Уникальные вопросы в каждом режиме</li>
+            <li>✅ До 10 игроков</li>
+            <li>✅ Таймер 60 секунд</li>
+            <li>✅ Сохранение прогресса</li>
+            <li>✅ Тёмная / светлая тема</li>
+            <li>✅ Статистика</li>
+            <li>✅ Без регистрации · бесплатно · офлайн</li>
           </ul>
         </div>
-        <button class="btn btn-primary" onclick="showScreen('screen-agreement')">Начать игру</button>
+        <button class="btn btn-primary" onclick="showScreen('screen-agreement')">✨ Начать игру</button>
       </div>
     </div>
 
     <div id="screen-agreement" class="screen">
       <div class="agreement-box">
-        <h3>Соглашение</h3>
+        <h3>📋 Соглашение</h3>
         <p style="text-align: center; margin-bottom: 8px; color: var(--text-soft); font-size: 0.72rem;">Нажимая «Согласиться», вы подтверждаете:</p>
         <ol>
           <li>Вы сами отвечаете за действия, предложенные сайтом.</li>
@@ -714,24 +731,24 @@
           <li>Вы соглашаетесь с использованием cookie.</li>
         </ol>
       </div>
-      <button class="btn btn-primary" onclick="goToPlayers()">Согласиться</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">Назад</button>
+      <button class="btn btn-primary" onclick="goToPlayers()">✅ Согласиться</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">← Назад</button>
     </div>
 
     <div id="screen-players" class="screen">
-      <h1 class="app-title">Правда или Наказание</h1>
+      <h1 class="app-title">✨ Правда или Наказание</h1>
       <p class="app-subtitle">Добавьте игроков (от 2 до 10)</p>
       <div id="players-container"></div>
       <button class="add-player-btn" id="add-player-btn" onclick="addPlayer()">+ Добавить игрока</button>
       
       <div style="max-width: 320px; width: 100%; margin-top: 12px; flex-shrink: 0;">
         <div class="settings-row">
-          <span class="settings-label">Светлая тема</span>
+          <span class="settings-label">🌓 Светлая тема</span>
           <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
         </div>
       </div>
       
-      <button class="btn btn-primary" style="margin-top: 10px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
+      <button class="btn btn-primary" style="margin-top: 10px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить →</button>
     </div>
 
     <div id="screen-mode" class="screen">
@@ -760,7 +777,7 @@
           <div class="mode-name">Для пар</div>
         </div>
       </div>
-      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить</button>
+      <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить →</button>
     </div>
 
     <div id="screen-game" class="screen">
@@ -774,20 +791,20 @@
       <div class="timer-display" id="timerDisplay" style="display: none;">60</div>
       <div class="card" id="card-text">Выберите действие</div>
       <div class="action-buttons" id="choice-buttons" style="display: flex;">
-        <button class="btn btn-primary" onclick="drawCard('truth')">Правда</button>
-        <button class="btn btn-primary" onclick="drawCard('dare')">Наказание</button>
+        <button class="btn btn-primary" onclick="drawCard('truth')">💖 Правда</button>
+        <button class="btn btn-primary" onclick="drawCard('dare')">🔥 Наказание</button>
       </div>
       <div class="action-buttons" id="action-buttons" style="display: none;">
         <button class="btn btn-secondary" onclick="skipCard()">Пропустить</button>
-        <button class="btn btn-primary" onclick="completeCard()">Выполнил(а)</button>
+        <button class="btn btn-primary" onclick="completeCard()">Выполнил(а) ✓</button>
       </div>
-      <button class="btn btn-secondary" style="margin-top: 8px; font-size: 0.75rem;" onclick="showStats()">Статистика</button>
-      <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetAll()">Начать заново</button>
+      <button class="btn btn-secondary" style="margin-top: 8px; font-size: 0.75rem;" onclick="showStats()">📊 Статистика</button>
+      <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetAll()">🔄 Начать заново</button>
     </div>
 
     <div id="screen-stats" class="screen">
       <button class="btn-back" onclick="showScreen('screen-game')">← Назад</button>
-      <h1 class="app-title">Статистика</h1>
+      <h1 class="app-title">📊 Статистика</h1>
       <div class="stats-box" id="statsBox">
         <h4>Статистика всех игроков</h4>
         <div id="statsContent"></div>
@@ -797,7 +814,7 @@
   </div>
 
   <script>
-    // ====== БАЗА ВОПРОСОВ (уникальные для каждого режима) ======
+    // ====== БАЗА ВОПРОСОВ ======
     const questionBank = {
       regular: {
         truth: [
@@ -901,51 +918,80 @@
           "Скажи {name} самое возбуждающее, что приходит в голову"
         ]
       },
+      // Секретный режим: отдельные пулы по полу ЦЕЛИ
       secret: {
-        truth: [
-          "Как ты хочешь, чтобы {name} сделал(а) тебе минет?",
-          "Что тебе нравится, когда {name} делает тебе минет?",
-          "Как {name} должен(на) сосать твой член?",
-          "Что ты хочешь, чтобы {name} делал(а) языком с твоим клитором?",
-          "Как {name} должен(на) лизать твой член?",
-          "Что тебе нравится, когда {name} лижет тебя?",
-          "Как {name} должен(на) делать тебе куни?",
-          "Что тебе нравится, когда {name} делает тебе куни?",
-          "Как {name} должен(на) лизать твой клитор?",
-          "Что тебя возбуждает в оральном сексе с {name}?",
-          "Что тебе нравится в минете от {name}?",
-          "Что тебе нравится в куни от {name}?",
-          "Что ты хочешь, чтобы {name} делал(а) с твоей спермой?",
-          "Что ты хочешь, чтобы {name} делал(а) с твоими соками?",
-          "Что тебе нравится, когда {name} глотает?",
-          "Как ты хочешь, чтобы {name} использовал(а) руки во время орала?",
-          "Что тебе нравится в глубоком минете от {name}?",
-          "Как {name} должен(на) ласкать тебя языком?",
-          "Что возбуждает тебя в звуках, которые издаёт {name} во время орала?",
-          "Какой темп орального секса с {name} тебе нравится больше всего?"
-        ],
-        dare: [
-          "Сделай {name} минет",
-          "Сделай {name} куни",
-          "Сделай {name} глубокий минет",
-          "Сделай {name} минет с рукой",
-          "Сделай {name} куни с пальцами",
-          "Сделай {name} минет до конца",
-          "Сделай {name} куни до оргазма",
-          "Сделай {name} минет с глотанием",
-          "Сделай {name} куни с вылизыванием",
-          "Лизни член {name} страстно",
-          "Пососи клитор {name} медленно",
-          "Покусай яйца {name} нежно",
-          "Оближи половые губы {name}",
-          "Поцелуй головку члена {name}",
-          "Лизни промежность {name}",
-          "Сделай {name} минет стоя",
-          "Сделай {name} куни лёжа",
-          "Используй только язык на {name} 30 секунд",
-          "Сделай {name} минет с взглядом в глаза",
-          "Сделай {name} куни и не останавливайся, пока не скажет"
-        ]
+        truth: {
+          male: [
+            "Как ты хочешь, чтобы {name} сделал(а) тебе минет?",
+            "Что тебе нравится, когда {name} делает тебе минет?",
+            "Как {name} должен(на) сосать твой член?",
+            "Как {name} должен(на) лизать твой член?",
+            "Что тебя возбуждает в оральном сексе с {name}?",
+            "Что тебе нравится в минете от {name}?",
+            "Что ты хочешь, чтобы {name} делал(а) с твоей спермой?",
+            "Что тебе нравится, когда {name} глотает?",
+            "Как ты хочешь, чтобы {name} использовал(а) руки во время минета?",
+            "Что тебе нравится в глубоком минете от {name}?",
+            "Как {name} должен(на) ласкать тебя языком?",
+            "Что возбуждает тебя в звуках, которые издаёт {name} во время минета?",
+            "Какой темп минета от {name} тебе нравится больше всего?",
+            "Что тебе нравится, когда {name} лижет тебя?",
+            "Как {name} должен(на) работать языком и губами?"
+          ],
+          female: [
+            "Что ты хочешь, чтобы {name} делал(а) языком с твоим клитором?",
+            "Как {name} должен(на) делать тебе куни?",
+            "Что тебе нравится, когда {name} делает тебе куни?",
+            "Как {name} должен(на) лизать твой клитор?",
+            "Что тебя возбуждает в оральном сексе с {name}?",
+            "Что тебе нравится в куни от {name}?",
+            "Что ты хочешь, чтобы {name} делал(а) с твоими соками?",
+            "Как ты хочешь, чтобы {name} использовал(а) руки во время куни?",
+            "Как {name} должен(на) ласкать тебя языком?",
+            "Что возбуждает тебя в звуках, которые издаёт {name} во время куни?",
+            "Какой темп куни от {name} тебе нравится больше всего?",
+            "Что тебе нравится, когда {name} лижет тебя?",
+            "Как {name} должен(на) работать языком?",
+            "Что тебе нравится, когда {name} вылизывает тебя?",
+            "Как ты хочешь, чтобы {name} стимулировал(а) тебя пальцами во время куни?"
+          ]
+        },
+        dare: {
+          male: [
+            "Сделай {name} минет",
+            "Сделай {name} глубокий минет",
+            "Сделай {name} минет с рукой",
+            "Сделай {name} минет до конца",
+            "Сделай {name} минет с глотанием",
+            "Лизни член {name} страстно",
+            "Покусай яйца {name} нежно",
+            "Поцелуй головку члена {name}",
+            "Сделай {name} минет стоя",
+            "Сделай {name} минет с взглядом в глаза",
+            "Используй только язык на {name} 30 секунд",
+            "Сделай {name} минет медленно и чувственно",
+            "Лизни промежность {name}",
+            "Сделай {name} минет, пока он не скажет остановиться",
+            "Пососи член {name} с лёгким нажимом"
+          ],
+          female: [
+            "Сделай {name} куни",
+            "Сделай {name} куни с пальцами",
+            "Сделай {name} куни до оргазма",
+            "Сделай {name} куни с вылизыванием",
+            "Пососи клитор {name} медленно",
+            "Оближи половые губы {name}",
+            "Лизни промежность {name}",
+            "Сделай {name} куни лёжа",
+            "Используй только язык на {name} 30 секунд",
+            "Сделай {name} куни и не останавливайся, пока не скажет",
+            "Сделай {name} куни медленно и чувственно",
+            "Лизни клитор {name} круговыми движениями",
+            "Сделай {name} куни с лёгким посасыванием",
+            "Оближи {name} сверху вниз",
+            "Сделай {name} куни с пальцами внутри"
+          ]
+        }
       },
       party: {
         truth: [
@@ -1048,8 +1094,8 @@
       'данил','денис','дмитрий','евгений','егор','иван','игорь','илья','кирилл','константин','лев',
       'леонид','максим','марк','матвей','михаил','никита','николай','олег','павел','пётр','петр',
       'роман','руслан','сергей','станислав','степан','тимофей','фёдор','федор','юрий','ярослав',
-      'тимур','гордей','платон','савва','захар','глеб','даниил','давид','арсений','макар','роман',
-      'эдуард','эрик','рафаэль','дамир','карим','амир','расим','тихон','прохор','севастьян'
+      'тимур','гордей','платон','савва','захар','глеб','давид','арсений','макар','эдуард','эрик',
+      'рафаэль','дамир','карим','амир','расим','тихон','прохор','севастьян'
     ]);
 
     const femaleNames = new Set([
@@ -1063,41 +1109,30 @@
       'есения','амелия','эмилия','каролина','виталина','аделина','дарина','марьяна','снежана'
     ]);
 
-    // Дополнительные эвристики по окончаниям
-    const femaleEndings = ['а','я','ия','ья','ла','на','ра','са','та','ва','да','ка','ма','па','фа','ха','ца','ча','ша','ща'];
-    const maleEndings = ['й','р','н','м','л','с','т','в','д','б','г','з','к','п','ф','х','ц','ч','ш','щ','ь'];
-
     function detectGender(name) {
       if (!name || typeof name !== 'string') return 'unknown';
       const clean = name.toLowerCase().trim().replace(/[^а-яёa-z\-]/gi, '');
       if (!clean) return 'unknown';
 
-      // Точное совпадение с известными именами
       if (maleNames.has(clean)) return 'male';
       if (femaleNames.has(clean)) return 'female';
 
-      // Составные имена (Анна-Мария и т.п.)
       const parts = clean.split(/[\s\-]+/);
       for (const part of parts) {
         if (maleNames.has(part)) return 'male';
         if (femaleNames.has(part)) return 'female';
       }
 
-      // Эвристика по окончанию (русский язык)
       const last = clean.slice(-1);
       const last2 = clean.slice(-2);
-      const last3 = clean.slice(-3);
 
-      // Типичные женские
-      if (['ия','ья','ла','на','ра','са','та','ва','да','ка','ма'].includes(last2) || 
-          last === 'а' || last === 'я') {
-        // Исключения мужских имён на -а/-я
+      if (['ия','ья','ла','на','ра','са','та','ва','да','ка','ма'].includes(last2) || last === 'а' || last === 'я') {
         const maleExceptions = ['никита','илья','кузьма','савва','фома','лука','глеб'];
         if (!maleExceptions.includes(clean)) return 'female';
       }
 
-      // Типичные мужские
-      if (maleEndings.includes(last) || ['ий','ей','ай','ой','ый'].includes(last2)) {
+      if (['й','р','н','м','л','с','т','в','д','б','г','з','к','п','ф','х','ц','ч','ш','щ','ь'].includes(last) ||
+          ['ий','ей','ай','ой','ый'].includes(last2)) {
         return 'male';
       }
 
@@ -1108,70 +1143,30 @@
       const gender = detectGender(targetName);
       let result = template.replace(/{name}/g, targetName);
 
-      // Словарь замен (полное покрытие)
       const replacements = {
         female: {
-          'сделал(а)': 'сделала',
-          'хотел(а)': 'хотела',
-          'должен(на)': 'должна',
-          'готов(а)': 'готова',
-          'благодарен(на)': 'благодарна',
-          'рад(а)': 'рада',
-          'счастлив(а)': 'счастлива',
-          'заболел(а)': 'заболела',
-          'получил(а)': 'получила',
-          'выиграл(а)': 'выиграла',
-          'испугался(лась)': 'испугалась',
-          'нуждался(лась)': 'нуждалась',
-          'забыл(а)': 'забыла',
-          'приготовил(а)': 'приготовила',
-          'признался(лась)': 'призналась',
-          'уехал(а)': 'уехала',
-          'потерял(а)': 'потеряла',
-          'скучал(а)': 'скучала',
-          'сказал(а)': 'сказала',
-          'стал(а)': 'стала',
-          'понял(а)': 'поняла',
-          'дорог(а)': 'дорога',
-          'особенный(ая)': 'особенная',
-          'невидимым(ой)': 'невидимой',
-          'мог(ла)': 'могла',
-          'благодарен(на)': 'благодарна',
-          'он(а)': 'она',
-          'него/неё': 'неё',
-          'ним/ней': 'ней',
-          'его/её': 'её'
+          'сделал(а)': 'сделала', 'хотел(а)': 'хотела', 'должен(на)': 'должна',
+          'готов(а)': 'готова', 'благодарен(на)': 'благодарна', 'рад(а)': 'рада',
+          'счастлив(а)': 'счастлива', 'заболел(а)': 'заболела', 'получил(а)': 'получила',
+          'выиграл(а)': 'выиграла', 'испугался(лась)': 'испугалась', 'нуждался(лась)': 'нуждалась',
+          'забыл(а)': 'забыла', 'приготовил(а)': 'приготовила', 'признался(лась)': 'призналась',
+          'уехал(а)': 'уехала', 'потерял(а)': 'потеряла', 'скучал(а)': 'скучала',
+          'сказал(а)': 'сказала', 'стал(а)': 'стала', 'понял(а)': 'поняла',
+          'дорог(а)': 'дорога', 'особенный(ая)': 'особенная', 'невидимым(ой)': 'невидимой',
+          'мог(ла)': 'могла', 'он(а)': 'она', 'него/неё': 'неё', 'ним/ней': 'ней', 'его/её': 'её',
+          'почувствовал(а)': 'почувствовала', 'важен(на)': 'важна'
         },
         male: {
-          'сделал(а)': 'сделал',
-          'хотел(а)': 'хотел',
-          'должен(на)': 'должен',
-          'готов(а)': 'готов',
-          'благодарен(на)': 'благодарен',
-          'рад(а)': 'рад',
-          'счастлив(а)': 'счастлив',
-          'заболел(а)': 'заболел',
-          'получил(а)': 'получил',
-          'выиграл(а)': 'выиграл',
-          'испугался(лась)': 'испугался',
-          'нуждался(лась)': 'нуждался',
-          'забыл(а)': 'забыл',
-          'приготовил(а)': 'приготовил',
-          'признался(лась)': 'признался',
-          'уехал(а)': 'уехал',
-          'потерял(а)': 'потерял',
-          'скучал(а)': 'скучал',
-          'сказал(а)': 'сказал',
-          'стал(а)': 'стал',
-          'понял(а)': 'понял',
-          'дорог(а)': 'дорог',
-          'особенный(ая)': 'особенный',
-          'невидимым(ой)': 'невидимым',
-          'мог(ла)': 'мог',
-          'он(а)': 'он',
-          'него/неё': 'него',
-          'ним/ней': 'ним',
-          'его/её': 'его'
+          'сделал(а)': 'сделал', 'хотел(а)': 'хотел', 'должен(на)': 'должен',
+          'готов(а)': 'готов', 'благодарен(на)': 'благодарен', 'рад(а)': 'рад',
+          'счастлив(а)': 'счастлив', 'заболел(а)': 'заболел', 'получил(а)': 'получил',
+          'выиграл(а)': 'выиграл', 'испугался(лась)': 'испугался', 'нуждался(лась)': 'нуждался',
+          'забыл(а)': 'забыл', 'приготовил(а)': 'приготовил', 'признался(лась)': 'признался',
+          'уехал(а)': 'уехал', 'потерял(а)': 'потерял', 'скучал(а)': 'скучал',
+          'сказал(а)': 'сказал', 'стал(а)': 'стал', 'понял(а)': 'понял',
+          'дорог(а)': 'дорог', 'особенный(ая)': 'особенный', 'невидимым(ой)': 'невидимым',
+          'мог(ла)': 'мог', 'он(а)': 'он', 'него/неё': 'него', 'ним/ней': 'ним', 'его/её': 'его',
+          'почувствовал(а)': 'почувствовал', 'важен(на)': 'важен'
         }
       };
 
@@ -1179,7 +1174,6 @@
       for (const [from, to] of Object.entries(map)) {
         result = result.split(from).join(to);
       }
-
       return result;
     }
 
@@ -1257,11 +1251,26 @@
       document.getElementById('timerDisplay').style.display = 'none';
     }
 
-    // ====== ГЕНЕРАЦИЯ (с защитой от повторов) ======
+    // ====== ГЕНЕРАЦИЯ (с учётом пола в секретном режиме) ======
     function generateCard(type) {
-      const questions = questionBank[gameState.mode] ? questionBank[gameState.mode][type] : questionBank.regular[type];
       const otherName = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
-      
+      let questions;
+
+      if (gameState.mode === 'secret') {
+        const targetGender = detectGender(otherName);
+        const pool = questionBank.secret[type];
+        if (targetGender === 'male' && pool.male) {
+          questions = pool.male;
+        } else if (targetGender === 'female' && pool.female) {
+          questions = pool.female;
+        } else {
+          // Если пол неизвестен — берём оба пула
+          questions = [...(pool.male || []), ...(pool.female || [])];
+        }
+      } else {
+        questions = questionBank[gameState.mode] ? questionBank[gameState.mode][type] : questionBank.regular[type];
+      }
+
       let available = [];
       for (let i = 0; i < questions.length; i++) {
         if (!gameState.usedCards[type].has(i)) available.push(i);
