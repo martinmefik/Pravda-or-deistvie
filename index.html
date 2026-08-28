@@ -8,32 +8,32 @@
   <title>Правда или Наказание · для компании</title>
   <style>
     :root {
-      --bg: #0f0a14;
-      --bg-card: rgba(20, 12, 28, 0.4);
-      --primary: #ff4d7d;
-      --primary-light: #ff8ba7;
-      --accent: #ffd166;
-      --purple: #b44dff;
-      --text: #fbe9f0;
-      --text-soft: #c9b0bd;
-      --text-muted: #8a6a7a;
-      --border: rgba(255, 77, 125, 0.25);
-      --glow: rgba(255, 77, 125, 0.15);
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-      --radius: 24px;
-      --radius-sm: 16px;
-      --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #0c0a10;
+      --bg-card: rgba(18, 14, 26, 0.75);
+      --primary: #e83e6d;
+      --primary-light: #ff6b9d;
+      --accent: #f0b429;
+      --purple: #9b5de5;
+      --text: #f8f0f4;
+      --text-soft: #b8a0b0;
+      --text-muted: #7a6575;
+      --border: rgba(232, 62, 109, 0.2);
+      --glow: rgba(232, 62, 109, 0.12);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
     }
 
     body.light-theme {
-      --bg: #f5e6f0;
-      --bg-card: rgba(255, 255, 255, 0.6);
-      --text: #1a0f1f;
-      --text-soft: #4a3a50;
-      --text-muted: #6a5a70;
-      --border: rgba(255, 77, 125, 0.3);
-      --glow: rgba(255, 77, 125, 0.1);
+      --bg: #f8f0f5;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --text: #1a1218;
+      --text-soft: #4a3a48;
+      --text-muted: #6a5a68;
+      --border: rgba(232, 62, 109, 0.25);
+      --glow: rgba(232, 62, 109, 0.08);
     }
 
     * {
@@ -54,61 +54,25 @@
       touch-action: manipulation;
       -webkit-user-select: none;
       user-select: none;
-      transition: all 0.5s;
+      transition: background 0.4s, color 0.4s;
+      background: var(--bg);
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background: url('photo.png') center/cover no-repeat;
-      filter: brightness(0.5) saturate(0.8);
-      z-index: -3;
-    }
-
-    body.light-theme::before {
-      filter: brightness(0.9) saturate(0.5);
+      background: radial-gradient(ellipse at 20% 20%, rgba(232, 62, 109, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 80%, rgba(155, 93, 229, 0.06) 0%, transparent 50%);
+      z-index: -2;
     }
 
     .gradient-overlay {
-      content: '';
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, 
-        #ff6b6b, #ff9a9e, #fecfef, #a8edea, #fddb92, 
-        #d4fc79, #96e6a1, #84fab0, #8fd3f4, #a18cd1, 
-        #fbc2eb, #f6d365, #fda085, #f6d365, #ff6b6b
-      );
-      background-size: 600% 600%;
-      animation: rainbowGradient 20s ease infinite;
-      z-index: -2;
-      pointer-events: none;
-      opacity: 0.15;
-    }
-
-    body.light-theme .gradient-overlay {
-      opacity: 0.08;
-    }
-
-    @keyframes rainbowGradient {
-      0% { background-position: 0% 50%; }
-      25% { background-position: 50% 100%; }
-      50% { background-position: 100% 50%; }
-      75% { background-position: 50% 0%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 15, 0.4);
+      background: linear-gradient(160deg, rgba(232, 62, 109, 0.03), transparent 40%, rgba(155, 93, 229, 0.03));
       z-index: -1;
       pointer-events: none;
-    }
-
-    body.light-theme::after {
-      background: rgba(255, 255, 255, 0.2);
     }
 
     .app {
@@ -129,73 +93,58 @@
       background: transparent;
       border: none;
       border-radius: 0;
-      padding: 15px 12px;
-      box-shadow: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      animation: fadeIn 0.5s ease;
+      padding: 18px 16px;
+      animation: fadeIn 0.4s ease;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: var(--primary) rgba(255, 255, 255, 0.05);
+      scrollbar-color: var(--primary) transparent;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
     }
 
-    .screen::-webkit-scrollbar { width: 4px; }
+    .screen::-webkit-scrollbar { width: 3px; }
     .screen::-webkit-scrollbar-track { background: transparent; }
     .screen::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
     .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .app-title {
-      font-size: 1.5rem;
-      font-weight: 800;
+      font-size: 1.55rem;
+      font-weight: 700;
       text-align: center;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
-      background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: titleGradient 8s ease infinite;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+      color: var(--text);
       flex-shrink: 0;
-    }
-
-    @keyframes titleGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .app-subtitle {
       text-align: center;
       color: var(--text-soft);
-      margin-bottom: 10px;
-      font-size: 0.8rem;
-      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      letter-spacing: 0.2px;
       flex-shrink: 0;
     }
 
     .btn {
       display: block;
       width: 100%;
-      max-width: 360px;
-      padding: 11px 16px;
-      border-radius: 50px;
-      font-size: 0.8rem;
+      max-width: 340px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-size: 0.85rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
       border: none;
       cursor: pointer;
       transition: all var(--transition);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       text-align: center;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
@@ -205,158 +154,131 @@
       flex-shrink: 0;
     }
 
-    .btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      transition: all 0.5s;
-      transform: translate(-50%, -50%);
-    }
-    .btn:active::after { width: 300px; height: 300px; }
-
     .btn-primary {
-      background: linear-gradient(135deg, rgba(255, 107, 107, 0.8), rgba(255, 159, 243, 0.7));
+      background: linear-gradient(135deg, var(--primary), #c42a5a);
       color: #fff;
-      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 4px 16px rgba(232, 62, 109, 0.25);
     }
     .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(232, 62, 109, 0.35);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
       color: var(--text-soft);
     }
     .btn-secondary:hover {
-      border-color: #ff9ff3;
+      border-color: var(--primary-light);
       color: var(--text);
-      background: rgba(255, 159, 243, 0.1);
+      background: rgba(232, 62, 109, 0.08);
     }
 
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-back {
       display: inline-block;
       width: auto;
-      padding: 6px 10px;
-      font-size: 0.7rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 7px 14px;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-soft);
       cursor: pointer;
-      border-radius: 30px;
-      margin-bottom: 8px;
+      border-radius: 20px;
+      margin-bottom: 12px;
       transition: all var(--transition);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       align-self: flex-start;
       flex-shrink: 0;
     }
-    .btn-back:hover { border-color: #ff9ff3; color: var(--text); }
+    .btn-back:hover { border-color: var(--primary-light); color: var(--text); }
 
     .mode-grid {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
       justify-content: center;
       flex-shrink: 0;
-      max-width: 500px;
+      max-width: 480px;
     }
     .mode-card {
       flex: 1;
-      min-width: 80px;
-      max-width: 110px;
-      padding: 8px 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
+      min-width: 88px;
+      max-width: 115px;
+      padding: 14px 8px;
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
       text-align: center;
       cursor: pointer;
       transition: all var(--transition);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
     }
-    .mode-card:hover { border-color: #ff9ff3; background: rgba(255, 159, 243, 0.1); }
+    .mode-card:hover { border-color: var(--primary-light); background: rgba(232, 62, 109, 0.08); }
     .mode-card.selected {
-      border-color: #ff9ff3;
-      background: rgba(255, 159, 243, 0.15);
-      box-shadow: 0 0 20px rgba(255, 159, 243, 0.2);
+      border-color: var(--primary);
+      background: rgba(232, 62, 109, 0.12);
+      box-shadow: 0 0 0 1px var(--primary);
     }
     .mode-card.secret-card {
-      border-color: rgba(255, 77, 125, 0.4);
-      background: rgba(255, 77, 125, 0.05);
-    }
-    .mode-card.secret-card:hover {
-      border-color: #ff4d7d;
-      background: rgba(255, 77, 125, 0.1);
+      border-color: rgba(232, 62, 109, 0.35);
     }
     .mode-card.secret-card.selected {
-      border-color: #ff4d7d;
-      background: rgba(255, 77, 125, 0.15);
-      box-shadow: 0 0 20px rgba(255, 77, 125, 0.25);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
     }
-    .mode-icon { font-size: 1.3rem; margin-bottom: 2px; }
-    .mode-name { font-weight: 600; font-size: 0.65rem; }
+    .mode-icon { font-size: 1.4rem; margin-bottom: 4px; }
+    .mode-name { font-weight: 600; font-size: 0.7rem; color: var(--text); }
 
     .password-modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
       z-index: 100;
       align-items: center;
       justify-content: center;
     }
     .password-modal.active { display: flex; }
     .password-box {
-      background: rgba(20, 12, 28, 0.9);
-      border: 2px solid rgba(255, 77, 125, 0.5);
-      border-radius: 20px;
-      padding: 20px 15px;
-      max-width: 300px;
+      background: var(--bg-card);
+      border: 1.5px solid rgba(232, 62, 109, 0.4);
+      border-radius: 18px;
+      padding: 24px 20px;
+      max-width: 320px;
       width: 90%;
       text-align: center;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(16px);
     }
     .password-box h3 {
       font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: #ff4d7d;
+      margin-bottom: 14px;
+      color: var(--primary-light);
     }
     .password-box input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 12px 14px;
       background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.12);
       border-radius: 12px;
-      color: #fff;
-      font-size: 0.85rem;
+      color: var(--text);
+      font-size: 0.9rem;
       outline: none;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-align: center;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
     }
     .password-box input:focus {
-      border-color: #ff4d7d;
-      box-shadow: 0 0 15px rgba(255, 77, 125, 0.3);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(232, 62, 109, 0.15);
     }
 
     .player-input-row {
       display: flex;
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 8px;
       align-items: center;
       max-width: 320px;
       width: 100%;
@@ -366,28 +288,29 @@
     }
     .player-input-row input {
       flex: 1;
-      padding: 9px 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.15);
+      padding: 11px 14px;
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       color: var(--text);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       outline: none;
       transition: all var(--transition);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       text-align: center;
     }
-    .player-input-row input:focus { border-color: #ff9ff3; box-shadow: 0 0 15px rgba(255, 159, 243, 0.2); }
+    .player-input-row input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(232, 62, 109, 0.12);
+    }
     .player-input-row .remove-btn {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -395,461 +318,422 @@
       flex-shrink: 0;
     }
     .player-input-row .remove-btn:hover {
-      border-color: #ff6b6b;
-      color: #ff6b6b;
-      background: rgba(255, 107, 107, 0.1);
+      border-color: #e83e6d;
+      color: #e83e6d;
+      background: rgba(232, 62, 109, 0.1);
     }
 
     .add-player-btn {
       display: inline-block;
       width: auto;
-      padding: 6px 12px;
-      font-size: 0.75rem;
-      background: rgba(255, 255, 255, 0.04);
-      border: 2px dashed rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      background: transparent;
+      border: 1.5px dashed rgba(255, 255, 255, 0.15);
       color: var(--text-soft);
       cursor: pointer;
-      border-radius: 30px;
-      margin-top: 3px;
+      border-radius: 20px;
+      margin-top: 4px;
       transition: all var(--transition);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       flex-shrink: 0;
     }
-    .add-player-btn:hover { border-color: #ff9ff3; color: var(--text); background: rgba(255, 159, 243, 0.1); }
+    .add-player-btn:hover {
+      border-color: var(--primary-light);
+      color: var(--text);
+      background: rgba(232, 62, 109, 0.06);
+    }
 
     .game-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
-      gap: 6px;
-      max-width: 450px;
+      gap: 8px;
+      max-width: 420px;
       width: 100%;
       flex-shrink: 0;
     }
     .turn-indicator {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
       font-weight: 600;
-      font-size: 0.8rem;
-      background: rgba(255, 159, 243, 0.1);
-      padding: 5px 8px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      font-size: 0.88rem;
+      background: var(--bg-card);
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .turn-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #ff9ff3;
-      box-shadow: 0 0 6px #ff9ff3;
-      animation: pulse-dot 1.5s ease-in-out infinite;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse-dot 1.6s ease-in-out infinite;
     }
     @keyframes pulse-dot {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.3); }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.25); opacity: 0.7; }
     }
     .skip-counter {
-      font-size: 0.6rem;
+      font-size: 0.7rem;
       color: var(--text-soft);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 3px 6px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: var(--bg-card);
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .timer-display {
-      font-size: 1.2rem;
-      font-weight: 800;
+      font-size: 1.35rem;
+      font-weight: 700;
       text-align: center;
-      padding: 3px 10px;
+      padding: 6px 16px;
       border-radius: 14px;
-      background: rgba(255, 209, 102, 0.15);
-      border: 2px solid rgba(255, 209, 102, 0.4);
+      background: rgba(240, 180, 41, 0.12);
+      border: 1.5px solid rgba(240, 180, 41, 0.35);
       color: var(--accent);
-      margin-bottom: 6px;
-      min-width: 50px;
+      margin-bottom: 10px;
+      min-width: 56px;
       flex-shrink: 0;
     }
     .timer-display.urgent {
       animation: timerPulse 0.5s ease infinite;
-      border-color: #ff4d7d;
-      color: #ff4d7d;
-      background: rgba(255, 77, 125, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(232, 62, 109, 0.12);
     }
     @keyframes timerPulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.04); }
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-sm);
-      padding: 12px 10px;
-      margin: 6px 0;
+      padding: 18px 16px;
+      margin: 8px 0;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 500;
-      line-height: 1.4;
-      min-height: 60px;
+      line-height: 1.5;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
       word-wrap: break-word;
       transition: all var(--transition);
-      max-width: 450px;
+      max-width: 420px;
       width: 100%;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       flex-shrink: 0;
     }
-    .card.pop { animation: cardPop 0.4s ease; }
+    .card.pop { animation: cardPop 0.35s ease; }
     @keyframes cardPop {
-      0% { transform: scale(0.9); opacity: 0; }
-      60% { transform: scale(1.02); }
+      0% { transform: scale(0.96); opacity: 0; }
+      60% { transform: scale(1.01); }
       100% { transform: scale(1); opacity: 1; }
     }
     .card.super-task {
       border-color: var(--accent);
-      background: rgba(255, 209, 102, 0.1);
+      background: rgba(240, 180, 41, 0.1);
     }
     .action-buttons {
       display: flex;
-      gap: 5px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-top: 5px;
-      max-width: 450px;
+      margin-top: 8px;
+      max-width: 420px;
       width: 100%;
       justify-content: center;
       flex-shrink: 0;
     }
     .action-buttons .btn {
       flex: 1;
-      min-width: 80px;
-      max-width: 140px;
+      min-width: 110px;
+      max-width: 160px;
       margin-bottom: 0;
-      font-size: 0.65rem;
-      padding: 8px 8px;
+      font-size: 0.8rem;
+      padding: 11px 10px;
     }
 
     .welcome-content {
-      max-width: 450px;
+      max-width: 420px;
       width: 100%;
       text-align: center;
-      padding: 5px;
+      padding: 8px;
     }
     .welcome-text {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 8px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      line-height: 1.4;
-      font-size: 0.7rem;
-    }
-    .welcome-text p {
-      margin-bottom: 5px;
-    }
-    .welcome-text ul {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      font-size: 0.78rem;
       text-align: left;
-      padding-left: 15px;
-      margin-bottom: 5px;
+    }
+    .welcome-text p { margin-bottom: 8px; }
+    .welcome-text ul {
+      padding-left: 18px;
+      margin-bottom: 8px;
     }
     .welcome-text li {
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       color: var(--text-soft);
-      font-size: 0.65rem;
+      font-size: 0.75rem;
     }
 
     .ios-instruction {
-      background: rgba(255, 209, 102, 0.1);
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      border-radius: 12px;
-      padding: 8px;
-      margin-bottom: 8px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(240, 180, 41, 0.08);
+      border: 1px solid rgba(240, 180, 41, 0.25);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
       text-align: left;
       flex-shrink: 0;
     }
     .ios-instruction h4 {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--accent);
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       text-align: center;
     }
     .ios-instruction ol {
-      padding-left: 15px;
-      font-size: 0.65rem;
+      padding-left: 18px;
+      font-size: 0.72rem;
       color: var(--text-soft);
-      line-height: 1.4;
+      line-height: 1.45;
     }
-    .ios-instruction li {
-      margin-bottom: 2px;
-    }
+    .ios-instruction li { margin-bottom: 3px; }
 
     .agreement-box {
-      max-width: 450px;
+      max-width: 420px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 8px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      line-height: 1.4;
-      font-size: 0.7rem;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      font-size: 0.78rem;
     }
     .agreement-box h3 {
       text-align: center;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       color: var(--primary-light);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
     }
     .agreement-box ol {
       text-align: left;
-      padding-left: 15px;
+      padding-left: 18px;
     }
     .agreement-box li {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       color: var(--text-soft);
-      font-size: 0.65rem;
+      font-size: 0.75rem;
     }
 
     .settings-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 10px;
+      margin-bottom: 8px;
       max-width: 320px;
       width: 100%;
       flex-shrink: 0;
     }
     .settings-label {
       flex: 1;
-      font-size: 0.75rem;
+      font-size: 0.82rem;
       color: var(--text-soft);
     }
     .toggle-switch {
-      width: 40px;
-      height: 22px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 11px;
+      width: 44px;
+      height: 24px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
       cursor: pointer;
       position: relative;
-      transition: all 0.3s;
+      transition: all 0.25s;
       flex-shrink: 0;
     }
-    .toggle-switch.active {
-      background: var(--primary);
-    }
+    .toggle-switch.active { background: var(--primary); }
     .toggle-switch::after {
       content: '';
       position: absolute;
-      top: 2px;
-      left: 2px;
+      top: 3px;
+      left: 3px;
       width: 18px;
       height: 18px;
       background: #fff;
       border-radius: 50%;
-      transition: all 0.3s;
+      transition: all 0.25s;
     }
-    .toggle-switch.active::after {
-      left: 20px;
-    }
+    .toggle-switch.active::after { left: 23px; }
 
     .stats-box {
       max-width: 400px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 8px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
       text-align: center;
       flex-shrink: 0;
     }
     .stats-box h4 {
-      margin-bottom: 6px;
-      font-size: 0.8rem;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
       color: var(--text-soft);
     }
     .player-stats {
       background: rgba(255, 255, 255, 0.03);
-      border-radius: 8px;
-      padding: 6px;
-      margin-bottom: 4px;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.7rem;
+      font-size: 0.78rem;
     }
-    .player-stats-name {
-      font-weight: 600;
-      color: var(--text);
-    }
-    .player-stats-value {
-      color: var(--primary-light);
-      font-weight: 700;
-    }
+    .player-stats-name { font-weight: 600; color: var(--text); }
+    .player-stats-value { color: var(--primary-light); font-weight: 600; }
 
-    /* Индикатор пола */
     .gender-badge {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      font-size: 0.6rem;
+      font-size: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
     .gender-badge.male {
-      background: rgba(72, 219, 251, 0.3);
-      color: #48dbfb;
+      background: rgba(72, 180, 220, 0.2);
+      color: #48b4dc;
     }
     .gender-badge.female {
-      background: rgba(255, 107, 183, 0.3);
-      color: #ff6bb7;
+      background: rgba(232, 62, 109, 0.2);
+      color: #ff6b9d;
     }
     .gender-badge.unknown {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
       color: var(--text-soft);
     }
 
     @media (min-width: 768px) {
-      .screen.active { padding: 20px; }
-      .app-title { font-size: 1.8rem; }
-      .welcome-text { font-size: 0.8rem; }
-      .welcome-text li { font-size: 0.75rem; }
-      .ios-instruction { font-size: 0.8rem; }
-      .ios-instruction ol { font-size: 0.75rem; }
-      .mode-card { min-width: 100px; max-width: 130px; padding: 10px 8px; }
-      .mode-icon { font-size: 1.5rem; }
-      .mode-name { font-size: 0.7rem; }
-      .btn { max-width: 380px; font-size: 0.85rem; }
-      .card { font-size: 1rem; }
+      .screen.active { padding: 28px; }
+      .app-title { font-size: 1.85rem; }
+      .welcome-text { font-size: 0.85rem; }
+      .welcome-text li { font-size: 0.8rem; }
+      .mode-card { min-width: 105px; max-width: 130px; padding: 16px 10px; }
+      .mode-icon { font-size: 1.6rem; }
+      .mode-name { font-size: 0.75rem; }
+      .btn { max-width: 360px; font-size: 0.9rem; }
+      .card { font-size: 1.05rem; }
     }
   </style>
 </head>
 <body>
   <div class="gradient-overlay"></div>
   
-  <!-- Модальное окно пароля -->
   <div class="password-modal" id="passwordModal">
     <div class="password-box">
-      <h3>🔒 Секретный режим</h3>
+      <h3>Секретный режим</h3>
       <input type="password" id="passwordInput" placeholder="Введите пароль" maxlength="20">
       <button class="btn btn-primary" onclick="checkPassword()">Войти</button>
       <button class="btn btn-secondary" onclick="closePasswordModal()">Отмена</button>
-      <p id="passwordError" style="color: #ff4d7d; font-size: 0.8rem; margin-top: 10px; display: none;">Неверный пароль!</p>
+      <p id="passwordError" style="color: #e83e6d; font-size: 0.8rem; margin-top: 10px; display: none;">Неверный пароль!</p>
     </div>
   </div>
 
-  <!-- Модальное окно статистики -->
   <div class="password-modal" id="statsModal">
     <div class="password-box" style="max-width: 400px; max-height: 80vh; overflow-y: auto;">
-      <h3>📊 Статистика игры</h3>
+      <h3>Статистика игры</h3>
       <div id="statsModalContent"></div>
       <button class="btn btn-primary" onclick="closeStatsModal()">Понятно</button>
     </div>
   </div>
 
   <div class="app">
-    <!-- ЭКРАН ПРИВЕТСТВИЯ -->
     <div id="screen-welcome" class="screen active">
       <div class="welcome-content">
-        <h1 class="app-title">✨ Добро пожаловать!</h1>
+        <h1 class="app-title">Добро пожаловать</h1>
         <p class="app-subtitle">Игра «Правда или Наказание»</p>
         
         <div class="ios-instruction">
-          <h4>📱 Добавить на рабочий стол (iOS)</h4>
+          <h4>Добавить на рабочий стол (iOS)</h4>
           <ol>
-            <li>Нажмите <strong>3 точки</strong> (Safari)</li>
-            <li>Выберите <strong>«Поделиться»</strong></li>
-            <li>Найдите <strong>«Добавить на экран "Домой"»</strong></li>
-            <li>Готово! Игра всегда под рукой!</li>
+            <li>Нажмите <strong>кнопку «Поделиться»</strong></li>
+            <li>Выберите <strong>«На экран „Домой“»</strong></li>
+            <li>Подтвердите</li>
+            <li>Готово — игра всегда под рукой</li>
           </ol>
-          <p style="font-size: 0.6rem; text-align: center; margin-top: 4px;">🤖 Android версия скоро!</p>
+          <p style="font-size: 0.65rem; text-align: center; margin-top: 6px; color: var(--text-muted);">Android — через меню браузера</p>
         </div>
         
         <div class="welcome-text">
-          <p>Привет! Этот сайт создан одним человеком. Поделитесь им с друзьями — это лучшая поддержка!</p>
+          <p>Этот сайт создан одним человеком. Поделитесь им с друзьями — лучшая поддержка.</p>
           <p><strong>Режимы:</strong></p>
           <ul>
-            <li>💖 Обычный — для компаний</li>
-            <li>🔥 18+ — для пар</li>
-            <li>🔒 Секретный — для близких</li>
-            <li>🍺 Вечеринка — смешные</li>
-            <li>💑 Для пар — романтика</li>
+            <li>Обычный — для компаний</li>
+            <li>18+ — для взрослых</li>
+            <li>Секретный — для близких</li>
+            <li>Вечеринка — смешные задания</li>
+            <li>Для пар — романтика</li>
           </ul>
-          <p><strong>Преимущества:</strong></p>
+          <p><strong>Возможности:</strong></p>
           <ul>
-            <li>✅ 2000+ уникальных вопросов</li>
-            <li>✅ До 10 игроков</li>
-            <li>✅ Таймер 60 секунд</li>
-            <li>✅ Сохранение прогресса</li>
-            <li>✅ Тёмная/светлая тема</li>
-            <li>✅ Статистика для всех</li>
-            <li>✅ Без регистрации</li>
-            <li>✅ Бесплатно навсегда</li>
-            <li>✅ Работает офлайн</li>
-            <li>✅ Адаптация под все экраны</li>
+            <li>Уникальные вопросы в каждом режиме</li>
+            <li>До 10 игроков</li>
+            <li>Таймер 60 секунд</li>
+            <li>Сохранение прогресса</li>
+            <li>Тёмная / светлая тема</li>
+            <li>Статистика</li>
+            <li>Без регистрации · бесплатно · офлайн</li>
           </ul>
         </div>
-        <button class="btn btn-primary" onclick="showScreen('screen-agreement')">Попробовать игру</button>
+        <button class="btn btn-primary" onclick="showScreen('screen-agreement')">Начать игру</button>
       </div>
     </div>
 
-    <!-- ЭКРАН СОГЛАШЕНИЯ -->
     <div id="screen-agreement" class="screen">
       <div class="agreement-box">
-        <h3>📋 Соглашение</h3>
-        <p style="text-align: center; margin-bottom: 5px; color: var(--text-soft); font-size: 0.65rem;">Нажимая «Согласиться», вы соглашаетесь:</p>
+        <h3>Соглашение</h3>
+        <p style="text-align: center; margin-bottom: 8px; color: var(--text-soft); font-size: 0.72rem;">Нажимая «Согласиться», вы подтверждаете:</p>
         <ol>
           <li>Вы сами отвечаете за действия, предложенные сайтом.</li>
-          <li>Вы добровольно играете, не под воздействием третьих лиц.</li>
-          <li>Я готов(а) весело провести время.</li>
-          <li>Я соглашаюсь с cookie-файлами сайта.</li>
+          <li>Вы добровольно участвуете в игре.</li>
+          <li>Вы готовы весело провести время.</li>
+          <li>Вы соглашаетесь с использованием cookie.</li>
         </ol>
       </div>
       <button class="btn btn-primary" onclick="goToPlayers()">Согласиться</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">← Назад</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">Назад</button>
     </div>
 
-    <!-- ЭКРАН ИГРОКОВ -->
     <div id="screen-players" class="screen">
-      <h1 class="app-title">✨ Правда или Наказание</h1>
+      <h1 class="app-title">Правда или Наказание</h1>
       <p class="app-subtitle">Добавьте игроков (от 2 до 10)</p>
       <div id="players-container"></div>
       <button class="add-player-btn" id="add-player-btn" onclick="addPlayer()">+ Добавить игрока</button>
       
-      <div style="max-width: 320px; width: 100%; margin-top: 8px; flex-shrink: 0;">
+      <div style="max-width: 320px; width: 100%; margin-top: 12px; flex-shrink: 0;">
         <div class="settings-row">
-          <span class="settings-label">🌓 Светлая тема</span>
+          <span class="settings-label">Светлая тема</span>
           <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
         </div>
       </div>
       
-      <button class="btn btn-primary" style="margin-top: 8px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
+      <button class="btn btn-primary" style="margin-top: 10px;" id="btn-players-next" disabled onclick="goToMode()">Продолжить</button>
     </div>
 
-    <!-- ЭКРАН РЕЖИМОВ -->
     <div id="screen-mode" class="screen">
       <button class="btn-back" onclick="showScreen('screen-players')">← Назад</button>
       <h1 class="app-title">Выберите режим</h1>
@@ -879,7 +763,6 @@
       <button class="btn btn-primary" id="btn-mode-next" disabled onclick="goToGame()">Продолжить</button>
     </div>
 
-    <!-- ЭКРАН ИГРЫ -->
     <div id="screen-game" class="screen">
       <div class="game-header">
         <div class="turn-indicator">
@@ -891,21 +774,20 @@
       <div class="timer-display" id="timerDisplay" style="display: none;">60</div>
       <div class="card" id="card-text">Выберите действие</div>
       <div class="action-buttons" id="choice-buttons" style="display: flex;">
-        <button class="btn btn-primary" onclick="drawCard('truth')">💖 Правда</button>
-        <button class="btn btn-primary" onclick="drawCard('dare')">🔥 Наказание</button>
+        <button class="btn btn-primary" onclick="drawCard('truth')">Правда</button>
+        <button class="btn btn-primary" onclick="drawCard('dare')">Наказание</button>
       </div>
       <div class="action-buttons" id="action-buttons" style="display: none;">
         <button class="btn btn-secondary" onclick="skipCard()">Пропустить</button>
-        <button class="btn btn-primary" onclick="completeCard()">Выполнил(а) ✓</button>
+        <button class="btn btn-primary" onclick="completeCard()">Выполнил(а)</button>
       </div>
-      <button class="btn btn-secondary" style="margin-top: 5px; font-size: 0.65rem;" onclick="showStats()">📊 Статистика</button>
-      <button class="btn btn-secondary" style="margin-top: 5px;" onclick="resetAll()">🔄 Начать заново</button>
+      <button class="btn btn-secondary" style="margin-top: 8px; font-size: 0.75rem;" onclick="showStats()">Статистика</button>
+      <button class="btn btn-secondary" style="margin-top: 6px;" onclick="resetAll()">Начать заново</button>
     </div>
 
-    <!-- ЭКРАН СТАТИСТИКИ -->
     <div id="screen-stats" class="screen">
       <button class="btn-back" onclick="showScreen('screen-game')">← Назад</button>
-      <h1 class="app-title">📊 Статистика</h1>
+      <h1 class="app-title">Статистика</h1>
       <div class="stats-box" id="statsBox">
         <h4>Статистика всех игроков</h4>
         <div id="statsContent"></div>
@@ -915,7 +797,7 @@
   </div>
 
   <script>
-    // ====== БАЗА ВОПРОСОВ ======
+    // ====== БАЗА ВОПРОСОВ (уникальные для каждого режима) ======
     const questionBank = {
       regular: {
         truth: [
@@ -938,7 +820,12 @@
           "Как ты понимаешь, что {name} тебя любит?",
           "Что ты хочешь пожелать {name}?",
           "Какой твой любимый момент с {name}?",
-          "Что тебя вдохновляет в {name}?"
+          "Что тебя вдохновляет в {name}?",
+          "Какую привычку {name} ты находишь милой?",
+          "Что бы ты хотел(а) узнать о {name} прямо сейчас?",
+          "Как {name} влияет на твоё настроение?",
+          "Какой совет ты бы дал(а) {name}?",
+          "Что ты хочешь изменить в отношениях с {name}?"
         ],
         dare: [
           "Обними {name} крепко и не отпускай 10 секунд",
@@ -958,9 +845,14 @@
           "Поцелуй {name} в щёку",
           "Погладь {name} по голове",
           "Скажи {name}, что скучал(а) бы без него/неё",
-          "Сделай {name} сюрприз",
+          "Сделай {name} сюрприз прямо сейчас",
           "Прошепчи {name} на ухо «ты моё всё»",
-          "Поцелуй {name} в руку"
+          "Поцелуй {name} в руку",
+          "Посмотри {name} в глаза 15 секунд не отрываясь",
+          "Скажи {name} самый искренний комплимент",
+          "Обними {name} и скажи, почему он(а) важен(на) тебе",
+          "Подари {name} воздушный поцелуй",
+          "Сделай {name} массаж рук 20 секунд"
         ]
       },
       adult: {
@@ -979,7 +871,12 @@
           "Что бы ты сделал(а) с {name}, если бы вы были одни?",
           "Какая поза с {name} тебе нравится больше всего?",
           "Что ты хочешь, чтобы {name} шептал(а) тебе?",
-          "Какой интимный момент с {name} ты хочешь повторить?"
+          "Какой интимный момент с {name} ты хочешь повторить?",
+          "Что тебя возбуждает в голосе {name}?",
+          "Какой запах {name} тебя заводит?",
+          "Что ты хочешь услышать от {name} во время близости?",
+          "Какая фантазия с {name} тебя смущает?",
+          "Что бы ты хотел(а) сделать {name} прямо сейчас, если бы никто не видел?"
         ],
         dare: [
           "Поцелуй {name} в шею страстно",
@@ -996,7 +893,12 @@
           "Лизни губы {name}",
           "Скажи {name}, что хочешь сделать с ним/ней",
           "Сделай {name} массаж бёдер",
-          "Поцелуй {name} в губы и не отрывайся 30 секунд"
+          "Поцелуй {name} в губы и не отрывайся 30 секунд",
+          "Проведи рукой по спине {name} медленно",
+          "Пошепчи {name} свою фантазию",
+          "Обними {name} так, чтобы он(а) почувствовал(а) твоё дыхание",
+          "Поцелуй {name} в ключицу",
+          "Скажи {name} самое возбуждающее, что приходит в голову"
         ]
       },
       secret: {
@@ -1015,7 +917,12 @@
           "Что тебе нравится в куни от {name}?",
           "Что ты хочешь, чтобы {name} делал(а) с твоей спермой?",
           "Что ты хочешь, чтобы {name} делал(а) с твоими соками?",
-          "Что тебе нравится, когда {name} глотает?"
+          "Что тебе нравится, когда {name} глотает?",
+          "Как ты хочешь, чтобы {name} использовал(а) руки во время орала?",
+          "Что тебе нравится в глубоком минете от {name}?",
+          "Как {name} должен(на) ласкать тебя языком?",
+          "Что возбуждает тебя в звуках, которые издаёт {name} во время орала?",
+          "Какой темп орального секса с {name} тебе нравится больше всего?"
         ],
         dare: [
           "Сделай {name} минет",
@@ -1032,7 +939,12 @@
           "Покусай яйца {name} нежно",
           "Оближи половые губы {name}",
           "Поцелуй головку члена {name}",
-          "Лизни промежность {name}"
+          "Лизни промежность {name}",
+          "Сделай {name} минет стоя",
+          "Сделай {name} куни лёжа",
+          "Используй только язык на {name} 30 секунд",
+          "Сделай {name} минет с взглядом в глаза",
+          "Сделай {name} куни и не останавливайся, пока не скажет"
         ]
       },
       party: {
@@ -1046,7 +958,17 @@
           "Кто из игроков, скорее всего, заговорит с незнакомцем?",
           "Какая твоя самая неловкая история?",
           "Кто из игроков, скорее всего, потеряет телефон?",
-          "Что бы ты сделал(а), если бы стал(а) невидимым(ой) на день?"
+          "Что бы ты сделал(а), если бы стал(а) невидимым(ой) на день?",
+          "Кто из игроков лучше всех танцует?",
+          "Какой самый странный сон тебе снился?",
+          "Кто из игроков самый конкурентный?",
+          "Что бы ты сделал(а), если бы мог(ла) поменяться телами с кем-то на день?",
+          "Кто из игроков самый романтичный?",
+          "Какая твоя самая глупая привычка?",
+          "Кто из игроков, скорее всего, станет знаменитым?",
+          "Что самое смешное случалось с тобой в школе?",
+          "Кто из игроков самый щедрый?",
+          "Если бы ты мог(ла) отменить один закон природы — какой?"
         ],
         dare: [
           "Изобрази любого игрока",
@@ -1058,156 +980,206 @@
           "Покажи свой лучший танец",
           "Изобрази статую",
           "Сделай 10 приседаний",
-          "Изобрази робота"
+          "Изобрази робота",
+          "Спой песню голосом другого игрока",
+          "Изобрази известного актёра",
+          "Сделай 15 отжиманий (или сколько сможешь)",
+          "Расскажи историю только жестами",
+          "Изобрази, как ты ходишь по луне",
+          "Спой гимн любой страны",
+          "Сделай смешную гримасу и держи 10 секунд",
+          "Изобрази супергероя",
+          "Станцуй, как будто ты на дискотеке 80-х",
+          "Расскажи тост на выдуманном языке"
         ]
       },
       couple: {
         truth: [
-          "Что ты больше всего ценишь в {name}?",
-          "Какой момент с {name} был самым романтичным?",
-          "Что ты хочешь сказать {name} прямо сейчас?",
-          "Как {name} делает тебя счастливее?",
-          "Что для тебя значит любовь {name}?",
-          "Какой сюрприз ты мечтаешь получить от {name}?",
-          "Что ты чувствуешь, когда {name} обнимает тебя?",
-          "Как {name} изменил(а) твою жизнь?",
-          "Что ты хочешь сделать для {name}?",
-          "Какой твой любимый момент с {name}?"
+          "Что ты больше всего ценишь в наших отношениях?",
+          "Какой момент нашей совместной жизни был самым тёплым?",
+          "Что ты хочешь сказать мне прямо сейчас?",
+          "Как я делаю тебя счастливее?",
+          "Что для тебя значит наша любовь?",
+          "Какой сюрприз ты мечтаешь получить от меня?",
+          "Что ты чувствуешь, когда я обнимаю тебя?",
+          "Как я изменил(а) твою жизнь?",
+          "Что ты хочешь сделать для меня?",
+          "Какой наш любимый момент вместе?",
+          "Что ты ценишь в моём характере?",
+          "Какой комплимент от меня тебе особенно приятен?",
+          "Что бы ты хотел(а) улучшить в наших отношениях?",
+          "Какой наш первый момент ты вспоминаешь чаще всего?",
+          "Что делает наш день особенным?",
+          "Как ты понимаешь, что я тебя люблю?",
+          "Какой жест от меня тебя растапливает?",
+          "Что ты хочешь, чтобы мы делали чаще?",
+          "Какой наш план на будущее тебе нравится больше всего?",
+          "Что ты чувствуешь, когда мы молчим рядом?"
         ],
         dare: [
-          "Обними {name} и не отпускай 20 секунд",
-          "Поцелуй {name} в лоб",
-          "Скажи {name} три причины, почему ты его/её любишь",
-          "Сделай {name} массаж рук",
-          "Прошепчи {name} на ухо «я тебя люблю»",
-          "Потанцуй с {name} медленный танец",
-          "Погладь {name} по волосам",
-          "Сделай {name} комплимент",
-          "Подержи {name} за руку и смотри в глаза",
-          "Поцелуй {name} в щёку"
+          "Обними меня и не отпускай 20 секунд",
+          "Поцелуй меня в лоб",
+          "Скажи три причины, почему ты меня любишь",
+          "Сделай мне массаж рук",
+          "Прошепчи мне на ухо «я тебя люблю»",
+          "Потанцуй со мной медленный танец",
+          "Погладь меня по волосам",
+          "Сделай мне комплимент",
+          "Подержи меня за руку и смотри в глаза",
+          "Поцелуй меня в щёку",
+          "Напиши мне на ладони слово «любовь»",
+          "Обними меня сзади и скажи что-то тёплое",
+          "Поцелуй меня в висок",
+          "Скажи мне, за что ты благодарен(на) прямо сейчас",
+          "Посмотри мне в глаза и улыбнись 10 секунд",
+          "Сделай мне лёгкий массаж плеч",
+          "Поцелуй меня в руку",
+          "Скажи мне самый романтичный комплимент",
+          "Обними меня так, будто мы не виделись год",
+          "Прошепчи мне на ухо, почему я особенный(ая)"
         ]
       }
     };
 
-    // ====== СИСТЕМА ОПРЕДЕЛЕНИЯ ПОЛА ======
-    const maleNames = [
-      'александр', 'алексей', 'андрей', 'артём', 'артем', 'борис', 'вадим', 'валентин', 'валерий', 'василий',
-      'виктор', 'виталий', 'владимир', 'владислав', 'вячеслав', 'геннадий', 'георгий', 'григорий', 'даниил',
-      'данил', 'денис', 'дмитрий', 'евгений', 'егор', 'иван', 'игорь', 'илья', 'кирилл', 'константин', 'лев',
-      'леонид', 'максим', 'марк', 'матвей', 'михаил', 'никита', 'николай', 'олег', 'павел', 'пётр', 'петр',
-      'роман', 'руслан', 'сергей', 'станислав', 'степан', 'тимофей', 'фёдор', 'федор', 'юрий', 'ярослав',
-      'арсений', 'антон', 'анатолий', 'аркадий', 'богдан', 'вениамин', 'всеволод', 'гавриил', 'глеб',
-      'демид', 'добрыня', 'захар', 'игнат', 'климент', 'лука', 'мирон', 'назар', 'платон', 'прохор',
-      'роберт', 'родион', 'савва', 'семён', 'семен', 'тарас', 'трофим', 'эдуард', 'юлиан', 'ян'
-    ];
+    // ====== УЛУЧШЕННОЕ ОПРЕДЕЛЕНИЕ ПОЛА ======
+    const maleNames = new Set([
+      'александр','алексей','андрей','артём','артем','борис','вадим','валентин','валерий','василий',
+      'виктор','виталий','владимир','владислав','вячеслав','геннадий','георгий','григорий','даниил',
+      'данил','денис','дмитрий','евгений','егор','иван','игорь','илья','кирилл','константин','лев',
+      'леонид','максим','марк','матвей','михаил','никита','николай','олег','павел','пётр','петр',
+      'роман','руслан','сергей','станислав','степан','тимофей','фёдор','федор','юрий','ярослав',
+      'тимур','гордей','платон','савва','захар','глеб','даниил','давид','арсений','макар','роман',
+      'эдуард','эрик','рафаэль','дамир','карим','амир','расим','тихон','прохор','севастьян'
+    ]);
 
-    const femaleNames = [
-      'александра', 'алина', 'алиса', 'алла', 'анастасия', 'ангелина', 'анна', 'валентина', 'валерия',
-      'варвара', 'вера', 'вероника', 'виктория', 'галина', 'дарья', 'диана', 'ева', 'евгения', 'екатерина',
-      'елена', 'елизавета', 'жанна', 'зинаида', 'зоя', 'инга', 'инесса', 'инна', 'ирина', 'карина',
-      'каролина', 'кира', 'клавдия', 'кристина', 'ксения', 'лариса', 'лидия', 'лилия', 'любовь', 'людмила',
-      'маргарита', 'марина', 'мария', 'милана', 'надежда', 'наталья', 'нателла', 'нина', 'оксана', 'ольга',
-      'полина', 'раиса', 'регина', 'светлана', 'софья', 'софия', 'таисия', 'тамара', 'татьяна', 'ульяна',
-      'элина', 'эльвира', 'юлия', 'яна', 'ярослава', 'аврора', 'аглая', 'адель', 'азалия', 'аида',
-      'аксинья', 'алевтина', 'амелия', 'анфиса', 'арина', 'василиса', 'влада', 'владислава', 'галина',
-      'дана', 'дарина', 'дина', 'доминика', 'ефросинья', 'иванна', 'илария', 'иоанна', 'капитолина', 'лада'
-    ];
+    const femaleNames = new Set([
+      'александра','алина','алиса','алла','анастасия','ангелина','анна','валентина','валерия',
+      'варвара','вера','вероника','виктория','галина','дарья','диана','ева','евгения','екатерина',
+      'елена','елизавета','жанна','зинаида','зоя','инга','инесса','инна','ирина','карина',
+      'кира','клавдия','кристина','ксения','лариса','лидия','лилия','любовь','людмила',
+      'маргарита','марина','мария','милана','надежда','наталья','нина','оксана','ольга',
+      'полина','раиса','регина','светлана','софья','софия','таисия','тамара','татьяна','ульяна',
+      'элина','эльвира','юлия','яна','ярослава','арина','василиса','мирослава','стефания',
+      'есения','амелия','эмилия','каролина','виталина','аделина','дарина','марьяна','снежана'
+    ]);
+
+    // Дополнительные эвристики по окончаниям
+    const femaleEndings = ['а','я','ия','ья','ла','на','ра','са','та','ва','да','ка','ма','па','фа','ха','ца','ча','ша','ща'];
+    const maleEndings = ['й','р','н','м','л','с','т','в','д','б','г','з','к','п','ф','х','ц','ч','ш','щ','ь'];
 
     function detectGender(name) {
-      const cleanName = name.toLowerCase().trim();
-      
-      // Проверяем женские окончания
-      if (cleanName.endsWith('а') || cleanName.endsWith('я') || 
-          cleanName.endsWith('ия') || cleanName.endsWith('ья') ||
-          cleanName.endsWith('ика') || cleanName.endsWith('ида')) {
-        return 'female';
+      if (!name || typeof name !== 'string') return 'unknown';
+      const clean = name.toLowerCase().trim().replace(/[^а-яёa-z\-]/gi, '');
+      if (!clean) return 'unknown';
+
+      // Точное совпадение с известными именами
+      if (maleNames.has(clean)) return 'male';
+      if (femaleNames.has(clean)) return 'female';
+
+      // Составные имена (Анна-Мария и т.п.)
+      const parts = clean.split(/[\s\-]+/);
+      for (const part of parts) {
+        if (maleNames.has(part)) return 'male';
+        if (femaleNames.has(part)) return 'female';
       }
-      
-      // Проверяем мужские окончания
-      if (cleanName.endsWith('й') || cleanName.endsWith('р') || 
-          cleanName.endsWith('н') || cleanName.endsWith('м') ||
-          cleanName.endsWith('л') || cleanName.endsWith('с') ||
-          cleanName.endsWith('т') || cleanName.endsWith('в') ||
-          cleanName.endsWith('д') || cleanName.endsWith('б') ||
-          cleanName.endsWith('г') || cleanName.endsWith('з') ||
-          cleanName.endsWith('к') || cleanName.endsWith('п') ||
-          cleanName.endsWith('ф') || cleanName.endsWith('х') ||
-          cleanName.endsWith('ц') || cleanName.endsWith('ч') ||
-          cleanName.endsWith('ш') || cleanName.endsWith('щ')) {
+
+      // Эвристика по окончанию (русский язык)
+      const last = clean.slice(-1);
+      const last2 = clean.slice(-2);
+      const last3 = clean.slice(-3);
+
+      // Типичные женские
+      if (['ия','ья','ла','на','ра','са','та','ва','да','ка','ма'].includes(last2) || 
+          last === 'а' || last === 'я') {
+        // Исключения мужских имён на -а/-я
+        const maleExceptions = ['никита','илья','кузьма','савва','фома','лука','глеб'];
+        if (!maleExceptions.includes(clean)) return 'female';
+      }
+
+      // Типичные мужские
+      if (maleEndings.includes(last) || ['ий','ей','ай','ой','ый'].includes(last2)) {
         return 'male';
       }
-      
-      // Проверяем по словарю
-      if (maleNames.includes(cleanName)) return 'male';
-      if (femaleNames.includes(cleanName)) return 'female';
-      
-      return 'unknown';
-    }
 
-    function getGenderForm(name, maleForm, femaleForm, unknownForm) {
-      const gender = detectGender(name);
-      if (gender === 'male') return maleForm;
-      if (gender === 'female') return femaleForm;
-      return unknownForm || maleForm + '/' + femaleForm;
+      return 'unknown';
     }
 
     function adaptQuestion(template, targetName) {
       const gender = detectGender(targetName);
-      
-      // Заменяем {name} на имя
       let result = template.replace(/{name}/g, targetName);
-      
-      // Адаптируем окончания для женского рода
-      if (gender === 'female') {
-        result = result.replace(/сделал\(а\)/g, 'сделала');
-        result = result.replace(/хотел\(а\)/g, 'хотела');
-        result = result.replace(/должен\(на\)/g, 'должна');
-        result = result.replace(/готов\(а\)/g, 'готова');
-        result = result.replace(/благодарен\(на\)/g, 'благодарна');
-        result = result.replace(/влюблён\(а\)/g, 'влюблена');
-        result = result.replace(/рад\(а\)/g, 'рада');
-        result = result.replace(/счастлив\(а\)/g, 'счастлива');
-        result = result.replace(/уверен\(а\)/g, 'уверена');
-        result = result.replace(/один\(одна\)/g, 'одна');
-        result = result.replace(/сам\(а\)/g, 'сама');
-        result = result.replace(/заболел\(а\)/g, 'заболела');
-        result = result.replace(/получил\(а\)/g, 'получила');
-        result = result.replace(/выиграл\(а\)/g, 'выиграла');
-        result = result.replace(/испугался\(лась\)/g, 'испугалась');
-        result = result.replace(/нуждался\(лась\)/g, 'нуждалась');
-        result = result.replace(/забыл\(а\)/g, 'забыла');
-        result = result.replace(/приготовил\(а\)/g, 'приготовила');
-        result = result.replace(/признался\(лась\)/g, 'призналась');
-        result = result.replace(/уехал\(а\)/g, 'уехала');
-        result = result.replace(/потерял\(а\)/g, 'потеряла');
-        result = result.replace(/скучал\(а\)/g, 'скучала');
-        result = result.replace(/сказал\(а\)/g, 'сказала');
-      } else if (gender === 'male') {
-        result = result.replace(/сделал\(а\)/g, 'сделал');
-        result = result.replace(/хотел\(а\)/g, 'хотел');
-        result = result.replace(/должен\(на\)/g, 'должен');
-        result = result.replace(/готов\(а\)/g, 'готов');
-        result = result.replace(/благодарен\(на\)/g, 'благодарен');
-        result = result.replace(/влюблён\(а\)/g, 'влюблён');
-        result = result.replace(/рад\(а\)/g, 'рад');
-        result = result.replace(/счастлив\(а\)/g, 'счастлив');
-        result = result.replace(/уверен\(а\)/g, 'уверен');
-        result = result.replace(/один\(одна\)/g, 'один');
-        result = result.replace(/сам\(а\)/g, 'сам');
-        result = result.replace(/заболел\(а\)/g, 'заболел');
-        result = result.replace(/получил\(а\)/g, 'получил');
-        result = result.replace(/выиграл\(а\)/g, 'выиграл');
-        result = result.replace(/испугался\(лась\)/g, 'испугался');
-        result = result.replace(/нуждался\(лась\)/g, 'нуждался');
-        result = result.replace(/забыл\(а\)/g, 'забыл');
-        result = result.replace(/приготовил\(а\)/g, 'приготовил');
-        result = result.replace(/признался\(лась\)/g, 'признался');
-        result = result.replace(/уехал\(а\)/g, 'уехал');
-        result = result.replace(/потерял\(а\)/g, 'потерял');
-        result = result.replace(/скучал\(а\)/g, 'скучал');
-        result = result.replace(/сказал\(а\)/g, 'сказал');
+
+      // Словарь замен (полное покрытие)
+      const replacements = {
+        female: {
+          'сделал(а)': 'сделала',
+          'хотел(а)': 'хотела',
+          'должен(на)': 'должна',
+          'готов(а)': 'готова',
+          'благодарен(на)': 'благодарна',
+          'рад(а)': 'рада',
+          'счастлив(а)': 'счастлива',
+          'заболел(а)': 'заболела',
+          'получил(а)': 'получила',
+          'выиграл(а)': 'выиграла',
+          'испугался(лась)': 'испугалась',
+          'нуждался(лась)': 'нуждалась',
+          'забыл(а)': 'забыла',
+          'приготовил(а)': 'приготовила',
+          'признался(лась)': 'призналась',
+          'уехал(а)': 'уехала',
+          'потерял(а)': 'потеряла',
+          'скучал(а)': 'скучала',
+          'сказал(а)': 'сказала',
+          'стал(а)': 'стала',
+          'понял(а)': 'поняла',
+          'дорог(а)': 'дорога',
+          'особенный(ая)': 'особенная',
+          'невидимым(ой)': 'невидимой',
+          'мог(ла)': 'могла',
+          'благодарен(на)': 'благодарна',
+          'он(а)': 'она',
+          'него/неё': 'неё',
+          'ним/ней': 'ней',
+          'его/её': 'её'
+        },
+        male: {
+          'сделал(а)': 'сделал',
+          'хотел(а)': 'хотел',
+          'должен(на)': 'должен',
+          'готов(а)': 'готов',
+          'благодарен(на)': 'благодарен',
+          'рад(а)': 'рад',
+          'счастлив(а)': 'счастлив',
+          'заболел(а)': 'заболел',
+          'получил(а)': 'получил',
+          'выиграл(а)': 'выиграл',
+          'испугался(лась)': 'испугался',
+          'нуждался(лась)': 'нуждался',
+          'забыл(а)': 'забыл',
+          'приготовил(а)': 'приготовил',
+          'признался(лась)': 'признался',
+          'уехал(а)': 'уехал',
+          'потерял(а)': 'потерял',
+          'скучал(а)': 'скучал',
+          'сказал(а)': 'сказал',
+          'стал(а)': 'стал',
+          'понял(а)': 'понял',
+          'дорог(а)': 'дорог',
+          'особенный(ая)': 'особенный',
+          'невидимым(ой)': 'невидимым',
+          'мог(ла)': 'мог',
+          'он(а)': 'он',
+          'него/неё': 'него',
+          'ним/ней': 'ним',
+          'его/её': 'его'
+        }
+      };
+
+      const map = replacements[gender] || {};
+      for (const [from, to] of Object.entries(map)) {
+        result = result.split(from).join(to);
       }
-      
+
       return result;
     }
 
@@ -1285,7 +1257,7 @@
       document.getElementById('timerDisplay').style.display = 'none';
     }
 
-    // ====== ГЕНЕРАЦИЯ ======
+    // ====== ГЕНЕРАЦИЯ (с защитой от повторов) ======
     function generateCard(type) {
       const questions = questionBank[gameState.mode] ? questionBank[gameState.mode][type] : questionBank.regular[type];
       const otherName = gameState.players[(gameState.currentPlayerIndex + 1) % gameState.players.length];
@@ -1311,7 +1283,6 @@
       if (type === 'truth') gameState.playerStats[currentPlayer].truth++;
       if (type === 'dare') gameState.playerStats[currentPlayer].dare++;
       
-      // Адаптируем вопрос под пол имени
       return adaptQuestion(questions[randomIndex], otherName);
     }
 
@@ -1391,7 +1362,16 @@
         gameState.playerStats[val.trim()] = gameState.playerStats[oldName];
         delete gameState.playerStats[oldName];
       }
-      renderPlayers();
+      const container = document.getElementById('players-container');
+      const rows = container.querySelectorAll('.player-input-row');
+      if (rows[i]) {
+        const gender = detectGender(val.trim());
+        const badge = rows[i].querySelector('.gender-badge');
+        if (badge) {
+          badge.textContent = gender === 'male' ? '👨' : gender === 'female' ? '👩' : '👤';
+          badge.className = `gender-badge ${gender}`;
+        }
+      }
       updateNextButton();
     }
 
