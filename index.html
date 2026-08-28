@@ -406,11 +406,11 @@
     }
     .action-buttons .btn {
       flex: 1;
-      min-width: 110px;
-      max-width: 160px;
+      min-width: 100px;
+      max-width: 150px;
       margin-bottom: 0;
-      font-size: 0.8rem;
-      padding: 11px 10px;
+      font-size: 0.78rem;
+      padding: 11px 8px;
     }
 
     .answer-box {
@@ -652,6 +652,14 @@
     </div>
   </div>
 
+  <div class="password-modal" id="loseModal">
+    <div class="password-box">
+      <h3 id="loseTitle">Игра окончена</h3>
+      <p id="loseText" style="margin-bottom:16px; color:var(--text-soft);"></p>
+      <button class="btn btn-primary" onclick="closeLoseModal()">К режимам</button>
+    </div>
+  </div>
+
   <div class="password-modal" id="customModal">
     <div class="password-box">
       <h3>➕ Свои вопросы</h3>
@@ -692,14 +700,6 @@
             <li>💑 Для пар — романтика (только 2 игрока)</li>
             <li>😈 Тест на абьюзера — только 2 игрока</li>
           </ul>
-          <p><strong>Возможности:</strong></p>
-          <ul>
-            <li>✅ Свои вопросы</li>
-            <li>✅ Звук и вибрация (Android)</li>
-            <li>✅ Только правда / только наказание</li>
-            <li>✅ Уникальные вопросы</li>
-            <li>✅ Таймер, статистика, темы</li>
-          </ul>
         </div>
         <button class="btn btn-primary" onclick="showScreen('screen-agreement')">✨ Начать игру</button>
       </div>
@@ -738,6 +738,10 @@
         <div class="settings-row">
           <span class="settings-label">📳 Вибрация (Android)</span>
           <div class="toggle-switch active" id="vibrateToggle" onclick="toggleVibrate()"></div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">⏱️ Таймер</span>
+          <div class="toggle-switch active" id="timerToggle" onclick="toggleTimer()"></div>
         </div>
       </div>
       
@@ -794,7 +798,7 @@
         <span class="skip-counter" id="skip-counter">Пропуски: 3/3</span>
       </div>
       <div class="phase-info" id="phaseInfo" style="display:none;"></div>
-      <div class="timer-display" id="timerDisplay" style="display: none;">60</div>
+      <div class="timer-display" id="timerDisplay" style="display: none;">90</div>
       <div class="card" id="card-text">Выберите действие</div>
 
       <div class="action-buttons" id="choice-buttons" style="display: flex;">
@@ -803,6 +807,7 @@
       </div>
       <div class="action-buttons" id="action-buttons" style="display: none;">
         <button class="btn btn-secondary" onclick="skipCard()">Пропустить</button>
+        <button class="btn btn-secondary" onclick="cantAnswerNormal()">Не могу</button>
         <button class="btn btn-primary" onclick="completeCard()">Выполнил(а) ✓</button>
       </div>
 
@@ -1158,13 +1163,14 @@
 
     let soundEnabled = true;
     let vibrateEnabled = true;
+    let timerEnabled = true;
     let cardFilter = 'both';
+    let tasksInTurn = 0; // для "таймер со второго задания"
 
-    // Для теста на абьюзера
     let abuserSession = {
-      questions: [],          // 20 фиксированных вопросов на сессию
+      questions: [],
       currentIndex: 0,
-      phase: 'male',          // 'male' → 'female' → 'done'
+      phase: 'male',
       malePlayer: null,
       femalePlayer: null,
       maleCant: 0,
@@ -1197,16 +1203,31 @@
     function adaptQuestion(template, targetName) {
       const gender = detectGender(targetName);
       let result = template.replace(/{name}/g, targetName);
-      const replacements = {
-        female: {'сделал(а)':'сделала','хотел(а)':'хотела','должен(на)':'должна','готов(а)':'готова','благодарен(на)':'благодарна','рад(а)':'рада','счастлив(а)':'счастлива','заболел(а)':'заболела','получил(а)':'получила','выиграл(а)':'выиграла','испугался(лась)':'испугалась','нуждался(лась)':'нуждалась','забыл(а)':'забыла','приготовил(а)':'приготовила','признался(лась)':'призналась','уехал(а)':'уехала','потерял(а)':'потеряла','скучал(а)':'скучала','сказал(а)':'сказала','стал(а)':'стала','понял(а)':'поняла','дорог(а)':'дорога','особенный(ая)':'особенная','невидимым(ой)':'невидимой','мог(ла)':'могла','он(а)':'она','него/неё':'неё','ним/ней':'ней','его/её':'её','почувствовал(а)':'почувствовала','важен(на)':'важна','был(а)':'была','неправ(а)':'неправа'},
-        male: {'сделал(а)':'сделал','хотел(а)':'хотел','должен(на)':'должен','готов(а)':'готов','благодарен(на)':'благодарен','рад(а)':'рад','счастлив(а)':'счастлив','заболел(а)':'заболел','получил(а)':'получил','выиграл(а)':'выиграл','испугался(лась)':'испугался','нуждался(лась)':'нуждался','забыл(а)':'забыл','приготовил(а)':'приготовил','признался(лась)':'признался','уехал(а)':'уехал','потерял(а)':'потерял','скучал(а)':'скучал','сказал(а)':'сказал','стал(а)':'стал','понял(а)':'понял','дорог(а)':'дорог','особенный(ая)':'особенный','невидимым(ой)':'невидимым','мог(ла)':'мог','он(а)':'он','него/неё':'него','ним/ней':'ним','его/её':'его','почувствовал(а)':'почувствовал','важен(на)':'важен','был(а)':'был','неправ(а)':'неправ'}
+      const map = gender === 'female' ? {
+        'сделал(а)':'сделала','хотел(а)':'хотела','должен(на)':'должна','готов(а)':'готова',
+        'благодарен(на)':'благодарна','рад(а)':'рада','счастлив(а)':'счастлива','заболел(а)':'заболела',
+        'получил(а)':'получила','выиграл(а)':'выиграла','испугался(лась)':'испугалась','нуждался(лась)':'нуждалась',
+        'забыл(а)':'забыла','приготовил(а)':'приготовила','признался(лась)':'призналась','уехал(а)':'уехала',
+        'потерял(а)':'потеряла','скучал(а)':'скучала','сказал(а)':'сказала','стал(а)':'стала','понял(а)':'поняла',
+        'дорог(а)':'дорога','особенный(ая)':'особенная','невидимым(ой)':'невидимой','мог(ла)':'могла',
+        'он(а)':'она','него/неё':'неё','ним/ней':'ней','его/её':'её','почувствовал(а)':'почувствовала',
+        'важен(на)':'важна','был(а)':'была','неправ(а)':'неправа','проиграл(а)':'проиграла'
+      } : {
+        'сделал(а)':'сделал','хотел(а)':'хотел','должен(на)':'должен','готов(а)':'готов',
+        'благодарен(на)':'благодарен','рад(а)':'рад','счастлив(а)':'счастлив','заболел(а)':'заболел',
+        'получил(а)':'получил','выиграл(а)':'выиграл','испугался(лась)':'испугался','нуждался(лась)':'нуждался',
+        'забыл(а)':'забыл','приготовил(а)':'приготовил','признался(лась)':'признался','уехал(а)':'уехал',
+        'потерял(а)':'потерял','скучал(а)':'скучал','сказал(а)':'сказал','стал(а)':'стал','понял(а)':'понял',
+        'дорог(а)':'дорог','особенный(ая)':'особенный','невидимым(ой)':'невидимым','мог(ла)':'мог',
+        'он(а)':'он','него/неё':'него','ним/ней':'ним','его/её':'его','почувствовал(а)':'почувствовал',
+        'важен(на)':'важен','был(а)':'был','неправ(а)':'неправ','проиграл(а)':'проиграл'
       };
-      const map = replacements[gender] || {};
-      for (const [from, to] of Object.entries(map)) result = result.split(from).join(to);
+      for (const [from, to] of Object.entries(map)) {
+        result = result.split(from).join(to);
+      }
       return result;
     }
 
-    // ===== ЗВУКИ =====
     function playSound(type) {
       if (!soundEnabled) return;
       try {
@@ -1215,33 +1236,30 @@
         const gain = ctx.createGain();
         osc.connect(gain);
         gain.connect(ctx.destination);
-
         if (type === 'draw') {
-          osc.frequency.value = 520;
-          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          osc.frequency.value = 520; gain.gain.setValueAtTime(0.08, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
           osc.start(); osc.stop(ctx.currentTime + 0.15);
         } else if (type === 'complete') {
-          osc.frequency.value = 680;
-          gain.gain.setValueAtTime(0.1, ctx.currentTime);
+          osc.frequency.value = 680; gain.gain.setValueAtTime(0.1, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
           osc.start(); osc.stop(ctx.currentTime + 0.2);
         } else if (type === 'skip') {
-          osc.frequency.value = 320;
-          gain.gain.setValueAtTime(0.07, ctx.currentTime);
+          osc.frequency.value = 320; gain.gain.setValueAtTime(0.07, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
           osc.start(); osc.stop(ctx.currentTime + 0.18);
         } else if (type === 'cant') {
-          osc.frequency.value = 240;
-          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          osc.frequency.value = 240; gain.gain.setValueAtTime(0.06, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
           osc.start(); osc.stop(ctx.currentTime + 0.22);
         } else if (type === 'tick') {
-          // Тихий не раздражающий тик
-          osc.frequency.value = 780;
-          gain.gain.setValueAtTime(0.025, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-          osc.start(); osc.stop(ctx.currentTime + 0.05);
+          osc.frequency.value = 780; gain.gain.setValueAtTime(0.02, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+          osc.start(); osc.stop(ctx.currentTime + 0.04);
+        } else if (type === 'lose') {
+          osc.frequency.value = 180; gain.gain.setValueAtTime(0.1, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+          osc.start(); osc.stop(ctx.currentTime + 0.4);
         }
       } catch(e) {}
     }
@@ -1254,12 +1272,14 @@
     function toggleSound() {
       soundEnabled = !soundEnabled;
       document.getElementById('soundToggle').classList.toggle('active', soundEnabled);
-      if (soundEnabled) playSound('complete');
     }
     function toggleVibrate() {
       vibrateEnabled = !vibrateEnabled;
       document.getElementById('vibrateToggle').classList.toggle('active', vibrateEnabled);
-      if (vibrateEnabled) doVibrate([40, 30, 40]);
+    }
+    function toggleTimer() {
+      timerEnabled = !timerEnabled;
+      document.getElementById('timerToggle').classList.toggle('active', timerEnabled);
     }
 
     function setFilter(f) {
@@ -1273,25 +1293,16 @@
       const truthBtn = document.getElementById('btn-truth');
       const dareBtn = document.getElementById('btn-dare');
       if (!truthBtn || !dareBtn) return;
-      if (cardFilter === 'truth') {
-        truthBtn.style.display = 'block';
-        dareBtn.style.display = 'none';
-      } else if (cardFilter === 'dare') {
-        truthBtn.style.display = 'none';
-        dareBtn.style.display = 'block';
-      } else {
-        truthBtn.style.display = 'block';
-        dareBtn.style.display = 'block';
-      }
+      if (cardFilter === 'truth') { truthBtn.style.display = 'block'; dareBtn.style.display = 'none'; }
+      else if (cardFilter === 'dare') { truthBtn.style.display = 'none'; dareBtn.style.display = 'block'; }
+      else { truthBtn.style.display = 'block'; dareBtn.style.display = 'block'; }
     }
 
     function openCustomModal() {
       renderCustomList();
       document.getElementById('customModal').classList.add('active');
     }
-    function closeCustomModal() {
-      document.getElementById('customModal').classList.remove('active');
-    }
+    function closeCustomModal() { document.getElementById('customModal').classList.remove('active'); }
     function addCustomQuestion(type) {
       const input = type === 'truth' ? document.getElementById('customTruthInput') : document.getElementById('customDareInput');
       const text = input.value.trim();
@@ -1301,22 +1312,17 @@
       input.value = '';
       renderCustomList();
       playSound('complete');
-      doVibrate(40);
     }
     function renderCustomList() {
       const list = document.getElementById('customList');
       let html = '';
       if (customQuestions.truth.length) {
         html += '<b>Правды:</b><br>';
-        customQuestions.truth.forEach((q, i) => {
-          html += `<div>💖 ${q} <span style="color:#e83e6d;cursor:pointer" onclick="removeCustom('truth',${i})">×</span></div>`;
-        });
+        customQuestions.truth.forEach((q, i) => html += `<div>💖 ${q} <span style="color:#e83e6d;cursor:pointer" onclick="removeCustom('truth',${i})">×</span></div>`);
       }
       if (customQuestions.dare.length) {
         html += '<b>Наказания:</b><br>';
-        customQuestions.dare.forEach((q, i) => {
-          html += `<div>🔥 ${q} <span style="color:#e83e6d;cursor:pointer" onclick="removeCustom('dare',${i})">×</span></div>`;
-        });
+        customQuestions.dare.forEach((q, i) => html += `<div>🔥 ${q} <span style="color:#e83e6d;cursor:pointer" onclick="removeCustom('dare',${i})">×</span></div>`);
       }
       if (!html) html = '<div style="opacity:0.6">Пока пусто</div>';
       list.innerHTML = html;
@@ -1336,7 +1342,7 @@
       usedCards: { truth: new Set(), dare: new Set() },
       currentCardType: null,
       timerInterval: null,
-      timerSeconds: 60,
+      timerSeconds: 90,
       playerStats: {}
     };
 
@@ -1346,9 +1352,7 @@
       document.getElementById('passwordError').style.display = 'none';
       document.getElementById('passwordInput').focus();
     }
-    function closePasswordModal() {
-      document.getElementById('passwordModal').classList.remove('active');
-    }
+    function closePasswordModal() { document.getElementById('passwordModal').classList.remove('active'); }
     function checkPassword() {
       if (document.getElementById('passwordInput').value === 'secret18') {
         gameState.mode = 'secret';
@@ -1367,32 +1371,47 @@
     }
 
     function startTimer() {
+      if (!timerEnabled || gameState.mode === 'abuser') return;
+      // Таймер начинается только со второго задания
+      if (tasksInTurn < 1) {
+        tasksInTurn++;
+        return;
+      }
       clearInterval(gameState.timerInterval);
-      gameState.timerSeconds = 60;
+      gameState.timerSeconds = 90;
       document.getElementById('timerDisplay').style.display = 'block';
-      document.getElementById('timerDisplay').textContent = '60';
+      document.getElementById('timerDisplay').textContent = '90';
       document.getElementById('timerDisplay').classList.remove('urgent');
       gameState.timerInterval = setInterval(() => {
         gameState.timerSeconds--;
         document.getElementById('timerDisplay').textContent = gameState.timerSeconds;
-        if (gameState.timerSeconds <= 10) {
+        if (gameState.timerSeconds <= 15) {
           document.getElementById('timerDisplay').classList.add('urgent');
-        }
-        // Тихий тик каждую секунду после 15
-        if (gameState.timerSeconds <= 15 && gameState.timerSeconds > 0) {
           playSound('tick');
         }
         if (gameState.timerSeconds <= 0) {
           clearInterval(gameState.timerInterval);
           document.getElementById('timerDisplay').style.display = 'none';
-          if (gameState.mode === 'abuser') submitAnswer();
-          else completeCard();
+          // Проигрыш
+          const name = gameState.players[gameState.currentPlayerIndex];
+          const gender = detectGender(name);
+          const lost = gender === 'female' ? 'проиграла' : 'проиграл';
+          document.getElementById('loseTitle').textContent = 'Игра окончена';
+          document.getElementById('loseText').textContent = `${name} ${lost}, игра окончена.`;
+          playSound('lose');
+          document.getElementById('loseModal').classList.add('active');
         }
       }, 1000);
     }
+
     function stopTimer() {
       clearInterval(gameState.timerInterval);
       document.getElementById('timerDisplay').style.display = 'none';
+    }
+
+    function closeLoseModal() {
+      document.getElementById('loseModal').classList.remove('active');
+      backToModes();
     }
 
     function generateCard(type) {
@@ -1404,19 +1423,20 @@
         const pool = questionBank[gameState.mode][type];
         if (type === 'truth') {
           const g = detectGender(currentName);
-          questions = (g === 'male' && pool.male) ? pool.male : (g === 'female' && pool.female) ? pool.female : [...(pool.male||[]), ...(pool.female||[])];
+          questions = (g === 'male' && pool.male) ? [...pool.male] : (g === 'female' && pool.female) ? [...pool.female] : [...(pool.male||[]), ...(pool.female||[])];
         } else {
           const g = detectGender(otherName);
-          questions = (g === 'male' && pool.male) ? pool.male : (g === 'female' && pool.female) ? pool.female : [...(pool.male||[]), ...(pool.female||[])];
+          questions = (g === 'male' && pool.male) ? [...pool.male] : (g === 'female' && pool.female) ? [...pool.female] : [...(pool.male||[]), ...(pool.female||[])];
         }
       } else {
-        questions = questionBank[gameState.mode] ? questionBank[gameState.mode][type] : questionBank.regular[type];
+        questions = questionBank[gameState.mode] ? [...questionBank[gameState.mode][type]] : [...questionBank.regular[type]];
       }
 
       if (customQuestions[type] && customQuestions[type].length) {
-        questions = [...questions, ...customQuestions[type]];
+        questions = questions.concat(customQuestions[type]);
       }
 
+      // Убираем уже использованные
       let available = [];
       for (let i = 0; i < questions.length; i++) {
         if (!gameState.usedCards[type].has(i)) available.push(i);
@@ -1518,14 +1538,11 @@
       document.getElementById('btn-mode-next').disabled = false;
     }
 
-    // ===== АБЬЮЗЕР: подготовка сессии =====
     function prepareAbuserSession() {
-      // Определяем кто парень / девушка
       const p1 = gameState.players[0];
       const p2 = gameState.players[1];
       const g1 = detectGender(p1);
       const g2 = detectGender(p2);
-
       if (g1 === 'male') {
         abuserSession.malePlayer = p1;
         abuserSession.femalePlayer = p2;
@@ -1533,12 +1550,9 @@
         abuserSession.malePlayer = p2;
         abuserSession.femalePlayer = p1;
       } else {
-        // Если не определили — первый male, второй female
         abuserSession.malePlayer = p1;
         abuserSession.femalePlayer = p2;
       }
-
-      // Берём 20 вопросов (перемешиваем пул и берём первые 20)
       const pool = [...questionBank.abuser.truth.male];
       for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1557,6 +1571,7 @@
         return;
       }
       stopTimer();
+      tasksInTurn = 0;
       gameState.currentPlayerIndex = Math.floor(Math.random() * gameState.players.length);
       document.getElementById('current-turn-name').textContent = gameState.players[gameState.currentPlayerIndex];
       updateSkipCounter();
@@ -1590,32 +1605,25 @@
       const currentPlayer = abuserSession.phase === 'male' ? abuserSession.malePlayer : abuserSession.femalePlayer;
       gameState.currentPlayerIndex = gameState.players.indexOf(currentPlayer);
       document.getElementById('current-turn-name').textContent = currentPlayer;
-
       const phaseText = abuserSession.phase === 'male' 
         ? `Вопрос ${abuserSession.currentIndex + 1}/20 — отвечает ${abuserSession.malePlayer}`
         : `Вопрос ${abuserSession.currentIndex + 1}/20 — отвечает ${abuserSession.femalePlayer}`;
       document.getElementById('phaseInfo').textContent = phaseText;
-
       document.getElementById('card-text').textContent = q;
       document.getElementById('card-text').className = 'card pop';
       document.getElementById('answerInput').value = '';
       document.getElementById('answerInput').focus();
       playSound('draw');
-      doVibrate(40);
-      startTimer();
+      // В абьюзере таймера нет
     }
 
     function submitAnswer() {
-      stopTimer();
       playSound('complete');
-      doVibrate(50);
       nextAbuserStep();
     }
 
     function cantAnswer() {
-      stopTimer();
       playSound('cant');
-      doVibrate(30);
       if (abuserSession.phase === 'male') abuserSession.maleCant++;
       else abuserSession.femaleCant++;
       nextAbuserStep();
@@ -1625,12 +1633,10 @@
       abuserSession.currentIndex++;
       if (abuserSession.currentIndex >= 20) {
         if (abuserSession.phase === 'male') {
-          // Переходим к ней
           abuserSession.phase = 'female';
           abuserSession.currentIndex = 0;
           showAbuserQuestion();
         } else {
-          // Закончили — итоги
           showAbuserResult();
         }
       } else {
@@ -1647,12 +1653,15 @@
       document.getElementById('choice-buttons').style.display = 'none';
       document.getElementById('action-buttons').style.display = 'flex';
       playSound('draw');
-      doVibrate(50);
-      startTimer();
+      doVibrate(40);
+      startTimer(); // таймер только со 2-го задания
       saveState();
     }
 
     function skipCard() {
+      // Таймер НЕ перезапускается
+      playSound('skip');
+      doVibrate(30);
       if (gameState.skipCount >= gameState.maxSkips - 1 && 
           (gameState.mode === 'adult' || gameState.mode === 'secret') && 
           gameState.currentCardType === 'dare') {
@@ -1668,8 +1677,6 @@
         if (!gameState.playerStats[currentPlayer]) gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
         gameState.playerStats[currentPlayer].skips++;
         updateSkipCounter();
-        playSound('skip');
-        doVibrate([40, 30, 40]);
         saveState();
         return;
       }
@@ -1679,18 +1686,33 @@
       if (!gameState.playerStats[currentPlayer]) gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
       gameState.playerStats[currentPlayer].skips++;
       updateSkipCounter();
-      stopTimer();
       const cardText = generateCard(gameState.currentCardType);
       document.getElementById('card-text').textContent = cardText;
       document.getElementById('card-text').className = 'card pop';
-      playSound('skip');
-      doVibrate(30);
-      startTimer();
+      // Таймер продолжает идти (не stop + start)
       saveState();
     }
 
-    function completeCard() {
+    function cantAnswerNormal() {
+      playSound('cant');
+      doVibrate(30);
+      // Считаем как пропуск
+      gameState.skipCount++;
+      const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+      if (!gameState.playerStats[currentPlayer]) gameState.playerStats[currentPlayer] = { truth: 0, dare: 0, skips: 0 };
+      gameState.playerStats[currentPlayer].skips++;
+      updateSkipCounter();
+      // Переходим к следующему игроку без перезапуска таймера
+      completeCard(true);
+    }
+
+    function completeCard(fromCant = false) {
+      if (!fromCant) {
+        playSound('complete');
+        doVibrate(50);
+      }
       stopTimer();
+      tasksInTurn = 0; // сброс для следующего игрока
       gameState.skipCount = 0;
       updateSkipCounter();
       gameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
@@ -1700,8 +1722,6 @@
       document.getElementById('choice-buttons').style.display = 'flex';
       document.getElementById('action-buttons').style.display = 'none';
       document.getElementById('timerDisplay').style.display = 'none';
-      playSound('complete');
-      doVibrate(70);
       updateChoiceButtons();
       saveState();
     }
@@ -1723,36 +1743,16 @@
     }
     function showStats() { updateStats(); showScreen('screen-stats'); }
     function closeStatsModal() { document.getElementById('statsModal').classList.remove('active'); }
-    function showGameStatsModal() {
-      const content = document.getElementById('statsModalContent');
-      content.innerHTML = '';
-      gameState.players.forEach(player => {
-        const stats = gameState.playerStats[player] || { truth: 0, dare: 0, skips: 0 };
-        const row = document.createElement('div');
-        row.className = 'player-stats';
-        row.innerHTML = `<span class="player-stats-name">${player}</span><span class="player-stats-value">💖 ${stats.truth} | 🔥 ${stats.dare} | ⏭️ ${stats.skips}</span>`;
-        content.appendChild(row);
-      });
-      document.getElementById('statsModal').classList.add('active');
-    }
 
     function showAbuserResult() {
       const male = abuserSession.malePlayer;
       const female = abuserSession.femalePlayer;
       const maleCant = abuserSession.maleCant;
       const femaleCant = abuserSession.femaleCant;
-
       let lover, abuser;
-      // Чем меньше "не могу ответить" — тем честнее / больше вовлечён
-      if (maleCant < femaleCant) {
-        lover = male; abuser = female;
-      } else if (femaleCant < maleCant) {
-        lover = female; abuser = male;
-      } else {
-        lover = Math.random() > 0.5 ? male : female;
-        abuser = lover === male ? female : male;
-      }
-
+      if (maleCant < femaleCant) { lover = male; abuser = female; }
+      else if (femaleCant < maleCant) { lover = female; abuser = male; }
+      else { lover = Math.random() > 0.5 ? male : female; abuser = lover === male ? female : male; }
       document.getElementById('abuserResultContent').innerHTML = `
         <p><strong>${lover}</strong> сильнее любит в этих отношениях 💕</p>
         <p style="margin-top:10px;"><strong>${abuser}</strong> — главный абьюзер по результатам теста 😈</p>
@@ -1775,10 +1775,9 @@
       document.getElementById(id).scrollTop = 0;
     }
 
-    // ===== КНОПКА "К РЕЖИМАМ" =====
     function backToModes() {
       stopTimer();
-      // Игроки остаются, режим сбрасываем
+      tasksInTurn = 0;
       gameState.mode = null;
       gameState.usedCards = { truth: new Set(), dare: new Set() };
       gameState.skipCount = 0;
