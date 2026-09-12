@@ -1434,6 +1434,7 @@
       skipCount: 0,
       maxSkips: 3,
       usedCards: { truth: new Set(), dare: new Set() },
+      usedTexts: {},
       currentCardType: null,
       playerStats: {}
     };
@@ -1484,16 +1485,28 @@
         questions = questions.concat(customQuestions[type]);
       }
 
-      let available = [];
-      for (let i = 0; i < questions.length; i++) {
-        if (!gameState.usedCards[type].has(i)) available.push(i);
-      }
+      // Дедупликация по тексту вопроса
+      const seen = new Set();
+      questions = questions.filter(q => {
+        if (seen.has(q)) return false;
+        seen.add(q);
+        return true;
+      });
+
+      // Ключ истории — привязан к режиму и типу
+      const stateKey = `${gameState.mode || 'regular'}::${type}`;
+      if (!gameState.usedTexts) gameState.usedTexts = {};
+      if (!gameState.usedTexts[stateKey]) gameState.usedTexts[stateKey] = new Set();
+
+      let available = questions.filter(q => !gameState.usedTexts[stateKey].has(q));
+
       if (available.length === 0) {
-        gameState.usedCards[type].clear();
-        available = questions.map((_, i) => i);
+        gameState.usedTexts[stateKey].clear();
+        available = [...questions];
       }
-      const randomIndex = available[Math.floor(Math.random() * available.length)];
-      gameState.usedCards[type].add(randomIndex);
+
+      const picked = available[Math.floor(Math.random() * available.length)];
+      gameState.usedTexts[stateKey].add(picked);
       gameState.currentCardType = type;
 
       const currentPlayer = gameState.players[gameState.currentPlayerIndex];
@@ -1501,7 +1514,7 @@
       if (type === 'truth') gameState.playerStats[currentPlayer].truth++;
       if (type === 'dare') gameState.playerStats[currentPlayer].dare++;
 
-      return adaptQuestion(questions[randomIndex], otherName);
+      return adaptQuestion(picked, otherName);
     }
 
     function saveState() {
@@ -1824,6 +1837,7 @@
       stopMusic();
       gameState.mode = null;
       gameState.usedCards = { truth: new Set(), dare: new Set() };
+      gameState.usedTexts = {};
       gameState.skipCount = 0;
       document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('btn-mode-next').disabled = true;
@@ -1840,4 +1854,4 @@
     });
   </script>
 </body>
-</html>
+</html> 
